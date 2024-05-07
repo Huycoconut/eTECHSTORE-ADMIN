@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "1032898699752",
+    "project_id": "etechstore-abe5c",
+    "storage_bucket": "etechstore-abe5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032898699752:android:b4aa98c8d194ea3081045d",
+        "android_client_info": {
+          "package_name": "com.example.demo_datn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYtv_3ogD_d7NqhZlNwgkQMV4LNs-2hp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032898699752:android:9de7a0765942656481045d",
+        "android_client_info": {
+          "package_name": "com.example.etech_store_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYtv_3ogD_d7NqhZlNwgkQMV4LNs-2hp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032898699752:android:73052006a006bfb281045d",
+        "android_client_info": {
+          "package_name": "com.example.etechstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032898699752-tcj9oeergdg7eklpk6e1m23qqb4rfh9m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.etechstore",
+            "certificate_hash": "f3881a8b181e14219b6dd7544a01a11abbd63426"
+          }
+        },
+        {
+          "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYtv_3ogD_d7NqhZlNwgkQMV4LNs-2hp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
