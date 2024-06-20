@@ -1,16 +1,20 @@
+import 'package:etech_store_admin/module/auth/controller/sign_in_controller.dart';
+import 'package:get/get.dart';
+
 class TValidator {
+ static SignInController controller = Get.put(SignInController());
   //email validate
   static String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email is required.';
+    value = value?.trim();
+
+    if ( controller.email.text != null) {
+      if (value!.isEmpty) {
+        return 'Email can\'t be empty';
+      } else if (!value.contains(RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))) {
+        return 'Enter a correct email address';
+      }
     }
 
-    const emailRegex = r"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9-]+)*";
-    final regex = RegExp(emailRegex);
-
-    if (!regex.hasMatch(value)) {
-      return 'Invalid email format.';
-    }
     return null;
   }
 

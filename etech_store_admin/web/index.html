@@ -23,6 +23,9 @@
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-signin-client_id" content="1032898699752-b50qhkh05vrsejr5qd6ambcc8dhu835r.apps.googleusercontent.com">
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
   <meta name="apple-mobile-web-app-title" content="etech_store_admin">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
@@ -54,6 +57,20 @@
         }
       });
     });
+  </script>
+  <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyBsPYtDU2poc8ueawn0lyV725C_ZeeCFas",
+    authDomain: "etechstore-abe5c.firebaseapp.com",
+    databaseURL: "https://etechstore-abe5c-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "etechstore-abe5c",
+    storageBucket: "etechstore-abe5c.appspot.com",
+    messagingSenderId: "1032898699752",
+    appId: "1:1032898699752:web:19e46fb35a76c22081045d"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
   </script>
 </body>
 </html>
