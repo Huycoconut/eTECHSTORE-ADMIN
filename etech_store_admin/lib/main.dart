@@ -1,8 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:etech_store_admin/module/auth/views/home_sign_in.dart';
-import 'package:etech_store_admin/module/cart/cart.dart';
 import 'package:etech_store_admin/module/home/home_screen.dart';
-import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
