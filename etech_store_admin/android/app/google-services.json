@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1032898699752",
+    "firebase_url": "https://etechstore-abe5c-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "etechstore-abe5c",
     "storage_bucket": "etechstore-abe5c.appspot.com"
   },
@@ -27,7 +28,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+              "client_id": "1032898699752-b50qhkh05vrsejr5qd6ambcc8dhu835r.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -56,7 +57,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+              "client_id": "1032898699752-b50qhkh05vrsejr5qd6ambcc8dhu835r.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -72,7 +73,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "1032898699752-tcj9oeergdg7eklpk6e1m23qqb4rfh9m.apps.googleusercontent.com",
+          "client_id": "1032898699752-qj2hcu337updj8csvl1shgt0f7llr1ff.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.etechstore",
@@ -93,7 +94,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1032898699752-hevt5q55asprs4e0s937b1vuhfb16jb7.apps.googleusercontent.com",
+              "client_id": "1032898699752-b50qhkh05vrsejr5qd6ambcc8dhu835r.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

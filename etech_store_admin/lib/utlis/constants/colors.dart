@@ -47,6 +47,7 @@ class TColros {
   static const Color grey_line = Color(0xFFC4C4C4);
   static const Color grey_very_light = Color(0xFFD9D9D9);
   static const Color grey_wheat = Color(0xFFf5f5f5);
+    static const Color grey_cancelld = Color(0xFF9E9E9E);
 
   static TextStyle white_12 = const TextStyle(
     fontWeight: FontWeight.normal,

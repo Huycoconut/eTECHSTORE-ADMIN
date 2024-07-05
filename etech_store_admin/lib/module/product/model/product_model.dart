@@ -10,24 +10,28 @@ class ProductModel {
   int maDanhMuc;
   List<dynamic> hinhAnh;
   String thumbnail;
+  bool isPopular;
+  Timestamp NgayNhap;
 
-  ProductModel({
-    required this.thumbnail,
-    required this.hinhAnh,
-    required this.maDanhMuc,
-    required this.id,
-    required this.KhuyenMai,
-    required this.moTa,
-    required this.ten,
-    required this.trangThai,
-    required this.giaTien,
-  });
+  ProductModel(
+      {required this.thumbnail,
+      required this.hinhAnh,
+      required this.maDanhMuc,
+      required this.id,
+      required this.KhuyenMai,
+      required this.moTa,
+      required this.ten,
+      required this.trangThai,
+      required this.giaTien,
+      required this.NgayNhap,
+      required this.isPopular});
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         thumbnail: json['thumbnail'],
         hinhAnh: json['DSHinhAnh'] as List<dynamic>,
         maDanhMuc: json['MaDanhMuc'],
-        // mauSac: json['MauSac'],
+        NgayNhap: json['NgayNhap'] ?? Timestamp.now(),
+        isPopular: json['isPopular'],
         giaTien: json['GiaTien'],
         id: json['id'],
         KhuyenMai: json['KhuyenMai'],
@@ -41,7 +45,8 @@ class ProductModel {
       'thumbnail': thumbnail,
       'DSHinhAnh': hinhAnh,
       'MaDanhMuc': maDanhMuc,
-      //'MauSac': mauSac,
+      'NgayNhap': NgayNhap,
+      'isPopular': isPopular,
       'GiaTien': giaTien,
       'id': id,
       'KhuyenMai': KhuyenMai,
@@ -59,7 +64,8 @@ class ProductModel {
       hinhAnh: document['DSHinhAnh'],
       maDanhMuc: document['MaDanhMuc'],
       id: document['id'],
-      //   mauSac: document['MauSac'],
+      NgayNhap: document['NgayNhap'],
+      isPopular: document['isPopular'],
       KhuyenMai: document['KhuyenMai'],
       moTa: document['MoTa'],
       ten: document['Ten'],
@@ -70,6 +76,8 @@ class ProductModel {
 
   factory ProductModel.fromFirestore(Map<String, dynamic> data) {
     return ProductModel(
+      NgayNhap: data['NgayNhap'],
+      isPopular: data['isPopular'],
       id: data['id'] ?? '',
       KhuyenMai: data['KhuyenMai'] ?? 0,
       moTa: data['MoTa'] ?? '',

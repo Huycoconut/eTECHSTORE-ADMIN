@@ -51,10 +51,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBsPYtDU2poc8ueawn0lyV725C_ZeeCFas',
-    appId: '1:1032898699752:web:7e8af53320d2aa6081045d',
+    appId: '1:1032898699752:web:0445998a8a2c523381045d',
     messagingSenderId: '1032898699752',
     projectId: 'etechstore-abe5c',
     authDomain: 'etechstore-abe5c.firebaseapp.com',
+    databaseURL: 'https://etechstore-abe5c-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'etechstore-abe5c.appspot.com',
   );
 
@@ -63,6 +64,7 @@ class DefaultFirebaseOptions {
     appId: '1:1032898699752:android:9de7a0765942656481045d',
     messagingSenderId: '1032898699752',
     projectId: 'etechstore-abe5c',
+    databaseURL: 'https://etechstore-abe5c-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'etechstore-abe5c.appspot.com',
   );
 }

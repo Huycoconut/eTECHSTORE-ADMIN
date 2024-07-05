@@ -34,6 +34,8 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
     });
   }
 
+  ProductController controller = Get.put(ProductController());
+  ProductSampleController controllerSanple = Get.put(ProductSampleController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +49,9 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[800],
+                  ),
                   child: Column(
                     children: [
                       Image.asset(
