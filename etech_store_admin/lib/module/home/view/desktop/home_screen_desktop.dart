@@ -1,13 +1,18 @@
 import 'package:etech_store_admin/module/category/views/category_screen.dart';
+import 'package:etech_store_admin/module/discount/views/discount_screen.dart';
 import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen.dart';
 import 'package:etech_store_admin/module/preview/views/preview_screen.dart';
+import 'package:etech_store_admin/module/product/controller/product_controller.dart';
+import 'package:etech_store_admin/module/product/controller/product_sample_controller.dart';
+import 'package:etech_store_admin/module/product/view/product_add_screen.dart';
+import 'package:etech_store_admin/module/product/view/product_management_screen.dart';
+import 'package:etech_store_admin/module/profile/view/desktop/add_user_screen.dart';
 import 'package:etech_store_admin/module/profile/view/profile_manage_screen.dart';
 import 'package:etech_store_admin/module/report/views/report_screen.dart';
 import 'package:etech_store_admin/module/wishlist/views/wishlist_screen.dart';
+import 'package:etech_store_admin/utlis/constants/image_key.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../utlis/constants/image_key.dart';
 
 class HomeScreenDesktop extends StatefulWidget {
   const HomeScreenDesktop({super.key});
@@ -19,13 +24,17 @@ class HomeScreenDesktop extends StatefulWidget {
 class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    ProfileManageScreen(),
-    OrderManageScreen(),
-    CategoryScreen(),
-    PreviewScreen(),
-    WishListScreen(),
-    ReportScreen()
+  static final List<Widget> _widgetOptions = <Widget>[
+    const ProfileManageScreen(),
+    const OrderManageScreen(),
+    const CategoryScreen(),
+    const PreviewScreen(),
+    const WishListScreen(),
+    const ReportScreen(),
+    const AddUserScreen(),
+    ProductManageDesktopScreen(),
+    AddProductScreen(),
+    DisCountScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -59,46 +68,35 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                         width: 90,
                         height: 90,
                       ),
-                      const Text("e T E C H S T O R E",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white)),
+                      const Text("e T E C H S T O R E", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
                     ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[800],
                   ),
                 ),
                 ListTile(
-                  leading: Icon(Icons.home, color: Colors.white),
-                  title:
-                      Text('Trang Chủ', style: TextStyle(color: Colors.white)),
+                  leading: const Icon(Icons.home, color: Colors.white),
+                  title: const Text('Trang Chủ', style: TextStyle(color: Colors.white)),
                   onTap: () {
                     // Handle home tap
                   },
                 ),
                 ExpansionTile(
-                  leading: Icon(Icons.person, color: Colors.white),
-                  title:
-                      Text('Người Dùng', style: TextStyle(color: Colors.white)),
+                  leading: const Icon(Icons.person, color: Colors.white),
+                  title: const Text('Người Dùng', style: TextStyle(color: Colors.white)),
                   children: [
                     ListTile(
-                      title: Text('Quản Lý Người Dùng',
-                          style: TextStyle(color: Colors.white)),
+                      title: const Text('Quản Lý Người Dùng', style: TextStyle(color: Colors.white)),
                       onTap: () {
                         _onItemTapped(0);
                       },
                     ),
                     ListTile(
-                      title: Text('Thêm Người Dùng Mới',
-                          style: TextStyle(color: Colors.white)),
+                      title: const Text('Thêm Người Dùng Mới', style: TextStyle(color: Colors.white)),
                       onTap: () {
-                        Get.toNamed('/SignIn');
+                        _onItemTapped(6);
                       },
                     ),
                     ListTile(
-                      title: Text('Quản Trị Viên',
-                          style: TextStyle(color: Colors.white)),
+                      title: const Text('Quản Trị Viên', style: TextStyle(color: Colors.white)),
                       onTap: () {
                         // Navigate to specific screen
                       },
@@ -106,29 +104,43 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                   ],
                 ),
                 ExpansionTile(
-                  leading: Icon(Icons.ac_unit_rounded, color: Colors.white),
-                  title:
-                      Text('Đơn Hàng', style: TextStyle(color: Colors.white)),
+                  leading: const Icon(Icons.card_travel, color: Colors.white),
+                  title: const Text('Sản Phẩm', style: TextStyle(color: Colors.white)),
                   children: [
                     ListTile(
-                      title: Text('Quản Lý Đơn Hàng',
-                          style: TextStyle(color: Colors.white)),
+                      title: const Text('Quản Lý Sản Phẩm', style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        _onItemTapped(7);
+                      },
+                    ),
+                    ListTile(
+                      title: const Text('Thêm Sản Phẩm', style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        _onItemTapped(8);
+                      },
+                    ),
+                  ],
+                ),
+                ExpansionTile(
+                  leading: const Icon(Icons.money_outlined, color: Colors.white),
+                  title: const Text('Khuyến Mãi', style: TextStyle(color: Colors.white)),
+                  children: [
+                    ListTile(
+                      title: const Text('Quản Lý Khuyến Mãi', style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        _onItemTapped(9);
+                      },
+                    ),
+                  ],
+                ),
+                ExpansionTile(
+                  leading: const Icon(Icons.local_shipping_outlined, color: Colors.white),
+                  title: const Text('Đơn Hàng', style: TextStyle(color: Colors.white)),
+                  children: [
+                    ListTile(
+                      title: const Text('Quản Lý Đơn Hàng', style: TextStyle(color: Colors.white)),
                       onTap: () {
                         _onItemTapped(1);
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Thêm Người Dùng Mới',
-                          style: TextStyle(color: Colors.white)),
-                      onTap: () {
-                        Get.toNamed('/SignIn');
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Quản Trị Viên',
-                          style: TextStyle(color: Colors.white)),
-                      onTap: () {
-                        // Navigate to specific screen
                       },
                     ),
                   ],
@@ -138,8 +150,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                     Icons.category,
                     color: Colors.white,
                   ),
-                  title: const Text('Danh mục sản phẩm',
-                      style: TextStyle(color: Colors.white)),
+                  title: const Text('Danh mục sản phẩm', style: TextStyle(color: Colors.white)),
                   onTap: () {
                     _onItemTapped(2);
                   },
@@ -149,8 +160,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                     Icons.message,
                     color: Colors.white,
                   ),
-                  title: const Text('Đánh giá sản phẩm',
-                      style: TextStyle(color: Colors.white)),
+                  title: const Text('Đánh giá sản phẩm', style: TextStyle(color: Colors.white)),
                   onTap: () {
                     _onItemTapped(3);
                   },
@@ -160,8 +170,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                     Icons.favorite,
                     color: Colors.white,
                   ),
-                  title: const Text('Sản phẩm yêu thích',
-                      style: TextStyle(color: Colors.white)),
+                  title: const Text('Sản phẩm yêu thích', style: TextStyle(color: Colors.white)),
                   onTap: () {
                     _onItemTapped(4);
                   },
@@ -171,8 +180,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                     Icons.print,
                     color: Colors.white,
                   ),
-                  title: const Text('Báo cáo & Thống kê',
-                      style: TextStyle(color: Colors.white)),
+                  title: const Text('Báo cáo & Thống kê', style: TextStyle(color: Colors.white)),
                   onTap: () {
                     _onItemTapped(5);
                   },

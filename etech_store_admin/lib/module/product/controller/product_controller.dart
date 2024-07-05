@@ -99,17 +99,7 @@ class ProductController extends GetxController {
     await FirebaseFirestore.instance.collection('SanPham').doc(product.id).update({'DSHinhAnh': product.hinhAnh});
   }
 
-  Stream<List<CategoryModel>> typeCategori() {
-    return _firestore.collection('DanhMucSanPham').snapshots().map((snapshot) {
-      categoryMap.clear();
-      return snapshot.docs.map((document) {
-        var category = CategoryModel.fromSnapshot(document);
-        categoryMap[category.id] = category.TenDanhMuc;
-        return category;
-      }).toList();
-    });
-  }
-
+ 
   Stream<List<CategoryModel>> getCategories() {
     return _firestore.collection('DanhMucSanPham').snapshots().map((snapshot) {
       categoryMap.clear();

@@ -32,7 +32,7 @@ class ShowDialog {
                     children: [
                       Expanded(
                         child: Container(
-                          decoration: BoxDecoration(border: Border.all(width: .5)),
+                   
                           height: MediaQuery.of(context).size.height / 1,
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                           margin: const EdgeInsets.all(5),
