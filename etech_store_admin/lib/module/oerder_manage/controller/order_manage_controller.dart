@@ -53,13 +53,12 @@ class OrderManageController extends GetxController {
   }
 
   Stream<List<OrdersModel>> getOrder() {
-  return FirebaseFirestore.instance.collection('DonHang'). orderBy('NgayTaoDon', descending: true).snapshots().map((query) {
+    return FirebaseFirestore.instance.collection('DonHang').orderBy('NgayTaoDon', descending: true).snapshots().map((query) {
       List<OrdersModel> orders = query.docs.map((doc) => OrdersModel.fromFirestore(doc)).toList();
-      lstProduct.value = orders;  
+      lstProduct.value = orders;
       return orders;
     });
   }
-    
 
   Stream<List<ProfileModel>> fetchProfilesStream() {
     return FirebaseFirestore.instance
@@ -68,6 +67,8 @@ class OrderManageController extends GetxController {
         .map((snapshot) => snapshot.docs.map((doc) => ProfileModel.fromJson(doc.data())).toList());
   }
 
+  var products = <String, ProductModel>{};
+  var ordersItem = <String, OrdersModel>{};
   Stream<List<DetailOrders>> getCTDonHangs(String maDonHang) {
     return FirebaseFirestore.instance
         .collection('CTDonHang')

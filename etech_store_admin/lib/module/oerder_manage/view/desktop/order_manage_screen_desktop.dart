@@ -23,7 +23,7 @@ class OrderManageDesktopScreen extends StatelessWidget {
       appBar: AppBar(
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         title: const Text('Quản Lý Đơn Hàng'),
-        backgroundColor: Colors.red,
+        backgroundColor: TColros.purple_line,
         actions: const [
           Padding(
             padding: EdgeInsets.all(8.0),

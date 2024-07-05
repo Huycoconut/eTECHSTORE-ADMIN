@@ -16,7 +16,7 @@ class ManageSample extends StatelessWidget {
     final ProductSampleController controllerProductSample = Get.put(ProductSampleController());
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(border: Border.all(width: .5)),
+        decoration: BoxDecoration(border:  Border(left: BorderSide(width: .5))),
         margin: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
         height: MediaQuery.of(context).size.height / 1,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),

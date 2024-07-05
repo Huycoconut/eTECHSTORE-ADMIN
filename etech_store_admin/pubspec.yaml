@@ -33,6 +33,12 @@ dependencies:
   fl_chart: ^0.68.0
   month_picker_dialog: ^4.0.0
   excel: ^4.0.2
+  image_picker: ^1.1.2
+  firebase_storage: ^11.7.7
+  http: ^1.2.1
+  vn_provinces: ^0.0.2
+  file_picker: ^8.0.5
+  date_picker_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:

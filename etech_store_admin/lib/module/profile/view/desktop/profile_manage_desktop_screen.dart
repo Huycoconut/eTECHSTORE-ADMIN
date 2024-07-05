@@ -24,7 +24,7 @@ class ProfileManageDesktopScreen extends StatelessWidget {
           'Quản Lý Người Dùng',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.red,
+        backgroundColor: TColros.purple_line,
         actions: const [
           Padding(
             padding: EdgeInsets.all(8.0),
@@ -138,7 +138,7 @@ class ProfileManageDesktopScreen extends StatelessWidget {
                                       DataCell(Container(width: 10,child: Text((index + 1).toString()))),
                                       DataCell(Container(width: 150,child: Text(paginatedUsers[index].HoTen))),
                                       DataCell(Container(width: 150,child: Text(paginatedUsers[index].Email))),
-                                      DataCell(Container(width: 70,child: Text(paginatedUsers[index].SoDienThoai.toString()))),
+                                      DataCell(Container(width: 110,child: Text("0${paginatedUsers[index].SoDienThoai.toString()}"))),
                                       DataCell(Container(width: 300,child: Text(paginatedUsers[index].DiaChi))),
                                       DataCell(UserSwitch(uid: paginatedUsers[index].uid, status: paginatedUsers[index].TrangThai == 1)),
                                       DataCell(

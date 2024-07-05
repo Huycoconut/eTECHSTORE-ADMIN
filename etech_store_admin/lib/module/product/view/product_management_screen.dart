@@ -4,9 +4,10 @@ import 'package:etech_store_admin/module/product/controller/product_controller.d
 import 'package:etech_store_admin/module/product/controller/product_sample_controller.dart';
 import 'package:etech_store_admin/module/product/model/categories_model.dart';
 import 'package:etech_store_admin/module/product/model/product_sample_model.dart';
-import 'package:etech_store_admin/module/product/view/product_edit_screen.dart';
+import 'package:etech_store_admin/module/product/view/show_detail_porduct.dart';
 import 'package:etech_store_admin/module/product/view/widget/pagination_product_widget.dart';
-import 'package:etech_store_admin/module/product/view/widget/show_bottom_sheet_widget.dart';
+import 'package:etech_store_admin/module/product/view/product_edit_sreen.dart';
+import 'package:etech_store_admin/utlis/constants/colors.dart';
 import 'package:etech_store_admin/utlis/helpers/popups/loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class ProductManageDesktopScreen extends StatelessWidget {
       appBar: AppBar(
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         title: const Text('Quản Lý Sản Phẩm'),
-        backgroundColor: Colors.red,
+        backgroundColor: TColros.purple_line,
         actions: const [
           Padding(
             padding: EdgeInsets.all(8.0),
@@ -202,7 +203,7 @@ class ProductManageDesktopScreen extends StatelessWidget {
                                                 child: Text((index + 1 + startIndex).toString()))),
                                             DataCell(Container(
                                                 color: Colors.transparent,
-                                                 width: media.width / 15,
+                                                width: media.width / 15,
                                                 height: media.width / 20,
                                                 child: Image.network(paginatedProducts[index].thumbnail, fit: BoxFit.fill))),
                                             DataCell(Padding(
@@ -211,7 +212,7 @@ class ProductManageDesktopScreen extends StatelessWidget {
                                                     constraints: BoxConstraints(maxWidth: media.width / 8),
                                                     child: Text(paginatedProducts[index].ten, overflow: TextOverflow.clip)))),
                                             DataCell(Padding(padding: EdgeInsets.only(left: media.width / 200.0), child: Text(categoryName))),
-                                            DataCell(  Text(priceFormat(paginatedProducts[index].giaTien))),
+                                            DataCell(Text(priceFormat(paginatedProducts[index].giaTien))),
                                             DataCell(Padding(
                                                 padding: EdgeInsets.only(left: media.width / 50.0),
                                                 child: Text('${paginatedProducts[index].KhuyenMai}%'))),
