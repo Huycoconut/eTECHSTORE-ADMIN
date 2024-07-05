@@ -12,7 +12,7 @@ class ProfileManageMobileScreen extends StatelessWidget {
     return FirebaseFirestore.instance
         .collection('Users')
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => ProfileModel.fromMap(doc.data(), doc.id)).toList());
+        .map((snapshot) => snapshot.docs.map((doc) => ProfileModel.fromJson(doc.data())).toList());
   }
 
   Future<void> updateUserStatus(String uid, bool status) async {
@@ -31,11 +31,11 @@ class ProfileManageMobileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quản Lý Người Dùng'),
+        title: const Text('Quản Lý Người Dùng'),
         backgroundColor: Colors.red,
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Text('Xin Chào, Admin', style: TextStyle(color: Colors.white)),
@@ -50,26 +50,26 @@ class ProfileManageMobileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Expanded(
               child: StreamBuilder<List<ProfileModel>>(
                 stream: getUsers(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Lỗi: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('Không có dữ liệu'));
+                    return const Center(child: Text('Không có dữ liệu'));
                   } else {
                     List<ProfileModel> users = snapshot.data!;
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: Container(
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width / 200,
                         child: DataTable(
                           columnSpacing: MediaQuery.of(context).size.width / 200,
-                          columns: [
+                          columns: const [
                             DataColumn(label: Text('STT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 7))),
                             DataColumn(label: Text('Tên Người Dùng', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 7))),
                             DataColumn(label: Text('Email', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 7))),
@@ -83,23 +83,23 @@ class ProfileManageMobileScreen extends StatelessWidget {
                             users.length,
                             (index) => DataRow(
                               cells: [
-                                DataCell(Text((index + 1).toString(), style: TextStyle(fontSize: 8))),
-                                DataCell(Text(users[index].HoTen, style: TextStyle(fontSize: 8))),
-                                DataCell(Text(users[index].Email, style: TextStyle(fontSize: 8))),
-                                DataCell(Text(users[index].SoDienThoai.toString(), style: TextStyle(fontSize: 8))),
-                                DataCell(Text(users[index].DiaChi, style: TextStyle(fontSize: 8))),
+                                DataCell(Text((index + 1).toString(), style: const TextStyle(fontSize: 8))),
+                                DataCell(Text(users[index].HoTen, style: const TextStyle(fontSize: 8))),
+                                DataCell(Text(users[index].Email, style: const TextStyle(fontSize: 8))),
+                                DataCell(Text(users[index].SoDienThoai.toString(), style: const TextStyle(fontSize: 8))),
+                                DataCell(Text(users[index].DiaChi, style: const TextStyle(fontSize: 8))),
                                 DataCell(UserSwitch(uid: users[index].uid, status: users[index].TrangThai == 1)),
                                 DataCell(
                                   Row(
                                     children: [
                                       IconButton(
-                                        icon: Icon(Icons.edit, color: Colors.blue, size: 10),
+                                        icon: const Icon(Icons.edit, color: Colors.blue, size: 10),
                                         onPressed: () {
                                           // Add your onPressed code here!
                                         },
                                       ),
                                       IconButton(
-                                        icon: Icon(Icons.delete, color: Colors.red, size: 10),
+                                        icon: const Icon(Icons.delete, color: Colors.red, size: 10),
                                         onPressed: () {
                                           deleteUser(users[index].uid);
                                         },
@@ -128,7 +128,7 @@ class UserSwitch extends StatefulWidget {
   final String uid;
   final bool status;
 
-  UserSwitch({required this.uid, required this.status});
+  const UserSwitch({super.key, required this.uid, required this.status});
 
   @override
   _UserSwitchState createState() => _UserSwitchState();

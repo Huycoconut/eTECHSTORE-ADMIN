@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../services/auth_services.dart';
-import '../../../utlis/constants/image_key.dart';
+import '../../../../services/auth_services.dart';
+import '../../../../utlis/constants/image_key.dart';
 
 class HomeScreenMobile extends StatelessWidget {
   const HomeScreenMobile({super.key});

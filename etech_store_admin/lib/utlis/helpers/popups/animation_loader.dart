@@ -56,8 +56,8 @@ class _AnimationLoaderWidgetState extends State<AnimationLoaderWidget> with Sing
         children: [
           Lottie.asset(
             widget.animation,
-            width: MediaQuery.of(context).size.width / 3,
-            height: MediaQuery.of(context).size.height / 8,
+            width: MediaQuery.of(context).size.width / 5,
+            height: MediaQuery.of(context).size.height / 10,
             repeat: true,
             fit: BoxFit.cover,
             onLoaded: (composition) {

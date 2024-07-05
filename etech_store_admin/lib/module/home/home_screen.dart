@@ -1,5 +1,5 @@
-import 'package:etech_store_admin/module/home/desktop/home_screen_desktop.dart';
-import 'package:etech_store_admin/module/home/mobile/home_screen_mobile.dart';
+import 'package:etech_store_admin/module/home/view/desktop/home_screen_desktop.dart';
+import 'package:etech_store_admin/module/home/view/mobile/home_screen_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

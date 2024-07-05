@@ -21,19 +21,17 @@ class ProfileModel {
     required this.TrangThai,
   });
 
-  factory ProfileModel.fromMap(Map<String, dynamic> data, String documentId) {
-    return ProfileModel(
-      uid: documentId,
-      HoTen: data['HoTen'] ?? '',
-      Email: data['email'] ?? '',
-      Password: data['Password'] ?? '',
-      SoDienThoai: data['SoDienThoai'] ?? 0,
-      HinhDaiDien: data['HinhDaiDien'] ?? '',
-      Quyen: data['Quyen'] ?? false,
-      TrangThai: data['TrangThai'] ?? 0,
-      DiaChi: data['DiaChi'] ?? '',
-    );
-  }
+  factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
+        uid: json['uid'],
+        DiaChi: json['DiaChi'],
+        Email: json['email'],
+        HinhDaiDien: json['HinhDaiDien'],
+        HoTen: json['HoTen'],
+        Password: json['password'],
+        Quyen: json['Quyen'],
+        SoDienThoai: json['SoDienThoai'],
+        TrangThai: json['TrangThai'],
+      );
 
   Map<String, dynamic> toJson() {
     final json = {
