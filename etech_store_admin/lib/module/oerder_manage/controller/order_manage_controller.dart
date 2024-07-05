@@ -1,11 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:etech_store_admin/module/oerder_manage/model/detail_orders.dart';
+import 'package:etech_store_admin/module/product/model/product_model.dart';
+import 'package:etech_store_admin/module/profile/model/profile_model.dart';
 import 'package:get/get.dart';
 
 import '../model/orders_model.dart';
 
 class OrderManageController extends GetxController {
   OrderManageController get instance => Get.find();
-
+  var searchOrderId = ''.obs;
+  var searchCustomerName = ''.obs;
+  var searchStatus = ''.obs;
+  var itemsPerPage = 10.obs;
+  var lstProduct = <OrdersModel>[].obs;
+  var currentPage = 1.obs;
   RxString selectedStatus = 'Chờ xác nhận'.obs;
   List<String> listStatus = ['Chờ xác nhận', 'Đang giao', 'Thành công', 'Đã hủy', 'Trả hàng'].obs;
 
@@ -14,13 +22,16 @@ class OrderManageController extends GetxController {
     ngayTaoDon: Timestamp.now(),
     maKhachHang: '',
     tongTien: 0,
-    tongDuocGiam: 0,
     isPaid: false,
     isBeingShipped: false,
     isShipped: false,
     isCompleted: false,
     isCancelled: false,
   ).obs;
+
+  void updatePage(int page) {
+    currentPage.value = page;
+  }
 
   Future<void> fetchOrder(String orderId) async {
     DocumentSnapshot doc = await FirebaseFirestore.instance.collection('DonHang').doc(orderId).get();
@@ -39,5 +50,36 @@ class OrderManageController extends GetxController {
     if (order.value.isCompleted) return 'Completed';
     if (order.value.isCancelled) return 'Cancelled';
     return 'None';
+  }
+
+  Stream<List<OrdersModel>> getOrder() {
+  return FirebaseFirestore.instance.collection('DonHang'). orderBy('NgayTaoDon', descending: true).snapshots().map((query) {
+      List<OrdersModel> orders = query.docs.map((doc) => OrdersModel.fromFirestore(doc)).toList();
+      lstProduct.value = orders;  
+      return orders;
+    });
+  }
+    
+
+  Stream<List<ProfileModel>> fetchProfilesStream() {
+    return FirebaseFirestore.instance
+        .collection('Users')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => ProfileModel.fromJson(doc.data())).toList());
+  }
+
+  Stream<List<DetailOrders>> getCTDonHangs(String maDonHang) {
+    return FirebaseFirestore.instance
+        .collection('CTDonHang')
+        .where('MaDonHang', isEqualTo: maDonHang)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => DetailOrders.fromJson(doc.data())).toList());
+  }
+
+  Stream<List<ProductModel>> getProduct() {
+    return FirebaseFirestore.instance
+        .collection('SanPham')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => ProductModel.fromJson(doc.data())).toList());
   }
 }

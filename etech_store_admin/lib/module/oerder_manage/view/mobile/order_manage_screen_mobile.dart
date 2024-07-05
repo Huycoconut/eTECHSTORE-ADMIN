@@ -27,7 +27,7 @@ class OrderManageMobileScreen extends StatelessWidget {
       return FirebaseFirestore.instance
           .collection('Users')
           .snapshots()
-          .map((snapshot) => snapshot.docs.map((doc) => ProfileModel.fromMap(doc.data(), doc.id)).toList());
+          .map((snapshot) => snapshot.docs.map((doc) => ProfileModel.fromJson(doc.data())).toList());
     }
 
     var products = <String, ProductModel>{};
