@@ -7,19 +7,9 @@
         {
             "name": "etech_store_admin",
             "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "etech_store_admin (profile mode)",
-            "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "etech_store_admin (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
+            "program": "lib/main.dart",
+            "args": ["--web-renderer", "html"]
+          }
     ]
 }

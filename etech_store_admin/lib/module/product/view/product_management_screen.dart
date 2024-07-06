@@ -12,6 +12,8 @@ import 'package:etech_store_admin/utlis/helpers/popups/loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:get/get.dart';
 
 import '../model/product_model.dart';
@@ -205,7 +207,7 @@ class ProductManageDesktopScreen extends StatelessWidget {
                                                 color: Colors.transparent,
                                                 width: media.width / 15,
                                                 height: media.width / 20,
-                                                child: Image.network(paginatedProducts[index].thumbnail, fit: BoxFit.fill))),
+                                                child: Image(image: NetworkImage(paginatedProducts[index].thumbnail.toString())))),
                                             DataCell(Padding(
                                                 padding: EdgeInsets.only(left: media.width / 40, right: media.width / 40),
                                                 child: ConstrainedBox(
@@ -222,6 +224,7 @@ class ProductManageDesktopScreen extends StatelessWidget {
                                                   IconButton(
                                                     icon: const Icon(Icons.edit, color: Colors.blue),
                                                     onPressed: () {
+                                                      print(paginatedProducts[index].thumbnail);
                                                       ShowDialog.showDetailPorduct(context, categories, product, sample);
                                                       controllerSample.showActribute.value = false;
                                                       controller.setDefault();
