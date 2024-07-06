@@ -2,7 +2,6 @@ import 'package:etech_store_admin/module/report/controllers/order_controller.dar
 import 'package:etech_store_admin/module/report/controllers/print_excel.dart';
 import 'package:etech_store_admin/module/report/views/bar_char.dart';
 import 'package:etech_store_admin/module/report/views/date_picker.dart';
-import 'package:etech_store_admin/module/report/views/pie_char.dart';
 import 'package:etech_store_admin/module/report/views/stock_product.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,14 +48,12 @@ class ReportScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        width: width / 3 - 20,
+                        width: width / 6,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(width: 1)),
+                            color: Colors.white, border: Border.all(width: 1)),
                         padding: const EdgeInsets.all(8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,12 +75,13 @@ class ReportScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      SizedBox(
+                        width: width / 50,
+                      ),
                       Container(
                         width: width / 3 - 20,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(width: 1)),
+                            color: Colors.white, border: Border.all(width: 1)),
                         padding: const EdgeInsets.all(8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,178 +92,152 @@ class ReportScreen extends StatelessWidget {
                             SizedBox(
                               height: height / 20,
                             ),
-                            Obx(() => Text(
-                                  priceFormat(
-                                      orderController.getExpectedEarnings()),
-                                  style: const TextStyle(
-                                      color: Color(0xFF383CA0),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: width / 3 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(width: 1)),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Thu nhập dự kiến',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold)),
-                            SizedBox(
-                              height: height / 20,
-                            ),
-                            Obx(() => Text(
-                                  priceFormat(
-                                      orderController.getExpectedEarnings()),
-                                  style: const TextStyle(
-                                      color: Color(0xFF383CA0),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ))
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Obx(() => Text(
+                                      priceFormat(orderController
+                                          .getAverageDailyIncome()
+                                          .toInt()),
+                                      style: const TextStyle(
+                                          color: Color(0xFF383CA0),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    )),
+                                Obx(() => Container(
+                                      color: orderController
+                                                  .getTheIncomeDifferenceRatio() >
+                                              0
+                                          ? Colors.green
+                                          : Colors.red,
+                                      child: Row(
+                                        children: [
+                                          orderController
+                                                      .getTheIncomeDifferenceRatio() >
+                                                  0
+                                              ? const Icon(
+                                                  Icons.trending_up,
+                                                  color: Colors.white,
+                                                )
+                                              : const Icon(Icons.trending_down,
+                                                  color: Colors.white),
+                                          Text(
+                                            '${orderController.getTheIncomeDifferenceRatio().toStringAsFixed(1)}%',
+                                            style: const TextStyle(
+                                                color: Color(0xFF383CA0),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            )
                           ],
                         ),
                       ),
                     ],
                   ),
                   const Padding(padding: EdgeInsets.all(10)),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: width / 2.5 - 30,
-                        height: height / 2,
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(width: 1)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Obx(
-                                    () => Text(
-                                        softWrap: true,
-                                        'Doanh thu tháng ${selectedDate.value.month}/${selectedDate.value.year}',
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                  Row(
-                                    children: [
-                                      datePicker(context, selectedDate),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 0, 0, 0),
-                                        child: IconButton(
-                                            onPressed: () {
-                                              printExcel.generateExcel(
-                                                  selectedDate.value.month,
-                                                  selectedDate.value.year);
-                                            },
-                                            icon: const Icon(Icons.print)),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Obx(() {
-                                return Text(
-                                  priceFormat(orderController.getTotalIncome(
-                                      selectedDate.value.month,
-                                      selectedDate.value.year)),
-                                  style: const TextStyle(
-                                      color: Color(0xFF383CA0),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                );
-                              }),
-                              Obx(
-                                () {
-                                  final RxDouble weak1 = orderController
-                                      .getIncome1to7(selectedDate.value.month,
-                                          selectedDate.value.year)
-                                      .obs;
-                                  final RxDouble weak2 = orderController
-                                      .getIncome8to14(selectedDate.value.month,
-                                          selectedDate.value.year)
-                                      .obs;
-                                  final RxDouble weak3 = orderController
-                                      .getIncome15to21(selectedDate.value.month,
-                                          selectedDate.value.year)
-                                      .obs;
-                                  final RxDouble weak4 = orderController
-                                      .getIncome22to28(selectedDate.value.month,
-                                          selectedDate.value.year)
-                                      .obs;
-                                  final RxDouble extant = orderController
-                                      .getIncome29toEnd(
-                                          selectedDate.value.month,
-                                          selectedDate.value.year)
-                                      .obs;
-                                  return AspectRatio(
-                                    aspectRatio: 1.6,
-                                    child: BarChartSalesInMonth(
-                                      weak1: weak1.toDouble(),
-                                      weak2: weak2.toDouble(),
-                                      weak3: weak3.toDouble(),
-                                      weak4: weak4.toDouble(),
-                                      extant: extant.toDouble(),
-                                      width: width,
-                                    ),
+                  Container(
+                    constraints:
+                        const BoxConstraints(maxHeight: double.infinity),
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    decoration: BoxDecoration(
+                        color: Colors.white, border: Border.all(width: 1)),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Obx(
+                                  () => Text(
+                                      softWrap: true,
+                                      'Doanh thu tháng ${selectedDate.value.month}/${selectedDate.value.year}     ',
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Obx(() {
+                                  return Text(
+                                    priceFormat(orderController.getTotalIncome(
+                                        selectedDate.value.month,
+                                        selectedDate.value.year)),
+                                    style: const TextStyle(
+                                        color: Color(0xFF383CA0),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
                                   );
-                                },
-                              )
-                            ],
-                          ),
+                                }),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                datePicker(context, selectedDate),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        printExcel.generateExcel(
+                                            selectedDate.value.month,
+                                            selectedDate.value.year);
+                                      },
+                                      icon: const Icon(Icons.print)),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                      // Container(
-                      //     width: width / 3,
-                      //     height: height / 2.1,
-                      //     padding: const EdgeInsets.all(8),
-                      //     margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      //     decoration: BoxDecoration(
-                      //       color: Colors.white,
-                      //       borderRadius: BorderRadius.circular(10),
-                      //     ),
-                      //     child: const PieChartSample2()),
-                      Container(
-                          width: width * 0.6 - 20,
-                          height: height / 2,
-                          padding: const EdgeInsets.all(8),
-                          margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(width: 1)),
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Thống kê số lượng sản phẩm',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(width: 1)),
-                                  child: tableOfStockProduct(context))
-                            ],
-                          )),
-                    ],
+                        Obx(
+                          () {
+                            final dayOfMonth = DateTime(selectedDate.value.year,
+                                    selectedDate.value.month + 1, 0)
+                                .day;
+                            List<int> listIncomeByDay = [];
+                            for (int day = 0; day < dayOfMonth; day += 2) {
+                              listIncomeByDay.add(
+                                  orderController.fetchOrdersByTime(
+                                      day,
+                                      selectedDate.value.month,
+                                      selectedDate.value.year));
+                            }
+                            return AspectRatio(
+                              aspectRatio: 3.5,
+                              child: BarChartSalesInMonth(
+                                  day: dayOfMonth,
+                                  width: width,
+                                  listIncome: listIncomeByDay),
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   ),
+                  Container(
+                      width: width,
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      padding: const EdgeInsets.all(8),
+                      constraints:
+                          const BoxConstraints(maxHeight: double.infinity),
+                      decoration: BoxDecoration(
+                          color: Colors.white, border: Border.all(width: 1)),
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Thống kê số lượng sản phẩm',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                              margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                              decoration:
+                                  BoxDecoration(border: Border.all(width: 1)),
+                              child: tableOfStockProduct(context))
+                        ],
+                      )),
                 ],
               ),
             ),

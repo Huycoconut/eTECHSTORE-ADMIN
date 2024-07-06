@@ -49,12 +49,14 @@ class WishListScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             border: Border.all(width: 1),
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
                           ),
                           child: SingleChildScrollView(
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: DataTable(
+                                  sortAscending:
+                                      wishlistController.sortAscending.value,
+                                  sortColumnIndex: 1,
                                   dataRowMaxHeight: double.infinity,
                                   border: const TableBorder(
                                     verticalInside: BorderSide(
@@ -67,16 +69,26 @@ class WishListScreen extends StatelessWidget {
                                   dividerThickness: 0,
                                   dataRowColor: MaterialStateProperty.all(
                                       Colors.transparent),
-                                  columns: const [
-                                    DataColumn(
-                                        label: Text('Họ tên',
+                                  columns: [
+                                    const DataColumn(
+                                        label: Text('ID',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold))),
                                     DataColumn(
+                                        label: const Text('Họ tên',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        onSort:
+                                            wishlistController.onSortColumn),
+                                    const DataColumn(
                                         label: Text('Số điện thoại',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold))),
-                                    DataColumn(
+                                    const DataColumn(
+                                        label: Text('Email',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold))),
+                                    const DataColumn(
                                         label: Text('Thao tác',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold))),
@@ -94,6 +106,11 @@ class WishListScreen extends StatelessWidget {
                                         cells: [
                                           DataCell(Wrap(
                                             children: [
+                                              Text(wish.MaKhachHang),
+                                            ],
+                                          )),
+                                          DataCell(Wrap(
+                                            children: [
                                               Text(wishlistController
                                                   .getUserName(
                                                       wish.MaKhachHang)),
@@ -104,6 +121,13 @@ class WishListScreen extends StatelessWidget {
                                                 child: Text(
                                                     '0${wishlistController.getUserPhone(wish.MaKhachHang)}')),
                                           ),
+                                          DataCell(Wrap(
+                                            children: [
+                                              Text(wishlistController
+                                                  .getUserEmail(
+                                                      wish.MaKhachHang)),
+                                            ],
+                                          )),
                                           DataCell(
                                             Center(
                                                 child: ElevatedButton(
@@ -151,7 +175,6 @@ class WishListScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             border: Border.all(width: 1),
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
                           ),
                           child: SingleChildScrollView(
                             child: SingleChildScrollView(

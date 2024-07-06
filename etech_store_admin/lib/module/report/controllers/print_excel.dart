@@ -15,7 +15,6 @@ class PrintExcel extends GetxController {
     sheet.setColumnAutoFit(2);
     sheet.setColumnAutoFit(3);
     sheet.setColumnAutoFit(4);
-    sheet.setColumnAutoFit(5);
     sheet.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 1)).value =
         const TextCellValue('ID');
     sheet.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 1)).value =
@@ -23,10 +22,8 @@ class PrintExcel extends GetxController {
     sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 1)).value =
         const TextCellValue('Tổng tiền');
     sheet.cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: 1)).value =
-        const TextCellValue('Tổng được giảm');
-    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: 1)).value =
         const TextCellValue('Ngày tạo đơn');
-    orderController.fetchOrdersByTime(0, 32, month, year);
+    await orderController.getOrderByMonth(month, year);
     for (var order in orderController.listOrderByTime) {
       if (order.isCompleted) {
         sheet
@@ -42,16 +39,15 @@ class PrintExcel extends GetxController {
                 CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: rowIndex))
             .value = TextCellValue(priceFormat(order.TongTien));
         sheet
-            .cell(
-                CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: rowIndex))
-            .value = TextCellValue(priceFormat(order.TongDuocGiam));
-        sheet
                 .cell(CellIndex.indexByColumnRow(
-                    columnIndex: 5, rowIndex: rowIndex))
+                    columnIndex: 4, rowIndex: rowIndex))
                 .value =
             TextCellValue(
                 '${order.NgayTaoDon.toDate().day}/${order.NgayTaoDon.toDate().month}/${order.NgayTaoDon.toDate().year}');
         rowIndex++;
+        // if (rowIndex > orderController.listOrderByTime.length) {
+        //   return;
+        // }
       }
     }
 

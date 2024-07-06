@@ -121,10 +121,11 @@ class CategoryScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border.all(width: 1),
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: SingleChildScrollView(
                       child: DataTable(
+                          sortColumnIndex: 4,
+                          sortAscending: catController.sortAscending.value,
                           dataRowMaxHeight: double.infinity,
                           border: const TableBorder(
                             verticalInside:
@@ -137,12 +138,12 @@ class CategoryScreen extends StatelessWidget {
                           dividerThickness: 0,
                           dataRowColor:
                               MaterialStateProperty.all(Colors.transparent),
-                          columns: const [
-                            DataColumn(
+                          columns: [
+                            const DataColumn(
                                 label: Text('id',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                            DataColumn(
+                            const DataColumn(
                                 label: Wrap(
                               children: [
                                 Text('Tên danh mục',
@@ -150,19 +151,20 @@ class CategoryScreen extends StatelessWidget {
                                         TextStyle(fontWeight: FontWeight.bold)),
                               ],
                             )),
-                            DataColumn(
+                            const DataColumn(
                                 label: Text('Mô tả',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                            DataColumn(
+                            const DataColumn(
                                 label: Text('Icon',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
                             DataColumn(
                                 label: Text('Trạng thái',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                onSort: catController.onSortColumn),
+                            const DataColumn(
                                 label: Text('Thao tác',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),

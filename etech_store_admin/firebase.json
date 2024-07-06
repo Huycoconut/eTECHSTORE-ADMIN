@@ -1,6 +1,12 @@
 {
   "hosting": {
     "source": ".",
+    "rewrites": [
+      {
+        "source": "/payment",
+        "destination": "/payment.dart"
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",

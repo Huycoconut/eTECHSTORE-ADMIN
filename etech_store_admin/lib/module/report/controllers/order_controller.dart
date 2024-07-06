@@ -29,10 +29,9 @@ class OrderController extends GetxController {
     });
   }
 
-  void fetchOrdersByTime(int startDay, int endDay, int month, int year) {
-    listOrderByTime.clear();
-    final startTimestamp = Timestamp.fromDate(DateTime(year, month, startDay));
-    final endTimestamp = Timestamp.fromDate(DateTime(year, month, endDay));
+  Future<void> getOrderByMonth(int month, int year) async {
+    final startTimestamp = Timestamp.fromDate(DateTime(year, month, 0));
+    final endTimestamp = Timestamp.fromDate(DateTime(year, month, 32));
     for (var order in listOrder) {
       final comparisonResult1 = order.NgayTaoDon.compareTo(startTimestamp);
       final comparisonResult2 = order.NgayTaoDon.compareTo(endTimestamp);
@@ -40,6 +39,20 @@ class OrderController extends GetxController {
         listOrderByTime.add(order);
       }
     }
+  }
+
+  int fetchOrdersByTime(int day, int month, int year) {
+    int totalIncome = 0;
+    final startTimestamp = Timestamp.fromDate(DateTime(year, month, day));
+    final endTimestamp = Timestamp.fromDate(DateTime(year, month, day + 2));
+    for (var order in listOrder) {
+      final comparisonResult1 = order.NgayTaoDon.compareTo(startTimestamp);
+      final comparisonResult2 = order.NgayTaoDon.compareTo(endTimestamp);
+      if (comparisonResult1 > 0 && comparisonResult2 < 0 && order.isCompleted) {
+        totalIncome += order.TongTien;
+      }
+    }
+    return totalIncome;
   }
 
   int getTotalIncome(int month, int year) {
@@ -56,53 +69,6 @@ class OrderController extends GetxController {
     return totalIcome;
   }
 
-  double getIncome1to7(int month, int year) {
-    var income = 0;
-    fetchOrdersByTime(0, 7, month, year);
-    for (var order in listOrderByTime) {
-      income += order.TongTien;
-    }
-    return income.toDouble();
-  }
-
-  double getIncome8to14(int month, int year) {
-    var income = 0;
-    fetchOrdersByTime(7, 15, month, year);
-    for (var order in listOrderByTime) {
-      income += order.TongTien;
-    }
-    return income.toDouble();
-  }
-
-  double getIncome15to21(int month, int year) {
-    var income = 0;
-    fetchOrdersByTime(15, 22, month, year);
-    for (var order in listOrderByTime) {
-      income += order.TongTien;
-    }
-    return income.toDouble();
-  }
-
-  double getIncome22to28(int month, int year) {
-    var income = 0;
-    fetchOrdersByTime(22, 29, month, year);
-    for (var order in listOrderByTime) {
-      income += order.TongTien;
-    }
-    return income.toDouble();
-  }
-
-  double getIncome29toEnd(int month, int year) {
-    var income = 0;
-    final now = DateTime.now();
-    fetchOrdersByTime(
-        29, DateTime(now.year, now.month + 1, 0).day, month, year);
-    for (var order in listOrderByTime) {
-      income += order.TongTien;
-    }
-    return income.toDouble();
-  }
-
   int getExpectedEarnings() {
     int totalEarnings = 0;
     for (var order in listOrder) {
@@ -111,5 +77,36 @@ class OrderController extends GetxController {
       }
     }
     return totalEarnings;
+  }
+
+  double getAverageDailyIncome() {
+    final DateTime firstDate = DateTime(2024, 7, 0);
+    final DateTime now = DateTime.now();
+    Duration difference = now.difference(firstDate);
+    double averageDailyIncome = 0;
+    for (var order in listOrder) {
+      if (order.isCompleted) {
+        averageDailyIncome += order.TongTien;
+      }
+    }
+    averageDailyIncome /= difference.inDays;
+    return averageDailyIncome;
+  }
+
+  double getTheIncomeDifferenceRatio() {
+    final DateTime now = DateTime.now();
+    double totalIncomeToday = 0;
+    for (var order in listOrder) {
+      if (order.isCompleted &&
+          order.NgayTaoDon.toDate()
+              .isAfter(DateTime(now.year, now.month, now.day))) {
+        totalIncomeToday += order.TongTien;
+      }
+    }
+    double theIncomeDifferenceRatio =
+        ((totalIncomeToday - getAverageDailyIncome()) /
+                getAverageDailyIncome()) *
+            100;
+    return theIncomeDifferenceRatio;
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 Widget tableOfStockProduct(BuildContext context) {
-  final productController = Get.put(ProductController());
+  final productController = Get.put(ProducttController());
   return Obx(() {
     return FittedBox(
       fit: BoxFit.fitWidth,
@@ -36,8 +36,8 @@ Widget tableOfStockProduct(BuildContext context) {
                 label: Text('Số lượng',
                     style: TextStyle(fontWeight: FontWeight.bold))),
           ],
-          rows: List<DataRow>.generate(
-              productController.listProduct.take(6).length, (index) {
+          rows: List<DataRow>.generate(productController.listProduct.length,
+              (index) {
             final product = productController.listProduct[index];
             DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
                 product.NgayNhap.millisecondsSinceEpoch);
@@ -46,14 +46,9 @@ Widget tableOfStockProduct(BuildContext context) {
                 color: MaterialStateColor.resolveWith((states) =>
                     index.isEven ? Colors.grey.shade300 : Colors.white),
                 cells: [
-                  DataCell(SizedBox(
-                    width: MediaQuery.of(context).size.width / 20,
-                    child: Wrap(
-                      children: [
-                        Text(product.id),
-                      ],
-                    ),
-                  )),
+                  DataCell(
+                    Text(product.id),
+                  ),
                   DataCell(
                     Center(child: Text(product.Ten)),
                   ),

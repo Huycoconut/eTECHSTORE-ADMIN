@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ModelProductModel {
   List<dynamic> CauHinh;
-  Map GiaTien;
+  List<dynamic> GiaTien;
   String MaSanPham;
   List<dynamic> MauSac;
   int SoLuong;
@@ -17,7 +17,7 @@ class ModelProductModel {
       required this.SoLuong});
 
   static empty() => ModelProductModel(
-      id: '', CauHinh: [], GiaTien: {}, MaSanPham: '', MauSac: [], SoLuong: 0);
+      id: '', CauHinh: [], GiaTien: [], MaSanPham: '', MauSac: [], SoLuong: 0);
 
   factory ModelProductModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
@@ -26,7 +26,7 @@ class ModelProductModel {
       return ModelProductModel(
           id: data['id'] ?? '',
           CauHinh: data['CauHinh'] ?? [],
-          GiaTien: data['GiaTien'] ?? {},
+          GiaTien: data['GiaTien'] ?? [],
           MaSanPham: data['MaSanPham'] ?? '',
           MauSac: data['MauSac'] ?? [],
           SoLuong: data['SoLuong'] ?? 0);
