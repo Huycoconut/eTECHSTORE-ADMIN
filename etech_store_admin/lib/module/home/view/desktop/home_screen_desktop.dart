@@ -97,7 +97,6 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                         _onItemTapped(6);
                       },
                     ),
-                 
                   ],
                 ),
                 ExpansionTile(
@@ -183,7 +182,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                   },
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 16),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 10),
                   child: ListTile(
                     leading: const Icon(Icons.login_sharp, color: Colors.white),
                     title: const Text('Đăng Xuất', style: TextStyle(color: Colors.redAccent)),
