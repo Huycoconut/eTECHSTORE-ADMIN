@@ -3,8 +3,8 @@ import 'package:etech_store_admin/module/report/models/model_product_model.dart'
 import 'package:etech_store_admin/module/report/models/product_model.dart';
 import 'package:get/get.dart';
 
-class ProductController extends GetxController {
-  static ProductController get instance => Get.find();
+class ProducttController extends GetxController {
+  static ProducttController get instance => Get.find();
 
   final db = FirebaseFirestore.instance;
   RxList<ProductModel> listProduct = <ProductModel>[].obs;

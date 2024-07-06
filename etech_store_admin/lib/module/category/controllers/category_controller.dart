@@ -9,6 +9,8 @@ class CategoryController extends GetxController {
   final db = FirebaseFirestore.instance;
   final adminID = FirebaseAuth.instance.currentUser!.uid;
   RxList<CategoryModel> listCat = <CategoryModel>[].obs;
+  RxBool sortAscending = true.obs;
+  RxInt sortColumnIndex = 0.obs;
   @override
   void onInit() {
     fetchCategories();
@@ -64,5 +66,13 @@ class CategoryController extends GetxController {
         .then((snapshot) => snapshot.docs.forEach((cat) {
               cat.reference.delete();
             }));
+  }
+
+  void onSortColumn(int columnIndex, bool ascending) {
+    sortColumnIndex = columnIndex.obs;
+    sortAscending = ascending.obs;
+    listCat.sort((a, b) => ascending
+        ? a.TrangThai.toString().compareTo(b.TrangThai.toString())
+        : b.TrangThai.toString().compareTo(a.TrangThai.toString()));
   }
 }

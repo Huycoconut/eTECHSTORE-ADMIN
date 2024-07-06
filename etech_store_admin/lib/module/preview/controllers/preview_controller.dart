@@ -13,6 +13,8 @@ class PreviewController extends GetxController {
   RxList<PreviewModel> listpreviews = <PreviewModel>[].obs;
   RxList<UserModel> listUser = <UserModel>[].obs;
   RxList<ProductModel> listProduct = <ProductModel>[].obs;
+  RxBool sortAscending = true.obs;
+  RxInt sortColumnIndex = 0.obs;
   @override
   void onInit() {
     fetchPreviews();
@@ -86,5 +88,13 @@ class PreviewController extends GetxController {
         .then((snapshot) => snapshot.docs.forEach((preview) {
               preview.reference.delete();
             }));
+  }
+
+  void onSortColumn(int columnIndex, bool ascending) {
+    sortColumnIndex = columnIndex.obs;
+    sortAscending = ascending.obs;
+    listpreviews.sort((a, b) => ascending
+        ? a.TrangThai.toString().compareTo(b.TrangThai.toString())
+        : b.TrangThai.toString().compareTo(a.TrangThai.toString()));
   }
 }

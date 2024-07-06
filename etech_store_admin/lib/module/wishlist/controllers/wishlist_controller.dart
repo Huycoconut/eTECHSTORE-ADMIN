@@ -15,6 +15,8 @@ class WishlistController extends GetxController {
   RxList<ProductModel> listProduct = <ProductModel>[].obs;
   RxList<ProductModel> listProductinWish = <ProductModel>[].obs;
   RxString userIDSelected = ''.obs;
+  RxBool sortAscending = true.obs;
+  RxInt sortColumnIndex = 0.obs;
   @override
   void onInit() {
     fetchWishlist();
@@ -62,6 +64,16 @@ class WishlistController extends GetxController {
     return userPhone;
   }
 
+  String getUserEmail(String userID) {
+    String userEmail = '';
+    for (var user in listUser) {
+      if (user.uid == userID) {
+        userEmail = user.email;
+      }
+    }
+    return userEmail;
+  }
+
   String getProductName(String productID) {
     String productName = '';
     for (var product in listProduct) {
@@ -106,5 +118,13 @@ class WishlistController extends GetxController {
     await db.collection('YeuThich').doc(userID).get().then((doc) {
       doc.reference.update({'DSSanPham': listProductUpdate});
     });
+  }
+
+  void onSortColumn(int columnIndex, bool ascending) {
+    sortColumnIndex = columnIndex.obs;
+    sortAscending = ascending.obs;
+    listWishlist.sort((a, b) => ascending
+        ? getUserName(a.MaKhachHang).compareTo(getUserName(b.MaKhachHang))
+        : getUserName(b.MaKhachHang).compareTo(getUserName(a.MaKhachHang)));
   }
 }

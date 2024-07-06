@@ -42,9 +42,10 @@ class PreviewScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border.all(width: 1),
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: DataTable(
+                          sortColumnIndex: 4,
+                          sortAscending: previewController.sortAscending.value,
                           dataRowMaxHeight: double.infinity,
                           border: const TableBorder(
                             verticalInside:
@@ -57,28 +58,29 @@ class PreviewScreen extends StatelessWidget {
                           dividerThickness: 0,
                           dataRowColor:
                               MaterialStateProperty.all(Colors.transparent),
-                          columns: const [
-                            DataColumn(
+                          columns: [
+                            const DataColumn(
                                 label: Text('Đánh giá',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                            DataColumn(
+                            const DataColumn(
                                 label: Text('Số sao',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                            DataColumn(
+                            const DataColumn(
                                 label: Text('Khách hàng',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                            DataColumn(
+                            const DataColumn(
                                 label: Text('Sản phẩm',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
                             DataColumn(
-                                label: Text('Trạng thái',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
+                                label: const Text('Trạng thái',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                onSort: previewController.onSortColumn),
+                            const DataColumn(
                                 label: Text('Thao tác',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
