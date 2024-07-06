@@ -1,3 +1,4 @@
+import 'package:etech_store_admin/main.dart';
 import 'package:etech_store_admin/module/category/views/category_screen.dart';
 import 'package:etech_store_admin/module/discount/views/discount_screen.dart';
 import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen.dart';
@@ -10,6 +11,7 @@ import 'package:etech_store_admin/module/profile/view/desktop/add_user_screen.da
 import 'package:etech_store_admin/module/profile/view/profile_manage_screen.dart';
 import 'package:etech_store_admin/module/report/views/report_screen.dart';
 import 'package:etech_store_admin/module/wishlist/views/wishlist_screen.dart';
+import 'package:etech_store_admin/services/auth_services.dart';
 import 'package:etech_store_admin/utlis/constants/image_key.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,7 +36,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
     const AddUserScreen(),
     ProductManageDesktopScreen(),
     AddProductScreen(),
-    DisCountScreen()
+    const DisCountScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -95,12 +97,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                         _onItemTapped(6);
                       },
                     ),
-                    ListTile(
-                      title: const Text('Quản Trị Viên', style: TextStyle(color: Colors.white)),
-                      onTap: () {
-                        // Navigate to specific screen
-                      },
-                    ),
+                 
                   ],
                 ),
                 ExpansionTile(
@@ -184,6 +181,18 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                   onTap: () {
                     _onItemTapped(5);
                   },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 16),
+                  child: ListTile(
+                    leading: const Icon(Icons.login_sharp, color: Colors.white),
+                    title: const Text('Đăng Xuất', style: TextStyle(color: Colors.redAccent)),
+                    onTap: () {
+                      AuthServices.instance.auth.signOut().then((value) {
+                        return const AuthWrapper();
+                      });
+                    },
+                  ),
                 ),
                 // Add more list tiles here for other menu items
               ],

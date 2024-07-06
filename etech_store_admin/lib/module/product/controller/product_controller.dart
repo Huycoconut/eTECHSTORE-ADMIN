@@ -1,4 +1,7 @@
 import 'dart:typed_data';
+import 'package:etech_store_admin/utlis/constants/image_key.dart';
+import 'package:etech_store_admin/utlis/helpers/popups/full_screen_loader.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etech_store_admin/module/product/controller/product_sample_controller.dart';
@@ -6,6 +9,9 @@ import 'package:etech_store_admin/module/product/model/product_model.dart';
 import 'package:etech_store_admin/module/product/model/product_sample_model.dart';
 import 'package:etech_store_admin/utlis/helpers/popups/loader.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +30,7 @@ class ProductController extends GetxController {
   Timestamp date = Timestamp.now();
   RxBool isPopular = false.obs;
   RxInt selectedCategory = 7.obs;
+
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
   RxList<CategoryModel> categoriesProduct = <CategoryModel>[].obs;
   TextEditingController nameController = TextEditingController();
@@ -31,12 +38,20 @@ class ProductController extends GetxController {
   TextEditingController priceController = TextEditingController();
   TextEditingController mauSacController = TextEditingController();
   ProductSampleController sampleController = Get.put(ProductSampleController());
+
+  RxList<CategoryModel> newCategories = <CategoryModel>[].obs;
+  RxList<CategoryModel> newCategoriesProduct = <CategoryModel>[].obs;
+  TextEditingController newNameController = TextEditingController();
+  TextEditingController newDescriptionController = TextEditingController();
+  TextEditingController newPriceController = TextEditingController();
+
   Map<int, String> categoryMap = {};
   var itemsPerPage = 8.obs;
   var lstProduct = <ProductModel>[].obs;
   var currentPage = 1.obs;
   late PageController pageController;
-  List<ProductModel> allProducts = []; // Danh sách sản phẩm ban đầu
+
+  List<ProductModel> allProducts = [];
 
   var searchPrice = ''.obs;
   var searchProductName = ''.obs;
@@ -71,6 +86,10 @@ class ProductController extends GetxController {
     descriptionController.clear();
     priceController.clear();
     mauSacController.clear();
+
+    newNameController.text = '';
+    newDescriptionController.text = '';
+    newPriceController.text = '';
   }
 
   void updatePage(int page) {
@@ -86,7 +105,7 @@ class ProductController extends GetxController {
   Stream<List<ProductModel>> getProduct() {
     return FirebaseFirestore.instance.collection('SanPham').where('TrangThai', isEqualTo: true).snapshots().map((query) {
       List<ProductModel> products = query.docs.map((doc) => ProductModel.fromFirestore(doc.data())).toList();
-      allProducts = products; // Lưu danh sách sản phẩm ban đầu
+      allProducts = products;
       return products;
     });
   }
@@ -99,7 +118,6 @@ class ProductController extends GetxController {
     await FirebaseFirestore.instance.collection('SanPham').doc(product.id).update({'DSHinhAnh': product.hinhAnh});
   }
 
- 
   Stream<List<CategoryModel>> getCategories() {
     return _firestore.collection('DanhMucSanPham').snapshots().map((snapshot) {
       categoryMap.clear();
@@ -155,22 +173,26 @@ class ProductController extends GetxController {
       QuerySnapshot querySnapshot = await _firestore.collection("SanPham").where('id', isEqualTo: id).get();
       for (int i = 0; i < uploadedImageBytes.length; i++) {
         final storageRef = _storage.ref().child('products/${uploadedImageNames[i]}');
-        UploadTask uploadTask = storageRef.putData(uploadedImageBytes[i]);
+        final metadata = firebase_storage.SettableMetadata(
+          contentType: 'image/png',
+        );
+        UploadTask uploadTask = storageRef.putData(uploadedImageBytes[i], metadata);
         await uploadTask.whenComplete(() async {
           final downloadUrl = await storageRef.getDownloadURL();
           uploadedImages.add(downloadUrl);
         });
       }
 
-      if (thumbnailBytes.value != null && thumbnailBytes.value!.isNotEmpty) {
-        final storageRef = _storage.ref().child('thumbnails/${thumbnailName.value}');
-        UploadTask uploadTask = storageRef.putData(thumbnailBytes.value!);
-        await uploadTask.whenComplete(() async {
-          thumbnailName.value = await storageRef.getDownloadURL();
-        });
-      } else {
-        thumbnailName.value.isEmpty;
-      }
+      // Upload thumbnail
+      final storageRef = _storage.ref().child('thumbnails/${thumbnailName.value}');
+      final metadata = firebase_storage.SettableMetadata(
+        contentType: 'image/png',
+      );
+      UploadTask uploadTask = storageRef.putData(thumbnailBytes.value!, metadata);
+
+      await uploadTask.whenComplete(() async {
+        thumbnailName.value = await storageRef.getDownloadURL();
+      });
 
       for (var doc in querySnapshot.docs) {
         String documentId = doc.id;
@@ -193,19 +215,35 @@ class ProductController extends GetxController {
     }
   }
 
+  Future<Uint8List> downloadImage(String url) async {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else {
+      throw Exception('Failed to load image');
+    }
+  }
+
   Future<void> addProduct(ProductModel product) async {
     try {
+      // Upload images
       for (int i = 0; i < uploadedImageBytes.length; i++) {
         final storageRef = _storage.ref().child('products/${uploadedImageNames[i]}');
-        UploadTask uploadTask = storageRef.putData(uploadedImageBytes[i]);
+        final metadata = firebase_storage.SettableMetadata(
+          contentType: 'image/png',
+        );
+        UploadTask uploadTask = storageRef.putData(uploadedImageBytes[i], metadata);
         await uploadTask.whenComplete(() async {
           final downloadUrl = await storageRef.getDownloadURL();
           uploadedImages.add(downloadUrl);
         });
       }
-
+      // Upload thumbnail
       final storageRef = _storage.ref().child('thumbnails/${thumbnailName.value}');
-      UploadTask uploadTask = storageRef.putData(thumbnailBytes.value!);
+      final metadata = firebase_storage.SettableMetadata(
+        contentType: 'image/png',
+      );
+      UploadTask uploadTask = storageRef.putData(thumbnailBytes.value!, metadata);
 
       await uploadTask.whenComplete(() async {
         thumbnailName.value = await storageRef.getDownloadURL();
@@ -213,23 +251,34 @@ class ProductController extends GetxController {
 
       product.hinhAnh = uploadedImages;
       product.thumbnail = thumbnailName.value;
+
       if (uploadedImages.isEmpty ||
           thumbnailName.isEmpty ||
-          nameController.text.isEmpty ||
-          priceController.text.isEmpty ||
-          descriptionController.text.isEmpty ||
-          searchCategory.value == 7) {
-        TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text(""));
+          newNameController.text.isEmpty ||
+          newPriceController.text.isEmpty ||
+          newDescriptionController.text.isEmpty ||
+          selectedCategory.value == 7) {
+        Future.delayed(const Duration(seconds: 2),
+            () => TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text("")));
       } else {
+        selectedCategory.value = 7;
         DocumentReference docRef = _firestore.collection('SanPham').doc();
         product.id = docRef.id;
         sampleController.saveProductSample(product.id);
         await docRef.set(product.toJson());
         setDefault();
         sampleController.clearControllers();
+        Future.delayed(const Duration(seconds: 2),
+            () => TLoaders.showSuccessPopup(title: "Thông Báo", description: "Thêm thành công", onDismissed: () => const Text("")));
       }
     } catch (e) {
-      TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text(""));
+      Future.delayed(const Duration(seconds: 2),
+          () => TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text("")));
+    } finally {
+      FullScreenLoader.openLoadingDialog(
+        "Đang xử lý",
+        ImageKey.loadingAnimation,
+      );
     }
   }
 

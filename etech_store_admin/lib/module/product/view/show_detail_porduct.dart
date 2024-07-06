@@ -21,8 +21,8 @@ class ShowDialog {
         controller.initializeProduct(product);
         controller.selectedCategory.value = category.id;
         return Dialog(
-       
-          child: Container(color: Colors.white,
+          child: Container(
+            color: Colors.white,
             child: SingleChildScrollView(
               child: Obx(
                 () => SizedBox(
@@ -32,7 +32,6 @@ class ShowDialog {
                     children: [
                       Expanded(
                         child: Container(
-                   
                           height: MediaQuery.of(context).size.height / 1,
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                           margin: const EdgeInsets.all(5),
@@ -270,46 +269,44 @@ class ShowDialog {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Obx(() => controller.uploadedImageBytes.isNotEmpty ? const Text("Ảnh hiện tại") : Container()),
-                                    Obx(
-                                      () => Wrap(
-                                        children: product.hinhAnh.map((e) {
-                                          return Stack(
-                                            children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(right: 7, bottom: 7),
-                                                width: 100,
-                                                height: 100,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(color: Colors.grey),
-                                                ),
-                                                child: Image.network(
-                                                  e,
-                                                  fit: BoxFit.fill,
-                                                  errorBuilder: (context, error, stackTrace) {
-                                                    return Container(
-                                                      color: Colors.grey,
-                                                      child: const Center(
-                                                        child: Icon(Icons.error, color: Colors.red),
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
+                                    Wrap(
+                                      children: product.hinhAnh.map((e) {
+                                        return Stack(
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(right: 7, bottom: 7),
+                                              width: 100,
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.grey),
                                               ),
-                                              Positioned(
-                                                  right: 2,
-                                                  left: 65,
-                                                  bottom: 75,
-                                                  child: IconButton(
-                                                      color: Colors.redAccent,
-                                                      onPressed: () async {
-                                                        controller.removeListImage(product, e);
-                                                        controller.uploadedImageNames.removeAt(e);
-                                                      },
-                                                      icon: const Icon(Icons.remove_circle_outlined))),
-                                            ],
-                                          );
-                                        }).toList(),
-                                      ),
+                                              child: Image.network(
+                                                e,
+                                                fit: BoxFit.fill,
+                                                errorBuilder: (context, error, stackTrace) {
+                                                  return Container(
+                                                    color: Colors.grey,
+                                                    child: const Center(
+                                                      child: Icon(Icons.error, color: Colors.red),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            Positioned(
+                                                right: 2,
+                                                left: 65,
+                                                bottom: 75,
+                                                child: IconButton(
+                                                    color: Colors.redAccent,
+                                                    onPressed: () async {
+                                                      controller.removeListImage(product, e);
+                                                      controller.uploadedImageNames.removeAt(e);
+                                                    },
+                                                    icon: const Icon(Icons.remove_circle_outlined))),
+                                          ],
+                                        );
+                                      }).toList(),
                                     ),
                                   ],
                                 ),

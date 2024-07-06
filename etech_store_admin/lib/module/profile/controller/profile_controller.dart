@@ -54,11 +54,11 @@ class ProfileController extends GetxController {
   var districts = <District>[].obs;
   var ward = <Ward>[].obs;
   File? imagefile;
-    var searchName = ''.obs;
+  var searchName = ''.obs;
   var searchEmail = ''.obs;
   var searchPhone = ''.obs;
   List<ProfileModel> allUsers = [];
-   var currentPage = 1.obs;
+  var currentPage = 1.obs;
   var itemsPerPage = 10.obs;
 
   RxString selectedAuthorization = 'Quản trị viên'.obs;
@@ -108,8 +108,6 @@ class ProfileController extends GetxController {
     fullNameController.clear();
     confirmPassWordController.clear();
   }
-
-
 
   Stream<List<ProfileModel>> getUsers() {
     return firestore.collection('Users').snapshots().map((query) {
@@ -318,16 +316,20 @@ class ProfileController extends GetxController {
             thumbnailName.value,
           );
           resetValues();
-          TLoaders.successPopup(title: "Thông báo", description: "Thêm thành công");
+          Future.delayed(const Duration(seconds: 2),
+              () => TLoaders.showSuccessPopup(title: "Thông Báo", description: "Thêm thành công", onDismissed: () => const Text("")));
         } else {
-          TLoaders.showErrorPopup(title: "Thông báo", description: "Vui lòng điền đầy đủ thông tin");
+          Future.delayed(
+              const Duration(seconds: 2), () => TLoaders.showErrorPopup(title: "Thông báo", description: "Vui lòng điền đầy đủ thông tin"));
         }
       } else {
-        TLoaders.showErrorPopup(title: "Thông báo", description: "Email đã tồn tại");
+        Future.delayed(const Duration(seconds: 2), () => TLoaders.showErrorPopup(title: "Thông báo", description: "Email đã tồn tại"));
       }
-      
     } catch (e) {
-      TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại");
+      Future.delayed(const Duration(seconds: 2),
+          () => TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text("")));
+    } finally {
+      FullScreenLoader.openLoadingDialog("Đang xử lý", ImageKey.loadingAnimation);
     }
   }
 

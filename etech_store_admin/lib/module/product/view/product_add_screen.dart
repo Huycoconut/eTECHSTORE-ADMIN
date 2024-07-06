@@ -5,6 +5,8 @@ import 'package:etech_store_admin/module/product/view/widget/add_attribute_sampl
 import 'package:etech_store_admin/module/product/view/widget/add_configs.dart';
 import 'package:etech_store_admin/module/product/view/widget/manage_sample.dart';
 import 'package:etech_store_admin/utlis/constants/colors.dart';
+import 'package:etech_store_admin/utlis/constants/image_key.dart';
+import 'package:etech_store_admin/utlis/helpers/popups/full_screen_loader.dart';
 import 'package:etech_store_admin/utlis/helpers/popups/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,7 @@ class AddProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    productController.selectedCategory.value = 7;
     return ScreenUtilInit(
       builder: (context, child) {
         return Scaffold(
@@ -46,8 +49,8 @@ class AddProductScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                       height: MediaQuery.of(context).size.height / 1,
-                       margin: const EdgeInsets.all(5),
+                      height: MediaQuery.of(context).size.height / 1,
+                      margin: const EdgeInsets.all(5),
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +67,7 @@ class AddProductScreen extends StatelessWidget {
                                       SizedBox(
                                         height: 40,
                                         child: TextField(
-                                          controller: productController.nameController,
+                                          controller: productController.newNameController,
                                           decoration: const InputDecoration(
                                             labelText: 'Tên sản phẩm',
                                             hintText: '',
@@ -119,15 +122,15 @@ class AddProductScreen extends StatelessWidget {
                             SizedBox(
                               height: 40,
                               child: TextField(
-                                controller: productController.priceController,
+                                controller: productController.newPriceController,
                                 decoration: const InputDecoration(
                                   labelText: 'Giá tiền',
                                   hintText: '',
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.fromLTRB(15, 5, 5, 5),
                                   alignLabelWithHint: true,
-                                ),inputFormatters: [FilteringTextInputFormatter.digitsOnly] ,
-                        
+                                ),
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 keyboardType: TextInputType.number,
                               ),
                             ),
@@ -202,7 +205,7 @@ class AddProductScreen extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       border: Border.all(color: Colors.grey),
                                     ),
-                                    child: Image.memory(  
+                                    child: Image.memory(
                                       productController.thumbnailBytes.value!,
                                       height: 100,
                                       width: 100,
@@ -305,7 +308,7 @@ class AddProductScreen extends StatelessWidget {
                                 maxLines: 6,
                                 textAlign: TextAlign.left,
                                 textAlignVertical: TextAlignVertical.top,
-                                controller: productController.descriptionController,
+                                controller: productController.newDescriptionController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -316,24 +319,22 @@ class AddProductScreen extends StatelessWidget {
                             const SizedBox(height: 15),
                             GestureDetector(
                               onTap: () {
-                          
-                                  ProductModel newProduct = ProductModel(
-                                    KhuyenMai: 1,
-                                    id: productController.generateId(),
-                                    ten: productController.nameController.text,
-                                    moTa: productController.descriptionController.text,
-                                    giaTien: int.parse(productController.priceController.text),
-                                    hinhAnh: productController.uploadedImages.toList(),
-                                    thumbnail: productController.thumbnailName.value,
-                                    maDanhMuc: productController.selectedCategory.value,
-                                    trangThai: true,
-                                    NgayNhap: productController.date,
-                                    isPopular: productController.isPopular.value,
-                                  );
-                        
-                                  productController.addProduct(newProduct);
-                                  
-                               
+ 
+
+                                ProductModel newProduct = ProductModel(
+                                  KhuyenMai: 1,
+                                  id: productController.generateId(),
+                                  ten: productController.newNameController.text,
+                                  moTa: productController.newDescriptionController.text,
+                                  giaTien: int.parse(productController.newPriceController.text),
+                                  hinhAnh: productController.uploadedImages.toList(),
+                                  thumbnail: productController.thumbnailName.value,
+                                  maDanhMuc: productController.selectedCategory.value,
+                                  trangThai: true,
+                                  NgayNhap: productController.date,
+                                  isPopular: productController.isPopular.value,
+                                );
+                                productController.addProduct(newProduct);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(right: double.minPositive),

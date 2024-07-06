@@ -135,7 +135,7 @@ class ProfileManageDesktopScreen extends StatelessWidget {
                                   (index) => DataRow(
                                     color: MaterialStateColor.resolveWith((states) => index.isEven ? Colors.white : Colors.grey[200]!),
                                     cells: [
-                                      DataCell(Container(width: 10,child: Text((index + 1).toString()))),
+                                      DataCell(Container(width: 30,child: Text((index + 1).toString()))),
                                       DataCell(Container(width: 150,child: Text(paginatedUsers[index].HoTen))),
                                       DataCell(Container(width: 150,child: Text(paginatedUsers[index].Email))),
                                       DataCell(Container(width: 110,child: Text("0${paginatedUsers[index].SoDienThoai.toString()}"))),
