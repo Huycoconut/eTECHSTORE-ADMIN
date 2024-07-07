@@ -97,4 +97,11 @@ class PreviewController extends GetxController {
         ? a.TrangThai.toString().compareTo(b.TrangThai.toString())
         : b.TrangThai.toString().compareTo(a.TrangThai.toString()));
   }
+
+  void onSortStarColumn(int columnIndex, bool ascending) {
+    sortColumnIndex = columnIndex.obs;
+    sortAscending = ascending.obs;
+    listpreviews.sort((a, b) =>
+        ascending ? a.SoSao.compareTo(b.SoSao) : b.SoSao.compareTo(a.SoSao));
+  }
 }

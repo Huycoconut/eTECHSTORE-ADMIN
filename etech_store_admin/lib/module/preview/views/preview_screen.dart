@@ -44,7 +44,8 @@ class PreviewScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: DataTable(
-                          sortColumnIndex: 4,
+                          sortColumnIndex:
+                              previewController.sortColumnIndex.value,
                           sortAscending: previewController.sortAscending.value,
                           dataRowMaxHeight: double.infinity,
                           border: const TableBorder(
@@ -63,10 +64,11 @@ class PreviewScreen extends StatelessWidget {
                                 label: Text('Đánh giá',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                            const DataColumn(
-                                label: Text('Số sao',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: const Text('Số sao',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                onSort: previewController.onSortStarColumn),
                             const DataColumn(
                                 label: Text('Khách hàng',
                                     style: TextStyle(
@@ -104,8 +106,17 @@ class PreviewScreen extends StatelessWidget {
                                       ],
                                     ),
                                   )),
-                                  DataCell(Center(
-                                      child: Text(preview.SoSao.toString()))),
+                                  DataCell(Row(
+                                    children: [
+                                      for (var index = 0;
+                                          index < preview.SoSao;
+                                          index++)
+                                        const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                    ],
+                                  )),
                                   DataCell(Center(
                                     child: Text(previewController
                                         .getUserName(preview.MaKhachHang)),

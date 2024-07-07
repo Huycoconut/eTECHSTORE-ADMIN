@@ -47,98 +47,6 @@ class ReportScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: width / 6,
-                        decoration: BoxDecoration(
-                            color: Colors.white, border: Border.all(width: 1)),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Thu nhập dự kiến',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold)),
-                            SizedBox(
-                              height: height / 20,
-                            ),
-                            Obx(() => Text(
-                                  priceFormat(
-                                      orderController.getExpectedEarnings()),
-                                  style: const TextStyle(
-                                      color: Color(0xFF383CA0),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ))
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: width / 50,
-                      ),
-                      Container(
-                        width: width / 3 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white, border: Border.all(width: 1)),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Trung bình thu nhập mỗi ngày',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold)),
-                            SizedBox(
-                              height: height / 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Obx(() => Text(
-                                      priceFormat(orderController
-                                          .getAverageDailyIncome()
-                                          .toInt()),
-                                      style: const TextStyle(
-                                          color: Color(0xFF383CA0),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    )),
-                                Obx(() => Container(
-                                      color: orderController
-                                                  .getTheIncomeDifferenceRatio() >
-                                              0
-                                          ? Colors.green
-                                          : Colors.red,
-                                      child: Row(
-                                        children: [
-                                          orderController
-                                                      .getTheIncomeDifferenceRatio() >
-                                                  0
-                                              ? const Icon(
-                                                  Icons.trending_up,
-                                                  color: Colors.white,
-                                                )
-                                              : const Icon(Icons.trending_down,
-                                                  color: Colors.white),
-                                          Text(
-                                            '${orderController.getTheIncomeDifferenceRatio().toStringAsFixed(1)}%',
-                                            style: const TextStyle(
-                                                color: Color(0xFF383CA0),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Padding(padding: EdgeInsets.all(10)),
                   Container(
                     constraints:
                         const BoxConstraints(maxHeight: double.infinity),
@@ -197,7 +105,7 @@ class ReportScreen extends StatelessWidget {
                                     selectedDate.value.month + 1, 0)
                                 .day;
                             List<int> listIncomeByDay = [];
-                            for (int day = 0; day < dayOfMonth; day += 2) {
+                            for (int day = 0; day < dayOfMonth; day ++) {
                               listIncomeByDay.add(
                                   orderController.fetchOrdersByTime(
                                       day,

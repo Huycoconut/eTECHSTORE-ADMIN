@@ -64,49 +64,94 @@ class BarChartSalesInMonth extends StatelessWidget {
     String text;
     switch (value.toInt()) {
       case 0:
-        text = '1-2';
+        text = '1';
         break;
       case 1:
-        text = '3-4';
+        text = '2';
         break;
       case 2:
-        text = '5-6';
+        text = '3';
         break;
       case 3:
-        text = '7-8';
+        text = '4';
         break;
       case 4:
-        text = '9-10';
+        text = '5';
         break;
       case 5:
-        text = '11-12';
+        text = '6';
         break;
       case 6:
-        text = '13-14';
+        text = '7';
         break;
       case 7:
-        text = '15-16';
+        text = '8';
         break;
       case 8:
-        text = '17-18';
+        text = '9';
         break;
       case 9:
-        text = '19-20';
+        text = '10';
         break;
       case 10:
-        text = '21-22';
+        text = '11';
         break;
       case 11:
-        text = '23-24';
+        text = '12';
         break;
       case 12:
-        text = '25-26';
+        text = '13';
         break;
       case 13:
-        text = '27-28';
+        text = '14';
         break;
       case 14:
-        text = '29-30';
+        text = '15';
+        break;
+      case 15:
+        text = '16';
+        break;
+      case 16:
+        text = '17';
+        break;
+      case 17:
+        text = '18';
+        break;
+      case 18:
+        text = '19';
+        break;
+      case 19:
+        text = '20';
+        break;
+      case 20:
+        text = '21';
+        break;
+      case 21:
+        text = '22';
+        break;
+      case 22:
+        text = '23';
+        break;
+      case 23:
+        text = '24';
+        break;
+      case 24:
+        text = '25';
+        break;
+      case 25:
+        text = '26';
+        break;
+      case 26:
+        text = '27';
+        break;
+      case 27:
+        text = '28';
+        break;
+      case 28:
+        text = '29';
+        break;
+      case 29:
+        text = '30';
         break;
       default:
         text = '';
@@ -310,9 +355,172 @@ class BarChartSalesInMonth extends StatelessWidget {
           x: 14,
           barRods: [
             BarChartRodData(
-              toY: listIncome.length > 14
-                  ? listIncome[14].toDouble()
-                  : listIncome[13].toDouble(),
+              toY: listIncome[14].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 15,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[15].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 16,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[16].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 17,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[17].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 18,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[18].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 19,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[19].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 20,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[20].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 21,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[21].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 22,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[22].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 23,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[23].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 24,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[24].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 25,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[25].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 26,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome[26].toDouble(),
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 27,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome.length > 28 ? listIncome[27].toDouble() : 0,
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 28,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome.length > 28 ? listIncome[28].toDouble() : 0,
+              gradient: _barsGradient,
+              width: width / 100,
+            )
+          ],
+          showingTooltipIndicators: [0],
+        ),
+        BarChartGroupData(
+          x: 29,
+          barRods: [
+            BarChartRodData(
+              toY: listIncome.length > 29 ? listIncome[29].toDouble() : 0,
               gradient: _barsGradient,
               width: width / 100,
             )

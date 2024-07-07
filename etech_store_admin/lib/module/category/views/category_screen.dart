@@ -160,7 +160,7 @@ class CategoryScreen extends StatelessWidget {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
                             DataColumn(
-                                label: Text('Trạng thái',
+                                label: const Text('Trạng thái',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 onSort: catController.onSortColumn),

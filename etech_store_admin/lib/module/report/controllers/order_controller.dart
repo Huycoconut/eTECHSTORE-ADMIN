@@ -44,7 +44,22 @@ class OrderController extends GetxController {
   int fetchOrdersByTime(int day, int month, int year) {
     int totalIncome = 0;
     final startTimestamp = Timestamp.fromDate(DateTime(year, month, day));
-    final endTimestamp = Timestamp.fromDate(DateTime(year, month, day + 2));
+    final endTimestamp = Timestamp.fromDate(DateTime(year, month, day + 1));
+    for (var order in listOrder) {
+      final comparisonResult1 = order.NgayTaoDon.compareTo(startTimestamp);
+      final comparisonResult2 = order.NgayTaoDon.compareTo(endTimestamp);
+      if (comparisonResult1 > 0 && comparisonResult2 < 0 && order.isCompleted) {
+        totalIncome += order.TongTien;
+      }
+    }
+    return totalIncome;
+  }
+
+  int fetchOrdersByWeek(int dayStart, int dayEnd, int month, int year) {
+    int totalIncome = 0;
+    final startTimestamp =
+        Timestamp.fromDate(DateTime(year, month, dayStart - 1));
+    final endTimestamp = Timestamp.fromDate(DateTime(year, month, dayEnd));
     for (var order in listOrder) {
       final comparisonResult1 = order.NgayTaoDon.compareTo(startTimestamp);
       final comparisonResult2 = order.NgayTaoDon.compareTo(endTimestamp);
