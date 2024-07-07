@@ -9,6 +9,7 @@ class CategoryController extends GetxController {
   final db = FirebaseFirestore.instance;
   final adminID = FirebaseAuth.instance.currentUser!.uid;
   RxList<CategoryModel> listCat = <CategoryModel>[].obs;
+  RxBool sortAscending = false.obs;
   RxInt sortColumnIndex = 0.obs;
   @override
   void onInit() {
