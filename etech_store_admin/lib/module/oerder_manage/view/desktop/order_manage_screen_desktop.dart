@@ -126,7 +126,7 @@ class OrderManageDesktopScreen extends StatelessWidget {
                                       ? "Đang vận chuyển"
                                       : order.isCompleted
                                           ? "Hoàn thành"
-                                          : "Chưa hoàn thành";
+                                          : "Chờ xác nhận";
 
                               return order.id.toLowerCase().contains(controller.searchOrderId.value.toLowerCase()) &&
                                   customer.HoTen.toLowerCase().contains(controller.searchCustomerName.value.toLowerCase()) &&
@@ -141,7 +141,7 @@ class OrderManageDesktopScreen extends StatelessWidget {
 
                             int startIndex = (controller.currentPage.value - 1) * controller.itemsPerPage.value;
                             int endIndex = startIndex + controller.itemsPerPage.value;
-                            List<OrdersModel> paginatedOrders = filteredOrders.sublist(startIndex, endIndex.clamp(0, filteredOrders.length));
+                            List<OrdersModel> paginatedOrders = filteredOrders.sublist(startIndex, endIndex.clamp(0, filteredOrders.length)).toSet().toList();
 
                             return SizedBox(
                               width: double.infinity,
@@ -200,10 +200,8 @@ class OrderManageDesktopScreen extends StatelessWidget {
                                                           : order.isShipped == true
                                                               ? Colors.orange
                                                               : order.isCompleted == true
-                                                                  ? Colors.green:
-                                                                
-                                                                      Colors.blue
-                                                                      ),
+                                                                  ? Colors.green
+                                                                  : Colors.blue),
                                                 )),
                                                 DataCell(ElevatedButton(
                                                   style: ElevatedButton.styleFrom(

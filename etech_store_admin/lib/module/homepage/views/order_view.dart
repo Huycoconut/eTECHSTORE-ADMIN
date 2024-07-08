@@ -29,53 +29,36 @@ Widget orderView() {
               return const Center(child: CircularProgressIndicator());
             } else if (profileSnapshot.hasError) {
               return Center(child: Text('Lỗi: ${profileSnapshot.error}'));
-            } else if (!profileSnapshot.hasData ||
-                profileSnapshot.data!.isEmpty) {
+            } else if (!profileSnapshot.hasData || profileSnapshot.data!.isEmpty) {
               return const Center(child: Text('Không có dữ liệu người dùng'));
             } else {
               List<ProfileModel> profiles = profileSnapshot.data!;
 
               return Obx(() {
                 List<OrdersModel> filteredOrders = orders.where((order) {
-                  final customer = profiles.firstWhere(
-                      (profile) => profile.uid == order.maKhachHang,
+                  final customer = profiles.firstWhere((profile) => profile.uid == order.maKhachHang,
                       orElse: () => ProfileModel(
-                          DiaChi: "",
-                          Email: "",
-                          HinhDaiDien: "",
-                          HoTen: "",
-                          Password: "",
-                          Quyen: true,
-                          SoDienThoai: 1234567,
-                          TrangThai: 1,
-                          uid: ""));
+                          DiaChi: "", Email: "", HinhDaiDien: "", HoTen: "", Password: "", Quyen: true, SoDienThoai: 1234567, TrangThai: 1, uid: ""));
                   final status = order.isBeingShipped
                       ? "Đã Hủy"
                       : order.isShipped
                           ? "Đang vận chuyển"
                           : order.isCompleted
                               ? "Hoàn thành"
-                              : "Chưa hoàn thành";
+                              : "Chờ xác nhận";
 
-                  return order.id.toLowerCase().contains(
-                          controller.searchOrderId.value.toLowerCase()) &&
-                      customer.HoTen.toLowerCase().contains(
-                          controller.searchCustomerName.value.toLowerCase()) &&
-                      status.toLowerCase().contains(
-                          controller.searchStatus.value.toLowerCase());
+                  return order.id.toLowerCase().contains(controller.searchOrderId.value.toLowerCase()) &&
+                      customer.HoTen.toLowerCase().contains(controller.searchCustomerName.value.toLowerCase()) &&
+                      status.toLowerCase().contains(controller.searchStatus.value.toLowerCase());
                 }).toList();
 
-                if (controller.searchCustomerName.value.isEmpty &&
-                    controller.searchOrderId.value.isEmpty &&
-                    controller.searchStatus.value.isEmpty) {
+                if (controller.searchCustomerName.value.isEmpty && controller.searchOrderId.value.isEmpty && controller.searchStatus.value.isEmpty) {
                   filteredOrders = controller.lstProduct;
                 }
 
-                int startIndex = (controller.currentPage.value - 1) *
-                    controller.itemsPerPage.value;
+                int startIndex = (controller.currentPage.value - 1) * controller.itemsPerPage.value;
                 int endIndex = startIndex + controller.itemsPerPage.value;
-                List<OrdersModel> paginatedOrders = filteredOrders.sublist(
-                    startIndex, endIndex.clamp(0, filteredOrders.length));
+                List<OrdersModel> paginatedOrders = filteredOrders.sublist(startIndex, endIndex.clamp(0, filteredOrders.length)).toSet().toList();
 
                 return SizedBox(
                   child: SingleChildScrollView(
@@ -85,33 +68,18 @@ Widget orderView() {
                           child: DataTable(
                             dataRowMaxHeight: double.infinity,
                             dividerThickness: 0.5,
-                            dataRowColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            dataRowColor: MaterialStateProperty.all(Colors.transparent),
                             columns: const [
-                              DataColumn(
-                                  label: Text('Mã Đơn Hàng',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold))),
-                              DataColumn(
-                                  label: Text('Ngày Đặt',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold))),
-                              DataColumn(
-                                  label: Text('Trạng Thái',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold))),
-                              DataColumn(
-                                  label: Text('Thao Tác',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold))),
+                              DataColumn(label: Text('Mã Đơn Hàng', style: TextStyle(fontWeight: FontWeight.bold))),
+                              DataColumn(label: Text('Ngày Đặt', style: TextStyle(fontWeight: FontWeight.bold))),
+                              DataColumn(label: Text('Trạng Thái', style: TextStyle(fontWeight: FontWeight.bold))),
+                              DataColumn(label: Text('Thao Tác', style: TextStyle(fontWeight: FontWeight.bold))),
                             ],
                             rows: List<DataRow>.generate(
                               paginatedOrders.length,
                               (index) {
                                 final order = paginatedOrders[index];
-                                final profile = profiles.firstWhere(
-                                    (profile) =>
-                                        profile.uid == order.maKhachHang,
+                                final profile = profiles.firstWhere((profile) => profile.uid == order.maKhachHang,
                                     orElse: () => ProfileModel(
                                         DiaChi: "",
                                         Email: "",
@@ -123,15 +91,10 @@ Widget orderView() {
                                         TrangThai: 1,
                                         uid: ""));
                                 return DataRow(
-                                  color: MaterialStateColor.resolveWith(
-                                      (states) => index.isEven
-                                          ? Colors.white
-                                          : TColros.grey_wheat),
+                                  color: MaterialStateColor.resolveWith((states) => index.isEven ? Colors.white : TColros.grey_wheat),
                                   cells: [
                                     DataCell(Text(order.id)),
-                                    DataCell(Text(DateFormat(
-                                            'dd-MM-yyyy, hh:mm a')
-                                        .format(order.ngayTaoDon.toDate()))),
+                                    DataCell(Text(DateFormat('dd-MM-yyyy, hh:mm a').format(order.ngayTaoDon.toDate()))),
                                     DataCell(Text(
                                       order.isBeingShipped == true
                                           ? "Đã Hủy"
@@ -139,11 +102,7 @@ Widget orderView() {
                                               ? "Đang vận chuyển"
                                               : order.isCompleted == true
                                                   ? "Thành công"
-                                                  : order.isCancelled == true
-                                                      ? "Trả hàng"
-                                                      : order.isPaid == true
-                                                          ? "Chờ xác nhận"
-                                                          : "",
+                                                  : "Chờ xác nhận",
                                       style: TextStyle(
                                           color: order.isBeingShipped == true
                                               ? Colors.red
@@ -151,22 +110,14 @@ Widget orderView() {
                                                   ? Colors.orange
                                                   : order.isCompleted == true
                                                       ? Colors.green
-                                                      : order.isCancelled ==
-                                                              true
-                                                          ? Colors.purple
-                                                          : order.isPaid == true
-                                                              ? Colors.blue
-                                                              : Colors.black),
+                                                      : Colors.blue),
                                     )),
                                     DataCell(ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(2)),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
                                           backgroundColor: TColros.purple_line),
                                       onPressed: () {
-                                        ShowDiaLogOrderDetail.showOrderDetails(
-                                            context, order, profile, order.id);
+                                        ShowDiaLogOrderDetail.showOrderDetails(context, order, profile, order.id);
                                       },
                                       child: const Text(
                                         "Chi tiết",

@@ -11,12 +11,10 @@ class OrderManageController extends GetxController {
   var searchOrderId = ''.obs;
   var searchCustomerName = ''.obs;
   var searchStatus = ''.obs;
-  var itemsPerPage = 10.obs;
+  var itemsPerPage = 15.obs;
   var lstProduct = <OrdersModel>[].obs;
   var currentPage = 1.obs;
-  RxString selectedStatus = 'Chờ xác nhận'.obs;
-  List<String> listStatus = ['Chờ xác nhận', 'Đang giao', 'Thành công', 'Đã hủy'].obs;
-
+  
   var order = OrdersModel(
     id: '',
     ngayTaoDon: Timestamp.now(),
@@ -43,16 +41,16 @@ class OrderManageController extends GetxController {
   }
 
   String getSelectedStatus() {
-    if (order.value.isPaid) return 'Paid';
+   
     if (order.value.isBeingShipped) return 'Being Shipped';
     if (order.value.isShipped) return 'Shipped';
     if (order.value.isCompleted) return 'Completed';
-    return 'None';
+    return 'Paid';
   }
 
   Stream<List<OrdersModel>> getOrder() {
     return FirebaseFirestore.instance.collection('DonHang').orderBy('NgayTaoDon', descending: true).snapshots().map((query) {
-      List<OrdersModel> orders = query.docs.map((doc) => OrdersModel.fromFirestore(doc)).toList();
+      List<OrdersModel> orders = query.docs.map((doc) => OrdersModel.fromFirestore(doc)).toSet().toList();
       lstProduct.value = orders;
       return orders;
     });
