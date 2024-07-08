@@ -31,6 +31,11 @@ class ProductController extends GetxController {
   TextEditingController priceController = TextEditingController();
   TextEditingController mauSacController = TextEditingController();
   ProductSampleController sampleController = Get.put(ProductSampleController());
+
+    TextEditingController newDescriptionController = TextEditingController();
+  TextEditingController newPriceController = TextEditingController();
+  TextEditingController newNameController = TextEditingController();
+
   Map<int, String> categoryMap = {};
   var itemsPerPage = 8.obs;
   var lstProduct = <ProductModel>[].obs;
@@ -177,7 +182,7 @@ class ProductController extends GetxController {
         Map<String, dynamic> updateData = {
           'DSHinhAnh': uploadedImages.isNotEmpty ? uploadedImages.toList() : product.hinhAnh,
           'GiaTien': int.parse(priceController.text),
-          'KhuyenMai': 10,
+          'KhuyenMai': 0,
           'MaDanhMuc': selectedCategory.value,
           'NgayNhap': Timestamp.now(),
           'Ten': nameController.text,
@@ -215,9 +220,9 @@ class ProductController extends GetxController {
       product.thumbnail = thumbnailName.value;
       if (uploadedImages.isEmpty ||
           thumbnailName.isEmpty ||
-          nameController.text.isEmpty ||
-          priceController.text.isEmpty ||
-          descriptionController.text.isEmpty ||
+          newNameController.text.isEmpty ||
+          newPriceController.text.isEmpty ||
+          newDescriptionController.text.isEmpty ||
           searchCategory.value == 7) {
         TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text(""));
       } else {

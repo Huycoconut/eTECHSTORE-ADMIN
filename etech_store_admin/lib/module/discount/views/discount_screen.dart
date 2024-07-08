@@ -45,7 +45,6 @@ class DisCountScreen extends StatelessWidget {
               }
 
               List<DiscountModel> lstDisCount = snapshot.data!;
-              List<DiscountModel> statusDisCount = lstDisCount.where((element) => element.trangThai == 1).toList();
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -61,16 +60,26 @@ class DisCountScreen extends StatelessWidget {
                           DataColumn(label: Text('Ngày Kết Thúc', style: TextStyle(fontWeight: FontWeight.bold))),
                           DataColumn(label: Text('Thao Tác', style: TextStyle(fontWeight: FontWeight.bold))),
                         ],
-                        rows: List<DataRow>.generate(
-                          statusDisCount.length,
-                          (index) => DataRow(
+                        rows: List<DataRow>.generate(lstDisCount.length, (index) {
+                          print("độ dài: ${lstDisCount.length}");
+                          var ngayKT = (lstDisCount[index].ngayKT).toDate();
+                          var now = DateTime.now();
+                          var isExpired = ngayKT.isBefore(now);
+                          return DataRow(
                             color: MaterialStateColor.resolveWith((states) => index.isEven ? Colors.white : Colors.grey[200]!),
                             cells: [
                               DataCell(SizedBox(width: 10, child: Text((index + 1).toString()))),
-                              DataCell(SizedBox(width: 150, child: Text(statusDisCount[index].ten))),
-                              DataCell(Center(child: SizedBox(width: 150, child: Text("${statusDisCount[index].phanTramKhuyenMai.toString()}%")))),
-                              DataCell(Text(DateFormat('dd-MM-yyyy').format(statusDisCount[index].ngayBD.toDate()))),
-                              DataCell(Text(DateFormat('dd-MM-yyyy').format(statusDisCount[index].ngayKT.toDate()))),
+                              DataCell(SizedBox(
+                                  width: 150,
+                                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(lstDisCount[index].ten),
+                                      isExpired ? Container(child: const Icon(Icons.error_outline_outlined, color: Colors.red)) : Container(),
+                                    ],
+                                  ))),
+                              DataCell(Center(child: SizedBox(width: 150, child: Text("${lstDisCount[index].phanTramKhuyenMai.toString()}%")))),
+                              DataCell(Text(DateFormat('dd-MM-yyyy').format(lstDisCount[index].ngayBD.toDate()))),
+                              DataCell(Text(DateFormat('dd-MM-yyyy').format(lstDisCount[index].ngayKT.toDate()))),
                               DataCell(
                                 Row(
                                   children: [
@@ -94,8 +103,8 @@ class DisCountScreen extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          ),
-                        ),
+                          );
+                        }),
                       ),
                     ),
                   ],

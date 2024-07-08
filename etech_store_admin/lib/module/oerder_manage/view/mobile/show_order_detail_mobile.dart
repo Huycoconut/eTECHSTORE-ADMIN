@@ -3,7 +3,7 @@ import 'package:etech_store_admin/module/oerder_manage/model/detail_orders.dart'
 import 'package:etech_store_admin/module/oerder_manage/model/orders_model.dart';
 import 'package:etech_store_admin/module/oerder_manage/view/desktop/order_manage_screen_desktop.dart';
 import 'package:etech_store_admin/module/product/model/product_model.dart';
- import 'package:etech_store_admin/module/profile/model/profile_model.dart';
+import 'package:etech_store_admin/module/profile/model/profile_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -74,11 +74,9 @@ class ShowDetailOrderMobile {
                                         ? "Đang vận chuyển"
                                         : orderdata.isCompleted == true
                                             ? "Hoàn thành"
-                                            : orderdata.isCancelled == true
-                                                ? "Trả hàng"
-                                                : orderdata.isPaid == true
-                                                    ? "Chờ xác nhận"
-                                                    : "",
+                                            : orderdata.isPaid == true
+                                                ? "Chờ xác nhận"
+                                                : "",
                                 style: TextStyle(
                                     color: orderdata.isBeingShipped == true
                                         ? Colors.red
@@ -86,11 +84,9 @@ class ShowDetailOrderMobile {
                                             ? Colors.orange
                                             : orderdata.isCompleted == true
                                                 ? Colors.green
-                                                : orderdata.isCancelled == true
-                                                    ? Colors.purple
-                                                    : orderdata.isPaid == true
-                                                        ? Colors.blue
-                                                        : Colors.black)),
+                                                : orderdata.isPaid == true
+                                                    ? Colors.blue
+                                                    : Colors.black)),
                             const SizedBox(height: 5),
                             Text(DateFormat('dd-MM-yyyy, hh:mm a').format(orderdata.ngayTaoDon.toDate())),
                           ],

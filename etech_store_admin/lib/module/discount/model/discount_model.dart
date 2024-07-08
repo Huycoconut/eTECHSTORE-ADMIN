@@ -2,26 +2,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DiscountModel {
   String id;
-   Timestamp ngayBD;
+  Timestamp ngayBD;
   Timestamp ngayKT;
   int phanTramKhuyenMai;
   String ten;
+  List<dynamic> dsSanPham;
   int trangThai;
 
-  DiscountModel({
-    required this.id,
-     required this.ngayBD,
-    required this.ngayKT,
-    required this.phanTramKhuyenMai,
-    required this.ten,
-    required this.trangThai,
-  });
+  DiscountModel(
+      {required this.id,
+      required this.ngayBD,
+      required this.ngayKT,
+      required this.phanTramKhuyenMai,
+      required this.ten,
+      required this.trangThai,
+      required this.dsSanPham});
 
   // fromJson method
-  factory DiscountModel.fromJson(Map<String, dynamic> json,) {
+  factory DiscountModel.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return DiscountModel(
-      id: json['id'],
-       ngayBD: json['NgayBD'] as Timestamp,
+      dsSanPham: json['DSSanPham']??[],
+      id: json['id']??'',
+      ngayBD: json['NgayBD'] as Timestamp,
       ngayKT: json['NgayKT'] as Timestamp,
       phanTramKhuyenMai: json['PhanTramKhuyenMai'] as int,
       ten: json['Ten'] as String,
@@ -32,11 +36,13 @@ class DiscountModel {
   // toJson method
   Map<String, dynamic> toJson() {
     return {
-       'NgayBD': ngayBD,
+      'NgayBD': ngayBD,
+      'DSSanPham': dsSanPham,
       'NgayKT': ngayKT,
+      'DSSanPham':dsSanPham,
       'PhanTramKhuyenMai': phanTramKhuyenMai,
       'Ten': ten,
       'TrangThai': trangThai,
-    };
+     };
   }
 }
