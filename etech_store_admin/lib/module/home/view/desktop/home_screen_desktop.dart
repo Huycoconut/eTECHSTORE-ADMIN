@@ -1,5 +1,6 @@
 import 'package:etech_store_admin/main.dart';
 import 'package:etech_store_admin/module/category/views/category_screen.dart';
+import 'package:etech_store_admin/module/discount/views/discount_add_screen.dart';
 import 'package:etech_store_admin/module/discount/views/discount_screen.dart';
 import 'package:etech_store_admin/module/homepage/views/homepage.dart';
 import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen.dart';
@@ -38,7 +39,8 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
     const AddUserScreen(),
     ProductManageDesktopScreen(),
     AddProductScreen(),
-    const DisCountScreen()
+    const DisCountScreen(),
+    AddDiscountScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -125,6 +127,12 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                           style: TextStyle(color: Colors.white)),
                       onTap: () {
                         _onItemTapped(9);
+                      },
+                    ),
+                     ListTile(
+                      title: const Text('Thêm Khuyến Mãi', style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        _onItemTapped(10);
                       },
                     ),
                   ],

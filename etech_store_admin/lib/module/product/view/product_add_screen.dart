@@ -322,7 +322,7 @@ class AddProductScreen extends StatelessWidget {
  
 
                                 ProductModel newProduct = ProductModel(
-                                  KhuyenMai: 1,
+                                  KhuyenMai: 0,
                                   id: productController.generateId(),
                                   ten: productController.newNameController.text,
                                   moTa: productController.newDescriptionController.text,

@@ -199,7 +199,7 @@ class ProductController extends GetxController {
         Map<String, dynamic> updateData = {
           'DSHinhAnh': uploadedImages.isNotEmpty ? uploadedImages.toList() : product.hinhAnh,
           'GiaTien': int.parse(priceController.text),
-          'KhuyenMai': 10,
+          'KhuyenMai': 0,
           'MaDanhMuc': selectedCategory.value,
           'NgayNhap': Timestamp.now(),
           'Ten': nameController.text,

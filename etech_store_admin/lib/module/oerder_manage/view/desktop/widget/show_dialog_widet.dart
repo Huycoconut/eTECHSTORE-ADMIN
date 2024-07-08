@@ -78,11 +78,9 @@ class ShowDiaLogOrderDetail {
                                           ? "Đang vận chuyển"
                                           : orderdata.isCompleted == true
                                               ? "Hoàn thành"
-                                              : orderdata.isCancelled == true
-                                                  ? "Trả hàng"
-                                                  : orderdata.isPaid == true
-                                                      ? "Chờ xác nhận"
-                                                      : "",
+                                              : orderdata.isPaid == true
+                                                  ? "Chờ xác nhận"
+                                                  : "",
                                   style: TextStyle(
                                       color: orderdata.isBeingShipped == true
                                           ? Colors.red
@@ -90,11 +88,9 @@ class ShowDiaLogOrderDetail {
                                               ? Colors.orange
                                               : orderdata.isCompleted == true
                                                   ? Colors.green
-                                                  : orderdata.isCancelled == true
-                                                      ? Colors.purple
-                                                      : orderdata.isPaid == true
-                                                          ? Colors.blue
-                                                          : Colors.black)),
+                                                  : orderdata.isPaid == true
+                                                      ? Colors.blue
+                                                      : Colors.black)),
                               const SizedBox(height: 5),
                               Text(DateFormat('dd-MM-yyyy, hh:mm a').format(orderdata.ngayTaoDon.toDate())),
                               const SizedBox(height: 5),

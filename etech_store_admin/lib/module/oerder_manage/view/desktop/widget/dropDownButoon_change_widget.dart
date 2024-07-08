@@ -1,5 +1,4 @@
 import 'package:etech_store_admin/module/oerder_manage/controller/order_manage_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +20,7 @@ class _DropDownButtonChangeWidgetState extends State<DropDownButtonChangeWidget>
         return Container(
           height: 23,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-          decoration: BoxDecoration( border: Border.all(width: .5,color: const Color.fromARGB(255, 212, 212, 212))),
+          decoration: BoxDecoration(border: Border.all(width: .5, color: const Color.fromARGB(255, 212, 212, 212))),
           child: Obx(
             () => DropdownButton<String>(
               icon: const Icon(Icons.arrow_drop_down),
@@ -33,15 +32,13 @@ class _DropDownButtonChangeWidgetState extends State<DropDownButtonChangeWidget>
                 DropdownMenuItem(value: 'Being Shipped', child: Text('Đã hủy', style: TextStyle(fontSize: 14))),
                 DropdownMenuItem(value: 'Shipped', child: Text('Đang vận chuyển', style: TextStyle(fontSize: 14))),
                 DropdownMenuItem(value: 'Completed', child: Text('Thành công', style: TextStyle(fontSize: 14))),
-                DropdownMenuItem(value: 'Cancelled', child: Text('Trả hàng', style: TextStyle(fontSize: 14))),
               ],
               onChanged: (String? newValue) {
                 setState(() {
-                     if (newValue != null) {
-                  controller.updateOrder(widget.maDonHang, newValue);
-                }
+                  if (newValue != null) {
+                    controller.updateOrder(widget.maDonHang, newValue);
+                  }
                 });
-             
               },
             ),
           ),

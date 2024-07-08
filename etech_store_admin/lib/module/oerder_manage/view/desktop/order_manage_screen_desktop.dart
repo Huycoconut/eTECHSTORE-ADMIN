@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etech_store_admin/module/oerder_manage/controller/order_manage_controller.dart';
 import 'package:etech_store_admin/module/oerder_manage/model/orders_model.dart';
 import 'package:etech_store_admin/module/oerder_manage/view/desktop/widget/show_dialog_widet.dart';
@@ -8,9 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../product/model/product_model.dart';
 import '../../../profile/model/profile_model.dart';
-import '../../model/detail_orders.dart';
 
 class OrderManageDesktopScreen extends StatelessWidget {
   const OrderManageDesktopScreen({super.key});
@@ -109,7 +106,7 @@ class OrderManageDesktopScreen extends StatelessWidget {
                           return const Center(child: Text('Không có dữ liệu người dùng'));
                         } else {
                           List<ProfileModel> profiles = profileSnapshot.data!;
-        
+
                           return Obx(() {
                             List<OrdersModel> filteredOrders = orders.where((order) {
                               final customer = profiles.firstWhere((profile) => profile.uid == order.maKhachHang,
@@ -130,22 +127,22 @@ class OrderManageDesktopScreen extends StatelessWidget {
                                       : order.isCompleted
                                           ? "Hoàn thành"
                                           : "Chưa hoàn thành";
-        
+
                               return order.id.toLowerCase().contains(controller.searchOrderId.value.toLowerCase()) &&
                                   customer.HoTen.toLowerCase().contains(controller.searchCustomerName.value.toLowerCase()) &&
                                   status.toLowerCase().contains(controller.searchStatus.value.toLowerCase());
                             }).toList();
-        
+
                             if (controller.searchCustomerName.value.isEmpty &&
                                 controller.searchOrderId.value.isEmpty &&
                                 controller.searchStatus.value.isEmpty) {
                               filteredOrders = controller.lstProduct;
                             }
-        
+
                             int startIndex = (controller.currentPage.value - 1) * controller.itemsPerPage.value;
                             int endIndex = startIndex + controller.itemsPerPage.value;
                             List<OrdersModel> paginatedOrders = filteredOrders.sublist(startIndex, endIndex.clamp(0, filteredOrders.length));
-        
+
                             return SizedBox(
                               width: double.infinity,
                               child: SingleChildScrollView(
@@ -196,23 +193,17 @@ class OrderManageDesktopScreen extends StatelessWidget {
                                                           ? "Đang vận chuyển"
                                                           : order.isCompleted == true
                                                               ? "Thành công"
-                                                              : order.isCancelled == true
-                                                                  ? "Trả hàng"
-                                                                  : order.isPaid == true
-                                                                      ? "Chờ xác nhận"
-                                                                      : "",
+                                                              : "Chờ xác nhận",
                                                   style: TextStyle(
                                                       color: order.isBeingShipped == true
                                                           ? Colors.red
                                                           : order.isShipped == true
                                                               ? Colors.orange
                                                               : order.isCompleted == true
-                                                                  ? Colors.green
-                                                                  : order.isCancelled == true
-                                                                      ? Colors.purple
-                                                                      : order.isPaid == true
-                                                                          ? Colors.blue
-                                                                          : Colors.black),
+                                                                  ? Colors.green:
+                                                                
+                                                                      Colors.blue
+                                                                      ),
                                                 )),
                                                 DataCell(ElevatedButton(
                                                   style: ElevatedButton.styleFrom(
