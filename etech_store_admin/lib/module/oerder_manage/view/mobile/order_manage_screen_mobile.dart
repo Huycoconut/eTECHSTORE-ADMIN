@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etech_store_admin/module/oerder_manage/controller/order_manage_controller.dart';
 import 'package:etech_store_admin/module/oerder_manage/model/orders_model.dart';
 import 'package:etech_store_admin/module/oerder_manage/view/desktop/widget/show_dialog_widet.dart';
@@ -7,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../product/model/product_model.dart';
 import '../../../profile/model/profile_model.dart';
-import '../../model/detail_orders.dart';
 
 class OrderManageMobileScreen extends StatelessWidget {
   const OrderManageMobileScreen({super.key});
@@ -158,11 +155,9 @@ class OrderManageMobileScreen extends StatelessWidget {
                                                       ? "Đang vận chuyển"
                                                       : order.isCompleted == true
                                                           ? "Thành công"
-                                                          : order.isCancelled == true
-                                                              ? "Trả hàng"
-                                                              : order.isPaid == true
-                                                                  ? "Đang chuẩn bị"
-                                                                  : "",
+                                                          : order.isPaid == true
+                                                              ? "Đang chuẩn bị"
+                                                              : "",
                                               style: TextStyle(
                                                   color: order.isBeingShipped == true
                                                       ? Colors.red
@@ -170,11 +165,9 @@ class OrderManageMobileScreen extends StatelessWidget {
                                                           ? Colors.orange
                                                           : order.isCompleted == true
                                                               ? Colors.green
-                                                              : order.isCancelled == true
-                                                                  ? Colors.purple
-                                                                  : order.isPaid == true
-                                                                      ? Colors.blue
-                                                                      : Colors.black,
+                                                              : order.isPaid == true
+                                                                  ? Colors.blue
+                                                                  : Colors.black,
                                                   fontSize: 10),
                                             )),
                                             DataCell(ElevatedButton(

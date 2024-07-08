@@ -5,22 +5,20 @@ class OrdersModel {
   final Timestamp ngayTaoDon;
   final String maKhachHang;
   final int tongTien;
-   bool isPaid;
+  bool isPaid;
   bool isBeingShipped;
   bool isShipped;
   bool isCompleted;
-  bool isCancelled;
 
   OrdersModel({
     required this.id,
     required this.ngayTaoDon,
     required this.maKhachHang,
     required this.tongTien,
-     required this.isPaid,
+    required this.isPaid,
     required this.isBeingShipped,
     required this.isShipped,
     required this.isCompleted,
-    required this.isCancelled,
   });
 
   factory OrdersModel.fromFirestore(DocumentSnapshot doc) {
@@ -30,11 +28,10 @@ class OrdersModel {
       ngayTaoDon: data['NgayTaoDon'],
       maKhachHang: data['MaKhachHang'],
       tongTien: data['TongTien'],
-       isPaid: data['isPaid'] ?? false,
+      isPaid: data['isPaid'] ?? false,
       isBeingShipped: data['isBeingShipped'] ?? false,
       isShipped: data['isShipped'] ?? false,
       isCompleted: data['isCompleted'] ?? false,
-      isCancelled: data['isCancelled'] ?? false,
     );
   }
 
@@ -43,7 +40,6 @@ class OrdersModel {
     isBeingShipped = selectedValue == 'Being Shipped';
     isShipped = selectedValue == 'Shipped';
     isCompleted = selectedValue == 'Completed';
-    isCancelled = selectedValue == 'Cancelled';
   }
 
   Map<String, dynamic> toJson() {
@@ -52,11 +48,10 @@ class OrdersModel {
       'NgayTaoDon': ngayTaoDon,
       'MaKhachHang': maKhachHang,
       'TongTien': tongTien,
-       'isPaid': isPaid,
+      'isPaid': isPaid,
       'isBeingShipped': isBeingShipped,
       'isShipped': isShipped,
       'isCompleted': isCompleted,
-      'isCancelled': isCancelled,
     };
   }
 }

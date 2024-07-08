@@ -15,7 +15,7 @@ class OrderManageController extends GetxController {
   var lstProduct = <OrdersModel>[].obs;
   var currentPage = 1.obs;
   RxString selectedStatus = 'Chờ xác nhận'.obs;
-  List<String> listStatus = ['Chờ xác nhận', 'Đang giao', 'Thành công', 'Đã hủy', 'Trả hàng'].obs;
+  List<String> listStatus = ['Chờ xác nhận', 'Đang giao', 'Thành công', 'Đã hủy'].obs;
 
   var order = OrdersModel(
     id: '',
@@ -26,7 +26,6 @@ class OrderManageController extends GetxController {
     isBeingShipped: false,
     isShipped: false,
     isCompleted: false,
-    isCancelled: false,
   ).obs;
 
   void updatePage(int page) {
@@ -48,7 +47,6 @@ class OrderManageController extends GetxController {
     if (order.value.isBeingShipped) return 'Being Shipped';
     if (order.value.isShipped) return 'Shipped';
     if (order.value.isCompleted) return 'Completed';
-    if (order.value.isCancelled) return 'Cancelled';
     return 'None';
   }
 
