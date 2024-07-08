@@ -193,19 +193,17 @@ class OrderManageDesktopScreen extends StatelessWidget {
                                                           ? "Đang vận chuyển"
                                                           : order.isCompleted == true
                                                               ? "Thành công"
-                                                              :  order.isBeingShipped &&  order.isShipped && order.isCompleted == false
-                                                                  ? "Chờ xác nhận"
-                                                                  : "Hello",
+                                                              : "Chờ xác nhận",
                                                   style: TextStyle(
                                                       color: order.isBeingShipped == true
                                                           ? Colors.red
                                                           : order.isShipped == true
                                                               ? Colors.orange
                                                               : order.isCompleted == true
-                                                                  ? Colors.green
-                                                                  :  order.isBeingShipped &&  order.isShipped && order.isCompleted  == false
-                                                                      ? Colors.blue
-                                                                      : Colors.black),
+                                                                  ? Colors.green:
+                                                                
+                                                                      Colors.blue
+                                                                      ),
                                                 )),
                                                 DataCell(ElevatedButton(
                                                   style: ElevatedButton.styleFrom(

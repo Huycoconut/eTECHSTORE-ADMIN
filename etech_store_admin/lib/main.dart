@@ -3,6 +3,7 @@ import 'package:etech_store_admin/module/auth/views/home_sign_in.dart';
 import 'package:etech_store_admin/module/discount/views/discount_add_screen.dart';
 import 'package:etech_store_admin/module/discount/views/discount_screen.dart';
 import 'package:etech_store_admin/module/home/home_screen.dart';
+import 'package:etech_store_admin/module/home/view/desktop/home_screen_desktop.dart';
 import 'package:etech_store_admin/module/profile/view/desktop/add_user_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -66,7 +67,7 @@ class AuthWrapper extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasData) {
-          return const Home();
+          return const HomeScreenDesktop();
         } else {
           return const HomeSignIn();
         }
