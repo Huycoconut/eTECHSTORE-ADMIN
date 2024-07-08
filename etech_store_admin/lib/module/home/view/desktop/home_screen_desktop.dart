@@ -129,12 +129,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                         _onItemTapped(9);
                       },
                     ),
-                     ListTile(
-                      title: const Text('Thêm Khuyến Mãi', style: TextStyle(color: Colors.white)),
-                      onTap: () {
-                        _onItemTapped(10);
-                      },
-                    ),
+                 
                   ],
                 ),
                 ExpansionTile(
@@ -148,6 +143,11 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                           style: TextStyle(color: Colors.white)),
                       onTap: () {
                         _onItemTapped(10);
+                      },
+                    ),    ListTile(
+                      title: const Text('Thêm Khuyến Mãi', style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        _onItemTapped(11);
                       },
                     ),
                   ],

@@ -36,7 +36,7 @@ class OrdersModel {
   }
 
   void updateState(String selectedValue) {
-    isPaid = selectedValue == 'Paid';
+   
     isBeingShipped = selectedValue == 'Being Shipped';
     isShipped = selectedValue == 'Shipped';
     isCompleted = selectedValue == 'Completed';

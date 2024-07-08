@@ -78,9 +78,7 @@ class ShowDiaLogOrderDetail {
                                           ? "Đang vận chuyển"
                                           : orderdata.isCompleted == true
                                               ? "Hoàn thành"
-                                              : orderdata.isPaid == true
-                                                  ? "Chờ xác nhận"
-                                                  : "",
+                                              : "Chờ xác nhận",
                                   style: TextStyle(
                                       color: orderdata.isBeingShipped == true
                                           ? Colors.red
@@ -88,9 +86,7 @@ class ShowDiaLogOrderDetail {
                                               ? Colors.orange
                                               : orderdata.isCompleted == true
                                                   ? Colors.green
-                                                  : orderdata.isPaid == true
-                                                      ? Colors.blue
-                                                      : Colors.black)),
+                                                  : Colors.blue)),
                               const SizedBox(height: 5),
                               Text(DateFormat('dd-MM-yyyy, hh:mm a').format(orderdata.ngayTaoDon.toDate())),
                               const SizedBox(height: 5),

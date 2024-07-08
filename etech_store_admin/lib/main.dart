@@ -46,7 +46,7 @@ Future main() async {
           darkTheme: dark,
           initialRoute: '/',
           getPages: [
-            GetPage(name: '/', page: () =>   Home()),
+            GetPage(name: '/', page: () =>   AuthWrapper()),
           ],
         );
       }));
