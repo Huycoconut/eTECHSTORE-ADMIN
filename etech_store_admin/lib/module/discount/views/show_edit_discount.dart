@@ -19,6 +19,9 @@ class ShowDialogEditDisCount {
       builder: (context) {
         final DiscountController controller = Get.put(DiscountController());
         controller.initializeProduct(disCount);
+        DateTime ngayBD = disCount.ngayBD.toDate();
+        DateTime ngayKT = disCount.ngayKT.toDate();
+
         return StreamBuilder(
             stream: controller.getDiscount(),
             builder: (context, snapshotDsiCount) {
@@ -34,12 +37,12 @@ class ShowDialogEditDisCount {
                     }
                     final data = snapshot.data!;
                     List<ProductModel> lstProduct = data.toList();
-        
+
                     List<ProductModel> fillterProduct = lstProduct
-                        .where((product) => lstDisCount.any((element) => element.dsSanPham.contains(product.id) && element.id == disCount.id))
+                        .where((product) => lstDisCount
+                            .any((element) => element.dsSanPham.contains(product.id) && element.id == disCount.id || product.KhuyenMai == 0))
                         .toList();
-                    DateTime ngayBD = disCount.ngayBD.toDate();
-                      DateTime ngayKT = disCount.ngayKT.toDate();
+
                     return Dialog(
                       child: Container(
                         color: Colors.white,
@@ -104,7 +107,7 @@ class ShowDialogEditDisCount {
                                               keyboardType: TextInputType.number,
                                             ),
                                           ),
-                                  const SizedBox(height: 5),
+                                          const SizedBox(height: 5),
                                           const Text(("Thời Gian"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                                           const SizedBox(height: 5),
                                           SizedBox(
@@ -123,10 +126,11 @@ class ShowDialogEditDisCount {
                                                         DatePicker(
                                                           minDate: DateTime(2020),
                                                           maxDate: DateTime(2100),
-                                                          initialDate:ngayBD,
+                                                          selectedDate: ngayBD,
                                                           onDateSelected: (date) {
                                                             controller.startDate = date;
                                                           },
+                                                          currentDateTextStyle: const TextStyle(decoration: TextDecoration.none),
                                                         ),
                                                       ],
                                                     ),
@@ -135,7 +139,7 @@ class ShowDialogEditDisCount {
                                                 const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
                                                 Expanded(
                                                   child: Container(
-                                                    margin: EdgeInsets.only(right: 5),
+                                                    margin: const EdgeInsets.only(right: 5),
                                                     decoration: BoxDecoration(border: Border.all(width: .5)),
                                                     padding: const EdgeInsets.all(5),
                                                     child: Column(
@@ -146,10 +150,11 @@ class ShowDialogEditDisCount {
                                                         DatePicker(
                                                           minDate: DateTime(2020),
                                                           maxDate: DateTime(2100),
-                                                          initialDate:ngayKT,
+                                                          selectedDate: ngayKT,
                                                           onDateSelected: (date) {
                                                             controller.endDate = date;
                                                           },
+                                                          currentDateTextStyle: const TextStyle(decoration: TextDecoration.none),
                                                         ),
                                                       ],
                                                     ),
@@ -172,10 +177,25 @@ class ShowDialogEditDisCount {
                                                   child: SingleChildScrollView(
                                                     child: Column(
                                                       children: fillterProduct.map((product) {
+                                                        bool isInDiscount = disCount.dsSanPham.contains(product.id);
+
                                                         return ListTile(
-                                                          title: Container(
-                                                            margin: const EdgeInsets.only(right: 80),
-                                                            child: Text(product.id.toString()),
+                                                          title: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            children: [
+                                                              Container(
+                                                                width: MediaQuery.of(context).size.width / 5,
+                                                                margin: const EdgeInsets.only(right: 20),
+                                                                child: Text(
+                                                                  product.ten.toString(),
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                ),
+                                                              ),
+                                                              isInDiscount
+                                                                  ? const Text("Sản phẩm hiện có",
+                                                                      style: TextStyle(color: Color.fromARGB(142, 158, 158, 158)))
+                                                                  : Container()
+                                                            ],
                                                           ),
                                                           leading: Obx(() => Checkbox(
                                                                 value: controller.selectedProductId.contains(product.id),
@@ -187,6 +207,16 @@ class ShowDialogEditDisCount {
                                                                   }
                                                                 },
                                                               )),
+                                                          trailing: isInDiscount
+                                                              ? IconButton(
+                                                                  onPressed: () {
+                                                                    int index = disCount.dsSanPham.indexOf(product.id);
+                                                                    if (index != -1) {
+                                                                      controller.removeProductInDisCount(disCount, index, product.id);
+                                                                    }
+                                                                  },
+                                                                  icon: const Icon(Icons.remove_circle_outline, color: Colors.redAccent))
+                                                              : null,
                                                         );
                                                       }).toList(),
                                                     ),
@@ -202,6 +232,7 @@ class ShowDialogEditDisCount {
                                               GestureDetector(
                                                 onTap: () {
                                                   controller.updateDisCount(disCount.id, disCount);
+                                                  controller.saveSelectedProducts(disCount);
                                                 },
                                                 child: Container(
                                                   width: MediaQuery.of(context).size.width / 3,
