@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:etech_store_admin/main.dart';
 import 'package:etech_store_admin/utlis/connection/network_manager.dart';
+import 'package:etech_store_admin/utlis/helpers/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -29,15 +31,12 @@ class AuthServices extends GetxController {
     try {
       await auth.createUserWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
+      TLoaders.warningSnackBar(title: "Thông báo", message: "Sai tài khoản hoặc mật khẩu");
     }
   }
 
   //SignUp
   Future<UserCredential?> createUser(String email, String password, String hoten, int sodienthoai, String diaChi, bool quyen, String hinhAnh) async {
-
-
-    
     UserCredential userCredential = await auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -51,14 +50,16 @@ class AuthServices extends GetxController {
       'Quyen': quyen,
       'SoDienThoai': sodienthoai,
       'DiaChi': diaChi,
-      'TrangThai':1
+      'TrangThai': 1
     });
     return userCredential;
   }
 
   Future<void> signOut() async {
     try {
-      await auth.signOut();
+      await auth.signOut().then((value) {
+        return AuthWrapper();
+      });
     } catch (e) {
       Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
