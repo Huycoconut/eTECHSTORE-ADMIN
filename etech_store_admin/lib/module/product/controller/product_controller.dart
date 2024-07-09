@@ -23,7 +23,7 @@ class ProductController extends GetxController {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   RxList<String> uploadedImages = <String>[].obs;
-  RxString thumbnailName = ''.obs;
+  late RxString thumbnailName = ''.obs;
   RxList<Uint8List> uploadedImageBytes = <Uint8List>[].obs;
   Rxn<Uint8List?> thumbnailBytes = Rxn<Uint8List>();
   RxList<String> uploadedImageNames = <String>[].obs;
@@ -111,11 +111,16 @@ class ProductController extends GetxController {
   }
 
   Future<void> removeListImage(ProductModel product, int e) async {
-    int indexToRemove = product.hinhAnh.indexOf(e);
-    if (indexToRemove != -1) {
-      product.hinhAnh.removeAt(indexToRemove);
+    try {
+      print("Xoa hinh anh ");
+      int indexToRemove = product.hinhAnh.indexOf(e);
+      if (indexToRemove != -1) {
+        product.hinhAnh.removeAt(indexToRemove);
+      }
+      await FirebaseFirestore.instance.collection('SanPham').doc(product.id).update({'DSHinhAnh': product.hinhAnh});
+    } catch (e) {
+      print("Error: $e");
     }
-    await FirebaseFirestore.instance.collection('SanPham').doc(product.id).update({'DSHinhAnh': product.hinhAnh});
   }
 
   Stream<List<CategoryModel>> getCategories() {
@@ -170,7 +175,10 @@ class ProductController extends GetxController {
 
   Future<void> updateProduct(String id, ProductModel product) async {
     try {
+      // Truy vấn sản phẩm với id
       QuerySnapshot querySnapshot = await _firestore.collection("SanPham").where('id', isEqualTo: id).get();
+
+      // Upload hình ảnh nếu có
       for (int i = 0; i < uploadedImageBytes.length; i++) {
         final storageRef = _storage.ref().child('products/${uploadedImageNames[i]}');
         final metadata = firebase_storage.SettableMetadata(
@@ -183,35 +191,41 @@ class ProductController extends GetxController {
         });
       }
 
-      // Upload thumbnail
-      final storageRef = _storage.ref().child('thumbnails/${thumbnailName.value}');
-      final metadata = firebase_storage.SettableMetadata(
-        contentType: 'image/png',
-      );
-      UploadTask uploadTask = storageRef.putData(thumbnailBytes.value!, metadata);
+      // Upload thumbnail nếu có
+      if (thumbnailBytes.value != null) {
+        final storageRef = _storage.ref().child('thumbnails/${thumbnailName.value}');
+        final metadata = firebase_storage.SettableMetadata(
+          contentType: 'image/png',
+        );
+        UploadTask uploadTask = storageRef.putData(thumbnailBytes.value!, metadata);
 
-      await uploadTask.whenComplete(() async {
-        thumbnailName.value = await storageRef.getDownloadURL();
-      });
+        await uploadTask.whenComplete(() async {
+          thumbnailName.value = await storageRef.getDownloadURL();
+        });
+      }
 
       for (var doc in querySnapshot.docs) {
         String documentId = doc.id;
+
+        // Kiểm tra các trường và lấy giá trị mới hoặc giữ nguyên giá trị cũ
         Map<String, dynamic> updateData = {
           'DSHinhAnh': uploadedImages.isNotEmpty ? uploadedImages.toList() : product.hinhAnh,
-          'GiaTien': int.parse(priceController.text),
-          'KhuyenMai': 0,
-          'MaDanhMuc': selectedCategory.value,
-          'NgayNhap': Timestamp.now(),
-          'Ten': nameController.text,
+          'GiaTien': priceController.text.isNotEmpty ? int.parse(priceController.text) : product.giaTien,
+          'MaDanhMuc': selectedCategory.value != 0 ? selectedCategory.value : product.maDanhMuc,
+          'Ten': nameController.text.isNotEmpty ? nameController.text : product.ten,
           'TrangThai': true,
           'thumbnail': thumbnailName.value.isNotEmpty ? thumbnailName.value : product.thumbnail,
-          'MoTa': descriptionController.text,
+          'MoTa': descriptionController.text.isNotEmpty ? descriptionController.text : product.moTa,
         };
-        await _firestore.collection("SanPham").doc(documentId).update(updateData);
+
+        await _firestore.collection('SanPham').doc(documentId).update(updateData);
       }
-      TLoaders.showSuccessPopup(title: "Thông báo", description: "Lưu Thành Công", onDismissed: () => const Text(""));
+
+      Future.delayed(const Duration(seconds: 2), () => TLoaders.showSuccessPopup(title: "Thông Báo", description: "Lưu Thành Công"));
     } catch (e) {
-      TLoaders.showErrorPopup(title: "Thông báo", description: "Lưu Thất Bại", onDismissed: () => const Text(""));
+      Future.delayed(const Duration(seconds: 2), () => TLoaders.showErrorPopup(title: "Thông Báo", description: "Lưu Thất Bại"));
+    } finally {
+      FullScreenLoader.openLoadingDialog("Đang xử lý", ImageKey.loadingAnimation);
     }
   }
 
@@ -275,10 +289,7 @@ class ProductController extends GetxController {
       Future.delayed(const Duration(seconds: 2),
           () => TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text("")));
     } finally {
-      FullScreenLoader.openLoadingDialog(
-        "Đang xử lý",
-        ImageKey.loadingAnimation,
-      );
+      FullScreenLoader.openLoadingDialog("Đang xử lý", ImageKey.loadingAnimation);
     }
   }
 

@@ -1,4 +1,4 @@
-import 'package:etech_store_admin/module/oerder_manage/view/desktop/order_manage_screen_desktop.dart';
+import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen_desktop.dart';
 import 'package:etech_store_admin/module/report/controllers/order_controller.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
