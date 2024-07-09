@@ -1,4 +1,6 @@
 import 'package:etech_store_admin/module/category/controllers/category_controller.dart';
+import 'package:etech_store_admin/utlis/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -43,7 +45,7 @@ class CategoryScreen extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8.0),
-                    width: 220,
+                    width: 225,
                     child: ElevatedButton(
                         onPressed: () {
                           showDialog(
@@ -52,37 +54,31 @@ class CategoryScreen extends StatelessWidget {
                               return AlertDialog(
                                 title: const Text('Thêm danh mục sản phẩm'),
                                 content: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 3,
+                                  height: MediaQuery.of(context).size.height / 3,
                                   child: Column(
                                     children: [
                                       TextField(
                                         controller: tenDanhMuc,
-                                        decoration: const InputDecoration(
-                                            labelText: "Tên danh mục"),
+                                        decoration: const InputDecoration(labelText: "Tên danh mục"),
                                       ),
                                       TextField(
                                         controller: moTa,
-                                        decoration: const InputDecoration(
-                                            labelText: "Mô tả"),
+                                        decoration: const InputDecoration(labelText: "Mô tả"),
                                       ),
                                       TextField(
                                         controller: hinhAnh,
-                                        decoration: const InputDecoration(
-                                            labelText: "Icon"),
+                                        decoration: const InputDecoration(labelText: "Icon"),
                                       )
                                     ],
                                   ),
                                 ),
                                 actions: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       TextButton(
                                         onPressed: () {
-                                          catController.addCat(tenDanhMuc.text,
-                                              moTa.value.text, hinhAnh.text);
+                                          catController.addCat(tenDanhMuc.text, moTa.value.text, hinhAnh.text);
                                           Navigator.of(context).pop();
                                         },
                                         child: const Text('Thêm'),
@@ -100,8 +96,7 @@ class CategoryScreen extends StatelessWidget {
                             },
                           );
                         },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF383CA0)),
+                        style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF383CA0)),
                         child: const Row(
                           children: [
                             Icon(
@@ -116,89 +111,58 @@ class CategoryScreen extends StatelessWidget {
                         )),
                   ),
                   Container(
-                    margin: const EdgeInsets.all(8),
+                   
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1),
-                      color: Colors.white,
-                    ),
                     child: SingleChildScrollView(
                       child: DataTable(
                           sortColumnIndex: 4,
                           sortAscending: catController.sortAscending.value,
                           dataRowMaxHeight: double.infinity,
-                          border: const TableBorder(
-                            verticalInside:
-                                BorderSide(width: 1, style: BorderStyle.solid),
-                            horizontalInside:
-                                BorderSide(width: 1, style: BorderStyle.solid),
-                          ),
-                          columnSpacing:
-                              MediaQuery.of(context).size.width / 200,
+                          columnSpacing: MediaQuery.of(context).size.width / 200,
                           dividerThickness: 0,
-                          dataRowColor:
-                              MaterialStateProperty.all(Colors.transparent),
+                          dataRowColor: MaterialStateProperty.all(Colors.transparent),
                           columns: [
                             const DataColumn(
-                                label: Text('id',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            const DataColumn(
-                                label: Wrap(
-                              children: [
-                                Text('Tên danh mục',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                              ],
+                                label: Padding(
+                              padding: EdgeInsets.only(left: 1),
+                              child: Text('id', style: TextStyle(fontWeight: FontWeight.bold)),
                             )),
                             const DataColumn(
-                                label: Text('Mô tả',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            const DataColumn(
-                                label: Text('Icon',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
+                                label: Padding(
+                              padding: EdgeInsets.only(right: 40),
+                              child: Wrap(
+                                children: [
+                                  Text('Tên danh mục', style: TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            )),
+                            const DataColumn(label: Text('Mô tả', style: TextStyle(fontWeight: FontWeight.bold))),
+                            const DataColumn(label: Text('Loại', style: TextStyle(fontWeight: FontWeight.bold))),
                             DataColumn(
-                                label: const Text('Trạng thái',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                onSort: catController.onSortColumn),
-                            const DataColumn(
-                                label: Text('Thao tác',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
+                                label: const Text('Trạng thái', style: TextStyle(fontWeight: FontWeight.bold)), onSort: catController.onSortColumn),
+                            const DataColumn(label: Text('Thao tác', style: TextStyle(fontWeight: FontWeight.bold))),
                           ],
-                          rows: List<DataRow>.generate(
-                              catController.listCat.length, (index) {
+                          rows: List<DataRow>.generate(catController.listCat.length, (index) {
                             final cat = catController.listCat[index];
-                            TextEditingController tenDanhMucEdit =
-                                TextEditingController(text: cat.TenDanhMuc);
-                            TextEditingController moTaEdit =
-                                TextEditingController(text: cat.MoTa);
-                            TextEditingController hinhAnhEdit =
-                                TextEditingController(text: cat.HinhAnh);
+                            TextEditingController tenDanhMucEdit = TextEditingController(text: cat.TenDanhMuc);
+                            TextEditingController moTaEdit = TextEditingController(text: cat.MoTa);
+                            TextEditingController hinhAnhEdit = TextEditingController(text: cat.HinhAnh);
                             return DataRow(
-                                color: MaterialStateColor.resolveWith(
-                                    (states) => index.isEven
-                                        ? Colors.grey.shade300
-                                        : Colors.white),
+                                color: MaterialStateColor.resolveWith((states) => index.isEven ? TColros.grey_wheat : Colors.white),
                                 cells: [
-                                  DataCell(
-                                      Center(child: Text(cat.id.toString()))),
-                                  DataCell(Center(child: Text(cat.TenDanhMuc))),
-                                  DataCell(SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 3,
-                                    child: Text(cat.MoTa),
+                                  DataCell(Text(cat.id.toString())),
+                                  DataCell(Align(alignment: Alignment.centerLeft, child: Text(cat.TenDanhMuc))),
+                                  DataCell(Align(alignment: Alignment.centerLeft,
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width / 3,
+                                      child: Text(cat.MoTa),
+                                    ),
                                   )),
-                                  DataCell(Center(child: Text(cat.HinhAnh))),
+                                  DataCell(Text(cat.HinhAnh)),
                                   DataCell(Switch(
                                     value: cat.TrangThai == 1 ? true : false,
                                     onChanged: (isOn) {
-                                      catController.updateStatusCat(
-                                          cat.TrangThai == 1 ? true : false,
-                                          cat.id);
+                                      catController.updateStatusCat(cat.TrangThai == 1 ? true : false, cat.id);
                                     },
                                     activeTrackColor: Colors.green,
                                     inactiveTrackColor: Colors.grey,
@@ -206,76 +170,48 @@ class CategoryScreen extends StatelessWidget {
                                   DataCell(Row(
                                     children: [
                                       IconButton(
-                                        icon: const Icon(Icons.edit,
-                                            color: Colors.blue),
+                                        icon: const Icon(Icons.edit, color: Colors.blue),
                                         onPressed: () {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
                                               return AlertDialog(
-                                                title: const Text(
-                                                    'Sửa danh mục sản phẩm'),
+                                                title: const Text('Sửa danh mục sản phẩm'),
                                                 content: SizedBox(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                      3,
+                                                  height: MediaQuery.of(context).size.height / 3,
                                                   child: Column(
                                                     children: [
                                                       TextField(
-                                                        controller:
-                                                            tenDanhMucEdit,
-                                                        decoration:
-                                                            const InputDecoration(
-                                                                labelText:
-                                                                    "Tên danh mục"),
+                                                        controller: tenDanhMucEdit,
+                                                        decoration: const InputDecoration(labelText: "Tên danh mục"),
                                                       ),
                                                       TextField(
                                                         controller: moTaEdit,
-                                                        decoration:
-                                                            const InputDecoration(
-                                                                labelText:
-                                                                    "Mô tả"),
+                                                        decoration: const InputDecoration(labelText: "Mô tả"),
                                                       ),
                                                       TextField(
                                                         controller: hinhAnhEdit,
-                                                        decoration:
-                                                            const InputDecoration(
-                                                                labelText:
-                                                                    "Icon"),
+                                                        decoration: const InputDecoration(labelText: "Icon"),
                                                       )
                                                     ],
                                                   ),
                                                 ),
                                                 actions: [
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                     children: [
                                                       TextButton(
                                                         onPressed: () {
-                                                          catController
-                                                              .updateCat(
-                                                                  tenDanhMucEdit
-                                                                      .text,
-                                                                  moTaEdit.text,
-                                                                  hinhAnhEdit
-                                                                      .text,
-                                                                  cat.id);
-                                                          Navigator.of(context)
-                                                              .pop();
+                                                          catController.updateCat(tenDanhMucEdit.text, moTaEdit.text, hinhAnhEdit.text, cat.id);
+                                                          Navigator.of(context).pop();
                                                         },
-                                                        child:
-                                                            const Text('Sửa'),
+                                                        child: const Text('Sửa'),
                                                       ),
                                                       TextButton(
                                                         onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
+                                                          Navigator.of(context).pop();
                                                         },
-                                                        child:
-                                                            const Text('Đóng'),
+                                                        child: const Text('Đóng'),
                                                       ),
                                                     ],
                                                   )
@@ -286,48 +222,33 @@ class CategoryScreen extends StatelessWidget {
                                         },
                                       ),
                                       IconButton(
-                                        icon: const Icon(Icons.delete,
-                                            color: Colors.red),
+                                        icon: const Icon(Icons.delete, color: Colors.red),
                                         onPressed: () {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
                                               return AlertDialog(
-                                                title: const Text(
-                                                    'Xoá danh mục sản phẩm'),
+                                                title: const Text('Xoá danh mục sản phẩm'),
                                                 content: SizedBox(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                      3,
-                                                  child: const Center(
-                                                      child: Text(
-                                                          'Bạn có chắc chắn muốn xoá danh mục sản phẩm này')),
+                                                  height: MediaQuery.of(context).size.height / 3,
+                                                  child: const Center(child: Text('Bạn có chắc chắn muốn xoá danh mục sản phẩm này')),
                                                 ),
                                                 actions: [
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                     children: [
                                                       TextButton(
                                                         onPressed: () {
-                                                          catController
-                                                              .removeCat(
-                                                                  cat.id);
-                                                          Navigator.of(context)
-                                                              .pop();
+                                                          catController.removeCat(cat.id);
+                                                          Navigator.of(context).pop();
                                                         },
-                                                        child:
-                                                            const Text('Xoá'),
+                                                        child: const Text('Xoá'),
                                                       ),
                                                       TextButton(
                                                         onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
+                                                          Navigator.of(context).pop();
                                                         },
-                                                        child:
-                                                            const Text('Đóng'),
+                                                        child: const Text('Đóng'),
                                                       ),
                                                     ],
                                                   )
