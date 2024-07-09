@@ -319,8 +319,6 @@ class AddProductScreen extends StatelessWidget {
                             const SizedBox(height: 15),
                             GestureDetector(
                               onTap: () {
- 
-
                                 ProductModel newProduct = ProductModel(
                                   KhuyenMai: 0,
                                   id: productController.generateId(),

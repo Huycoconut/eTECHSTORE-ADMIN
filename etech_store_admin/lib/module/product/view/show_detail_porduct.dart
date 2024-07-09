@@ -271,40 +271,51 @@ class ShowDialog {
                                     Obx(() => controller.uploadedImageBytes.isNotEmpty ? const Text("Ảnh hiện tại") : Container()),
                                     Wrap(
                                       children: product.hinhAnh.map((e) {
-                                        return Stack(
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(right: 7, bottom: 7),
-                                              width: 100,
-                                              height: 100,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.grey),
-                                              ),
-                                              child: Image.network(
-                                                e,
-                                                fit: BoxFit.fill,
-                                                errorBuilder: (context, error, stackTrace) {
-                                                  return Container(
-                                                    color: Colors.grey,
-                                                    child: const Center(
-                                                      child: Icon(Icons.error, color: Colors.red),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            Positioned(
-                                                right: 2,
-                                                left: 65,
-                                                bottom: 75,
-                                                child: IconButton(
-                                                    color: Colors.redAccent,
-                                                    onPressed: () async {
-                                                      controller.removeListImage(product, e);
-                                                      controller.uploadedImageNames.removeAt(e);
+                                        return StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return Stack(
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.only(right: 7, bottom: 7),
+                                                  width: 100,
+                                                  height: 100,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(color: Colors.grey),
+                                                  ),
+                                                  child: Image.network(
+                                                    e,
+                                                    fit: BoxFit.fill,
+                                                    errorBuilder: (context, error, stackTrace) {
+                                                      return Container(
+                                                        color: Colors.grey,
+                                                        child: const Center(
+                                                          child: Icon(Icons.error, color: Colors.red),
+                                                        ),
+                                                      );
                                                     },
-                                                    icon: const Icon(Icons.remove_circle_outlined))),
-                                          ],
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                    right: 2,
+                                                    left: 65,
+                                                    bottom: 75,
+                                                    child: IconButton(
+                                                        color: Colors.redAccent,
+                                                        onPressed: () async {
+                                                          int indexToRemove = product.hinhAnh.indexOf(e);
+                                                          if (indexToRemove != -1) {
+                                                            product.hinhAnh.removeAt(indexToRemove);
+                                                          }
+                                                          await FirebaseFirestore.instance
+                                                              .collection('SanPham')
+                                                              .doc(product.id)
+                                                              .update({'DSHinhAnh': product.hinhAnh});
+                                                          controller.uploadedImageNames.removeAt(e);
+                                                        },
+                                                        icon: const Icon(Icons.remove_circle_outlined))),
+                                              ],
+                                            );
+                                          },
                                         );
                                       }).toList(),
                                     ),

@@ -53,8 +53,7 @@ class ProfileController extends GetxController {
   var selectedWard = Rxn<Ward>();
   var districts = <District>[].obs;
   var ward = <Ward>[].obs;
-  File? imagefile;
-  var searchName = ''.obs;
+   var searchName = ''.obs;
   var searchEmail = ''.obs;
   var searchPhone = ''.obs;
   List<ProfileModel> allUsers = [];
@@ -148,14 +147,7 @@ class ProfileController extends GetxController {
     profiles.assignAll(localProfiles);
   }
 
-  void signOut() {
-    final isconnected = network.isConnectedToInternet.value;
-    if (!isconnected) {
-      return TLoaders.errorSnackBar(title: TTexts.thongBao, message: "Không có kết nối internet");
-    } else {
-      authServices.signOut();
-    }
-  }
+ 
 
   //Edit Profile
   Future<void> editProfile(int choice, String uid) async {
@@ -203,35 +195,7 @@ class ProfileController extends GetxController {
     }
   }
 
-// Fetch Image from Camera
-  Future<void> fetchImageCamera() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-    final uid = user!.uid;
-    QuerySnapshot querySnapshot = await firestore.collection('Users').where('uid', isEqualTo: uid).get();
-
-    if (querySnapshot.docs.isNotEmpty) {
-      QueryDocumentSnapshot document = querySnapshot.docs.first;
-      String documentId = document.id;
-      ImagePicker imagePicker = ImagePicker();
-      XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
-
-      if (file == null) return;
-      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference referenceRoot = FirebaseStorage.instance.ref();
-      Reference referenceDirImages = referenceRoot.child('images');
-      Reference referenceImageToUpload = referenceDirImages.child('$uniqueFileName.jpg');
-
-      try {
-        await referenceImageToUpload.putFile(File(file.path));
-        String imageUrl = await referenceImageToUpload.getDownloadURL();
-        await firestore.collection('Users').doc(documentId).update({'HinhDaiDien': imageUrl});
-      } catch (error) {
-        TLoaders.errorSnackBar(title: 'Thông báo', message: 'Sửa thất bại.');
-      }
-    }
-  }
-
+ 
   Future<void> loadProvinces() async {
     try {
       String jsonString = await rootBundle.loadString(ImageKey.jsonListProvinces);

@@ -1,13 +1,13 @@
 import 'package:etech_store_admin/module/oerder_manage/controller/order_manage_controller.dart';
 import 'package:etech_store_admin/module/oerder_manage/model/orders_model.dart';
-import 'package:etech_store_admin/module/oerder_manage/view/desktop/widget/show_dialog_widet.dart';
+import 'package:etech_store_admin/module/oerder_manage/view/widget/show_dialog_widet.dart';
 import 'package:etech_store_admin/module/product/view/widget/pagination_product_widget.dart';
 import 'package:etech_store_admin/utlis/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../profile/model/profile_model.dart';
+import '../../profile/model/profile_model.dart';
 
 class OrderManageDesktopScreen extends StatelessWidget {
   const OrderManageDesktopScreen({super.key});
