@@ -22,7 +22,8 @@ Future main() async {
     options: const FirebaseOptions(
         apiKey: "AIzaSyBsPYtDU2poc8ueawn0lyV725C_ZeeCFas",
         authDomain: "etechstore-abe5c.firebaseapp.com",
-        databaseURL: "https://etechstore-abe5c-default-rtdb.asia-southeast1.firebasedatabase.app",
+        databaseURL:
+            "https://etechstore-abe5c-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "etechstore-abe5c",
         storageBucket: "etechstore-abe5c.appspot.com",
         messagingSenderId: "1032898699752",
@@ -46,7 +47,7 @@ Future main() async {
           darkTheme: dark,
           initialRoute: '/',
           getPages: [
-            GetPage(name: '/', page: () =>   AuthWrapper()),
+            GetPage(name: '/', page: () => AuthWrapper()),
           ],
         );
       }));
@@ -67,7 +68,9 @@ class AuthWrapper extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasData) {
-          return const HomeScreenDesktop();
+          return HomeScreenDesktop(
+            selectedIndex: 0,
+          );
         } else {
           return const HomeSignIn();
         }

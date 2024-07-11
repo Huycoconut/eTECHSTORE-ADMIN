@@ -1,9 +1,11 @@
+import 'package:etech_store_admin/module/home/view/home_screen_desktop.dart';
 import 'package:etech_store_admin/module/homepage/views/order_view.dart';
+import 'package:etech_store_admin/module/homepage/views/top_sale.dart';
 import 'package:etech_store_admin/module/report/controllers/order_controller.dart';
 import 'package:etech_store_admin/module/report/controllers/print_excel.dart';
-import 'package:etech_store_admin/module/homepage/views/bar_chart.dart';
-import 'package:etech_store_admin/module/report/views/date_picker.dart';
+import 'package:etech_store_admin/module/report/views/bar_char.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -45,7 +47,7 @@ class HomePage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Row(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
@@ -68,7 +70,7 @@ class HomePage extends StatelessWidget {
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold)),
                                 SizedBox(
-                                  height: height / 20,
+                                  height: height / 45,
                                 ),
                                 Obx(() => Text(
                                       priceFormat(orderController
@@ -85,7 +87,6 @@ class HomePage extends StatelessWidget {
                             width: 8,
                           ),
                           Container(
-                            width: width / 3 - 10,
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(width: 1)),
@@ -98,7 +99,7 @@ class HomePage extends StatelessWidget {
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold)),
                                 SizedBox(
-                                  height: height / 20,
+                                  height: height / 45,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -113,6 +114,9 @@ class HomePage extends StatelessWidget {
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20),
                                         )),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
                                     Obx(() => Container(
                                           color: orderController
                                                       .getTheIncomeDifferenceRatio() >
@@ -161,7 +165,7 @@ class HomePage extends StatelessWidget {
                         constraints:
                             const BoxConstraints(maxHeight: double.infinity),
                         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        width: width / 2,
+                        width: width,
                         decoration: BoxDecoration(
                             color: Colors.white, border: Border.all(width: 1)),
                         child: Column(
@@ -193,22 +197,12 @@ class HomePage extends StatelessWidget {
                                     }),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    datePicker(context, selectedDate),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                      child: IconButton(
-                                          onPressed: () {
-                                            printExcel.generateExcel(
-                                                selectedDate.value.month,
-                                                selectedDate.value.year);
-                                          },
-                                          icon: const Icon(Icons.print)),
-                                    )
-                                  ],
-                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      Get.offAll(
+                                          HomeScreenDesktop(selectedIndex: 6));
+                                    },
+                                    child: const Text('Xem chi tiết'))
                               ],
                             ),
                             Obx(
@@ -218,37 +212,20 @@ class HomePage extends StatelessWidget {
                                         selectedDate.value.month + 1,
                                         0)
                                     .day;
-                                List<int> listIncomeByWeek = [];
-                                listIncomeByWeek.add(
-                                    orderController.fetchOrdersByWeek(
-                                        1,
-                                        7,
-                                        selectedDate.value.month,
-                                        selectedDate.value.year));
-                                listIncomeByWeek.add(
-                                    orderController.fetchOrdersByWeek(
-                                        8,
-                                        14,
-                                        selectedDate.value.month,
-                                        selectedDate.value.year));
-                                listIncomeByWeek.add(
-                                    orderController.fetchOrdersByWeek(
-                                        15,
-                                        21,
-                                        selectedDate.value.month,
-                                        selectedDate.value.year));
-                                listIncomeByWeek.add(
-                                    orderController.fetchOrdersByWeek(
-                                        22,
-                                        32,
-                                        selectedDate.value.month,
-                                        selectedDate.value.year));
+                                List<int> listIncomeByDay = [];
+                                for (int day = 0; day < dayOfMonth; day++) {
+                                  listIncomeByDay.add(
+                                      orderController.fetchOrdersByTime(
+                                          day,
+                                          selectedDate.value.month,
+                                          selectedDate.value.year));
+                                }
                                 return AspectRatio(
-                                  aspectRatio: 4 / 2,
-                                  child: BarChartSales(
+                                  aspectRatio: 4,
+                                  child: BarChartSalesInMonth(
                                       day: dayOfMonth,
                                       width: width,
-                                      listIncome: listIncomeByWeek),
+                                      listIncome: listIncomeByDay),
                                 );
                               },
                             ),
@@ -259,15 +236,63 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(
                     width: 8,
+                    height: 8,
                   ),
-                  Container(
-                      width: width / 2 - 15,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1),
-                        color: Colors.white,
-                      ),
-                      child:
-                          FittedBox(fit: BoxFit.fitWidth, child: orderView())),
+                  SizedBox(
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('Tình trạng đơn hàng',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold)),
+                                  TextButton(
+                                      onPressed: () {
+                                        Get.offAll(HomeScreenDesktop(
+                                            selectedIndex: 2));
+                                      },
+                                      child: const Text('Xem chi tiết')),
+                                ],
+                              ),
+                              SizedBox(
+                                  width: width / 2 - 8,
+                                  height: height / 2.9,
+                                  child: orderView()),
+                            ],
+                          ),
+                        ),
+                        Container(
+                            width: width / 2,
+                            height: height / 2.65,
+                            margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              children: [
+                                const Text('Top 5 sản phẩm bán chạy',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold)),
+                                FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Obx(() => topSale())),
+                              ],
+                            )),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

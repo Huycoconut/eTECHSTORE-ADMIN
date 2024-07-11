@@ -12,6 +12,7 @@ class ProductModel {
   int MaDanhMuc;
   bool isPopular;
   bool TrangThai;
+  int quantity;
 
   ProductModel(
       {required this.id,
@@ -24,7 +25,8 @@ class ProductModel {
       required this.KhuyenMai,
       required this.MaDanhMuc,
       required this.isPopular,
-      required this.TrangThai});
+      required this.TrangThai,
+      required this.quantity});
 
   //Empty Product
   static ProductModel empty() => ProductModel(
@@ -38,7 +40,8 @@ class ProductModel {
       KhuyenMai: 0,
       MaDanhMuc: 0,
       isPopular: false,
-      TrangThai: false);
+      TrangThai: false,
+      quantity: 0);
 
   //
   factory ProductModel.fromSnapshot(
@@ -58,7 +61,8 @@ class ProductModel {
           KhuyenMai: data['KhuyenMai'] ?? '',
           MaDanhMuc: data['MaDanhMuc'] ?? 0,
           isPopular: data['isPopular'] ?? false,
-          TrangThai: data['TrangThai'] ?? false);
+          TrangThai: data['TrangThai'] ?? false,
+          quantity: 0);
     } else {
       return ProductModel.empty();
     }
@@ -76,5 +80,6 @@ class ProductModel {
       Ten: json['Ten'],
       TrangThai: json['TrangThai'],
       NgayNhap: json['NgayNhap'] ?? Timestamp.now(),
-      isPopular: json['isPopular'] ?? false);
+      isPopular: json['isPopular'] ?? false,
+      quantity: 0);
 }

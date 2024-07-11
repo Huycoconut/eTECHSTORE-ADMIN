@@ -14,7 +14,6 @@ class OrderManageController extends GetxController {
   var itemsPerPage = 15.obs;
   var lstProduct = <OrdersModel>[].obs;
   var currentPage = 1.obs;
-  
   var order = OrdersModel(
     id: '',
     ngayTaoDon: Timestamp.now(),
