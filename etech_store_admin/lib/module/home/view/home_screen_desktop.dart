@@ -19,14 +19,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeScreenDesktop extends StatefulWidget {
-  const HomeScreenDesktop({super.key});
-
+  HomeScreenDesktop({super.key,required this.selectedIndex});
+  int selectedIndex = 0;
   @override
   State<HomeScreenDesktop> createState() => _HomeScreenDesktopState();
 }
 
 class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
-  int _selectedIndex = 0;
+  
 
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
@@ -45,7 +45,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      widget.selectedIndex = index;
     });
   }
 
@@ -208,7 +208,7 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
           ),
           // Main content area
           Expanded(
-            child: _widgetOptions.elementAt(_selectedIndex),
+            child: _widgetOptions.elementAt(widget.selectedIndex),
           ),
         ],
       ),

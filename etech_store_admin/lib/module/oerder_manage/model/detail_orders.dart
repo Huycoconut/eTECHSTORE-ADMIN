@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DetailOrders {
   Map<String, dynamic> maMauSanPham;
   String maDonHang;
@@ -21,6 +23,26 @@ class DetailOrders {
       khuyenMai: json['KhuyenMai'] as int,
       trangThai: json['TrangThai'] as int,
     );
+  }
+
+  factory DetailOrders.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
+    if (document.data() != null) {
+      final data = document.data()!;
+      return DetailOrders(
+          maMauSanPham: data['MaMauSanPham'] ?? '',
+          maDonHang: data['MaDonHang'] ?? '',
+          soLuong: data['SoLuong'] ?? 0,
+          khuyenMai: 0,
+          trangThai: data['TrangThai'] ?? 0);
+    } else {
+      return DetailOrders(
+          maMauSanPham: {},
+          maDonHang: '',
+          soLuong: 0,
+          khuyenMai: 0,
+          trangThai: 0);
+    }
   }
 
   Map<String, dynamic> toJson() {
