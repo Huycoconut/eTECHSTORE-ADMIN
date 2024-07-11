@@ -29,7 +29,7 @@ class ProductController extends GetxController {
   RxList<String> uploadedImageNames = <String>[].obs;
   Timestamp date = Timestamp.now();
   RxBool isPopular = false.obs;
-  RxInt selectedCategory = 7.obs;
+  RxInt selectedCategory = 8.obs;
 
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
   RxList<CategoryModel> categoriesProduct = <CategoryModel>[].obs;
@@ -140,10 +140,11 @@ class ProductController extends GetxController {
   }
 
   Future<void> fetchCategories() async {
+    print("hihi");
     try {
       QuerySnapshot snapshot = await _firestore.collection('DanhMucSanPham').get();
       categories.add(CategoryModel(
-        id: 7,
+        id: 8,
         TenDanhMuc: 'Chọn danh mục',
         MoTa: 'Tất cả sản phẩm của cửa hàng',
         HinhAnh: 'keyboard',
@@ -153,8 +154,9 @@ class ProductController extends GetxController {
         var data = doc.data() as Map<String, dynamic>;
         categories.add(CategoryModel.fromJson(data));
       }
+      print(snapshot.docs);
     } catch (e) {
-      print("phát sinh lỗi: $e");
+      TLoaders.showErrorPopup(title: "Thông Báo", description: "Lỗi Xảy Ra Trong Quá Trình Lấy Dữ Liệu $e", onDismissed: () => const Text(""));
     }
   }
 
@@ -255,17 +257,18 @@ class ProductController extends GetxController {
           newNameController.text.isEmpty ||
           newPriceController.text.isEmpty ||
           newDescriptionController.text.isEmpty ||
-          selectedCategory.value == 7) {
+          selectedCategory.value == 8) {
         Future.delayed(const Duration(seconds: 2),
             () => TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text("")));
       } else {
-        selectedCategory.value = 7;
+        selectedCategory.value = 8;
         DocumentReference docRef = _firestore.collection('SanPham').doc();
         product.id = docRef.id;
         sampleController.saveProductSample(product.id);
         await docRef.set(product.toJson());
         setDefault();
         sampleController.clearControllers();
+
         Future.delayed(const Duration(seconds: 2),
             () => TLoaders.showSuccessPopup(title: "Thông Báo", description: "Thêm thành công", onDismissed: () => const Text("")));
       }
@@ -273,7 +276,7 @@ class ProductController extends GetxController {
       Future.delayed(const Duration(seconds: 2),
           () => TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text("")));
     } finally {
-      FullScreenLoader.openLoadingDialog("Đang xử lý", ImageKey.loadingAnimation);
+      FullScreenLoader.openLoadingDialog( "", ImageKey.loadingAnimation);
     }
   }
 

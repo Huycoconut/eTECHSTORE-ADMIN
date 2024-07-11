@@ -23,7 +23,7 @@ class AddProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    productController.selectedCategory.value = 7;
+    productController.selectedCategory.value = 8;
     return ScreenUtilInit(
       builder: (context, child) {
         return Scaffold(

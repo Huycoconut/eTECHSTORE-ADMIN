@@ -273,7 +273,7 @@ class HomePage extends StatelessWidget {
                         ),
                         Container(
                             width: width / 2,
-                            height: height / 2.65,
+                            height: height / 2.56,
                             margin: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                             decoration: BoxDecoration(
                               border: Border.all(width: 1),
