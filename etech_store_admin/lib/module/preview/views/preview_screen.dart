@@ -46,140 +46,230 @@ class PreviewScreen extends StatelessWidget {
                     dividerThickness: 0,
                     dataRowColor: MaterialStateProperty.all(Colors.transparent),
                     columns: [
-                      const DataColumn(label: Text('Đánh giá', style: TextStyle(fontWeight: FontWeight.bold))),
+                      const DataColumn(
+                          label: Text('Đánh giá',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
                       DataColumn(
-                          label: const Text('Sao Đánh Giá', style: TextStyle(fontWeight: FontWeight.bold)),
+                          label: const Text('Sao Đánh Giá',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
                           onSort: previewController.onSortStarColumn),
-                      const DataColumn(label: Text('Khách hàng', style: TextStyle(fontWeight: FontWeight.bold))),
-                      const DataColumn(label: Text('Sản phẩm', style: TextStyle(fontWeight: FontWeight.bold))),
+                      const DataColumn(
+                          label: Text('Khách hàng',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
+                      const DataColumn(
+                          label: Text('Sản phẩm',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
                       DataColumn(
-                          label: const Text('Trạng thái', style: TextStyle(fontWeight: FontWeight.bold)), onSort: previewController.onSortColumn),
-                      const DataColumn(label: Text('Thao tác', style: TextStyle(fontWeight: FontWeight.bold))),
+                          label: const Text('Trạng thái',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          onSort: previewController.onSortColumn),
+                      const DataColumn(
+                          label: Text('Thao tác',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
                     ],
-                    rows: List<DataRow>.generate(previewController.listpreviews.length, (index) {
+                    rows: List<DataRow>.generate(
+                        previewController.listpreviews.length, (index) {
                       final preview = previewController.listpreviews[index];
-                      return DataRow(color: MaterialStateColor.resolveWith((states) => index.isEven ? TColros.grey_wheat : Colors.white), cells: [
-                        DataCell(SizedBox(
-                          width: MediaQuery.of(context).size.width / 6,
-                          child: Wrap(
-                            children: [
-                              Text(preview.DanhGia),
-                            ],
-                          ),
-                        )),
-                        DataCell(Row(
-                          children: [
-                            for (var index = 0; index < preview.SoSao; index++)
-                              const Icon(
-                                Icons.star,
-                                color: Colors.amber,
+                      return DataRow(
+                          color: MaterialStateColor.resolveWith((states) =>
+                              index.isEven ? TColros.grey_wheat : Colors.white),
+                          cells: [
+                            DataCell(SizedBox(
+                              width: MediaQuery.of(context).size.width / 6,
+                              child: Wrap(
+                                children: [
+                                  Text(preview.DanhGia),
+                                ],
                               ),
-                          ],
-                        )),
-                        DataCell(Align(alignment: Alignment.centerLeft, child: Text(previewController.getUserName(preview.MaKhachHang)))),
-                        DataCell(Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(previewController.getProductName(preview.MaSanPham)),
-                        )),
-                        DataCell(Builder(
-                          builder: (context) {
-                            if (preview.TrangThai == true) {
-                              return const Align(
+                            )),
+                            DataCell(Row(
+                              children: [
+                                for (var index = 0;
+                                    index < preview.SoSao;
+                                    index++)
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                              ],
+                            )),
+                            DataCell(Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text('Đã duyệt', style: TextStyle(color: Colors.green)),
-                              );
-                            } else {
-                              return const Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text('Chưa duyệt', style: TextStyle(color: Colors.red)),
-                              );
-                            }
-                          },
-                        )),
-                        DataCell(Row(
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  preview.TrangThai == false
-                                      ? showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: const Text('Duyệt đánh giá này'),
-                                              content: SizedBox(
-                                                height: MediaQuery.of(context).size.height / 3,
-                                                child: const Center(child: Text('Bạn có chắc chắn muốn duyệt đánh giá này không?')),
-                                              ),
-                                              actions: [
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                  children: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        previewController.approvePreview(preview.id);
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: const Text('Duyệt'),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: const Text('Đóng'),
-                                                    ),
+                                child: Text(previewController
+                                    .getUserName(preview.MaKhachHang)))),
+                            DataCell(Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(previewController
+                                  .getProductName(preview.MaSanPham)),
+                            )),
+                            DataCell(Builder(
+                              builder: (context) {
+                                if (preview.TrangThai == true) {
+                                  return const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text('Đã duyệt',
+                                        style: TextStyle(color: Colors.green)),
+                                  );
+                                } else {
+                                  return const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text('Chưa duyệt',
+                                        style: TextStyle(color: Colors.red)),
+                                  );
+                                }
+                              },
+                            )),
+                            DataCell(Row(
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      preview.TrangThai == false
+                                          ? showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Center(
+                                                    child: Text(
+                                                        'Duyệt đánh giá này'),
+                                                  ),
+                                                  content: SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            8,
+                                                    child: const Center(
+                                                        child: Text(
+                                                            'Bạn có chắc chắn muốn duyệt đánh giá này không?')),
+                                                  ),
+                                                  actions: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            previewController
+                                                                .approvePreview(
+                                                                    preview.id);
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .redAccent),
+                                                          child: const Text(
+                                                              'Duyệt',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white)),
+                                                        ),
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                                  backgroundColor:
+                                                                      const Color(
+                                                                          0xFF383CA0)),
+                                                          child: const Text(
+                                                              'Đóng',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white)),
+                                                        ),
+                                                      ],
+                                                    )
                                                   ],
-                                                )
+                                                );
+                                              },
+                                            )
+                                          : null;
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            preview.TrangThai == false
+                                                ? const Color(0xFF383CA0)
+                                                : Colors.grey),
+                                    child: const Text(
+                                      "Duyệt đánh giá",
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                                IconButton(
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.red),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                              'Xoá đánh giá sản phẩm'),
+                                          content: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                8,
+                                            child: const Center(
+                                                child: Text(
+                                                    'Bạn có chắc chắn muốn xoá đánh giá sản phẩm này')),
+                                          ),
+                                          actions: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    previewController
+                                                        .removePreview(
+                                                            preview.id);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.redAccent),
+                                                  child: const Text(
+                                                    "Xác nhận",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .blueAccent),
+                                                    child: const Text(
+                                                      "Đóng",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    )),
                                               ],
-                                            );
-                                          },
-                                        )
-                                      : null;
-                                },
-                                style: ElevatedButton.styleFrom(backgroundColor: preview.TrangThai == false ? const Color(0xFF383CA0) : Colors.grey),
-                                child: const Text(
-                                  "Duyệt đánh giá",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Xoá danh mục sản phẩm'),
-                                      content: SizedBox(
-                                        height: MediaQuery.of(context).size.height / 3,
-                                        child: const Center(child: Text('Bạn có chắc chắn muốn xoá danh mục sản phẩm này')),
-                                      ),
-                                      actions: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            TextButton(
-                                              onPressed: () {
-                                                previewController.removePreview(preview.id);
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text('Xoá'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text('Đóng'),
-                                            ),
+                                            )
                                           ],
-                                        )
-                                      ],
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                              },
-                            ),
-                          ],
-                        )),
-                      ]);
+                                ),
+                              ],
+                            )),
+                          ]);
                     })),
               ),
             ),

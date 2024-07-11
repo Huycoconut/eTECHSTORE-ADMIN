@@ -1,6 +1,6 @@
-import 'package:etech_store_admin/module/oerder/controller/order_manage_controller.dart';
-import 'package:etech_store_admin/module/oerder/model/orders_model.dart';
-import 'package:etech_store_admin/module/oerder/view/widget/show_dialog_widet.dart';
+import 'package:etech_store_admin/module/order/controller/order_manage_controller.dart';
+import 'package:etech_store_admin/module/order/model/orders_model.dart';
+import 'package:etech_store_admin/module/order/view/widget/show_dialog_widet.dart';
 import 'package:etech_store_admin/module/product/view/widget/pagination_product_widget.dart';
 import 'package:etech_store_admin/module/profile/model/profile_model.dart';
 import 'package:etech_store_admin/utlis/constants/colors.dart';

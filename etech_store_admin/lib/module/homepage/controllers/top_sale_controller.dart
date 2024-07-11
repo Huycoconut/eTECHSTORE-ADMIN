@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:etech_store_admin/module/oerder_manage/model/detail_orders.dart';
+import 'package:etech_store_admin/module/order/model/detail_orders.dart';
 import 'package:etech_store_admin/module/report/models/order_model.dart';
 import 'package:etech_store_admin/module/report/models/product_model.dart';
 import 'package:get/get.dart';

@@ -1,8 +1,8 @@
-import 'package:etech_store_admin/module/oerder/controller/order_manage_controller.dart';
-import 'package:etech_store_admin/module/oerder/model/detail_orders.dart';
-import 'package:etech_store_admin/module/oerder/model/orders_model.dart';
-import 'package:etech_store_admin/module/oerder/view/order_manage_screen_desktop.dart';
-import 'package:etech_store_admin/module/oerder/view/widget/dropDownButoon_change_widget.dart';
+import 'package:etech_store_admin/module/order/controller/order_manage_controller.dart';
+import 'package:etech_store_admin/module/order/model/detail_orders.dart';
+import 'package:etech_store_admin/module/order/model/orders_model.dart';
+import 'package:etech_store_admin/module/order/view/order_manage_screen_desktop.dart';
+import 'package:etech_store_admin/module/order/view/widget/dropDownButoon_change_widget.dart';
 import 'package:etech_store_admin/module/product/model/product_model.dart';
 import 'package:etech_store_admin/module/profile/model/profile_model.dart';
 import 'package:flutter/material.dart';
