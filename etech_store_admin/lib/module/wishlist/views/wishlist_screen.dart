@@ -142,8 +142,10 @@ class WishListScreen extends StatelessWidget {
                 child: Obx(
                   () {
                     if (wishlistController.listProductinWish.isEmpty) {
-                      return const Text(
-                          'Vui lòng chọn 1 khách hàng để xem sản phẩm yêu thích của họ,\nHoặc khách hàng này chưa yêu thích sản phẩm nào');
+                      return   Container(width: 250,
+                        child: Text(
+                            '''Vui lòng chọn 1 khách hàng để xem sản phẩm yêu thích của họ,\nHoặc khách hàng này chưa yêu thích sản phẩm nào''',softWrap: true,overflow: TextOverflow.clip,),
+                      );
                     }
                     return Column(
                       children: [

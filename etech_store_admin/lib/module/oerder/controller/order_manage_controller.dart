@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:etech_store_admin/module/oerder_manage/model/detail_orders.dart';
+import 'package:etech_store_admin/module/oerder/model/detail_orders.dart';
 import 'package:etech_store_admin/module/product/model/product_model.dart';
 import 'package:etech_store_admin/module/profile/model/profile_model.dart';
 import 'package:get/get.dart';
@@ -40,7 +40,6 @@ class OrderManageController extends GetxController {
   }
 
   String getSelectedStatus() {
-   
     if (order.value.isBeingShipped) return 'Being Shipped';
     if (order.value.isShipped) return 'Shipped';
     if (order.value.isCompleted) return 'Completed';

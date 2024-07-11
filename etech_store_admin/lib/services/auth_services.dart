@@ -1,9 +1,12 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etech_store_admin/main.dart';
 import 'package:etech_store_admin/utlis/connection/network_manager.dart';
 import 'package:etech_store_admin/utlis/helpers/popups/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 class AuthServices extends GetxController {
   static AuthServices instance = Get.find();
@@ -23,7 +26,7 @@ class AuthServices extends GetxController {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
+      TLoaders.warningSnackBar(title: "Thông báo", message: "Sai tài khoản hoặc mật khẩu");
     }
   }
 
@@ -57,11 +60,15 @@ class AuthServices extends GetxController {
 
   Future<void> signOut() async {
     try {
-      await auth.signOut().then((value) {
-        return AuthWrapper();
-      });
+      TLoaders.showConfirmPopup(
+          title: "Xác nhận",
+          description: "Bạn có muốn đăng xuất",
+          onDismissed: () => Navigator.pop(Get.context!),
+          conFirm: () => auth.signOut().then((value) {
+                return const AuthWrapper();
+              }));
     } catch (e) {
-      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
+      TLoaders.warningSnackBar(title: "Thông báo", message: "Đã có lỗi xảy ra, hãy thử lại");
     }
   }
 }

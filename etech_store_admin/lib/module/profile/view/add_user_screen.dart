@@ -6,7 +6,6 @@ import 'package:etech_store_admin/module/home/view/widget/chose_image_widget.dar
 import 'package:etech_store_admin/module/home/view/widget/text_field_widget.dart';
 import 'package:etech_store_admin/module/profile/controller/profile_controller.dart';
 import 'package:etech_store_admin/services/provinces_api/model/provinces_api_servics_model.dart';
-import 'package:etech_store_admin/services/provinces_api/provinces_api_service.dart';
 import 'package:etech_store_admin/utlis/constants/colors.dart';
 import 'package:etech_store_admin/utlis/constants/image_key.dart';
 import 'package:etech_store_admin/utlis/constants/text_strings.dart';
@@ -152,7 +151,7 @@ class AddUserScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text('Chọn tỉnh/thành phố', style: TextStyle(fontSize: 14)),
+                const Text('Chọn tỉnh/thành phố', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                 const SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.all(0),
@@ -172,7 +171,7 @@ class AddUserScreen extends StatelessWidget {
                             isExpanded: true,
                             underline: const SizedBox(),
                             style: const TextStyle(color: Colors.black),
-                            hint: const Text('Chọn một tỉnh/thành phố'),
+                            hint: const Text('Chọn một tỉnh/thành phố', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                             icon: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
                             value: controller.selectedProvince.value,
                             onChanged: controller.selectProvince,
@@ -208,7 +207,7 @@ class AddUserScreen extends StatelessWidget {
                                   isExpanded: true,
                                   underline: const SizedBox(),
                                   style: const TextStyle(color: Colors.black),
-                                  hint: const Text('Chọn một quận/huyện'),
+                                  hint: const Text('Chọn một quận/huyện', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                                   icon: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
                                   value: controller.selectedDistrict.value,
                                   onChanged: controller.selectDistrict,
@@ -244,7 +243,7 @@ class AddUserScreen extends StatelessWidget {
                                   style: const TextStyle(color: Colors.black),
                                   icon: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
                                   underline: const SizedBox(),
-                                  hint: const Text('Chọn một phường/xã'),
+                                  hint: const Text('Chọn một phường/xã', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                                   value: controller.selectedWard.value,
                                   onChanged: controller.selectWard,
                                   items: controller.selectedDistrict.value!.wards.map((Ward ward) {
@@ -311,11 +310,8 @@ class AddUserScreen extends StatelessWidget {
                       text: "Luư thay đổi",
                       width: 1.5,
                       onTap: () {
-                         if (controller.passWordController.text == controller.confirmPassWordController.text) {
-                       
-                              controller.createUser();
-                            
-                         
+                        if (controller.passWordController.text == controller.confirmPassWordController.text) {
+                          controller.createUser();
                         } else {
                           TLoaders.showErrorPopup(title: "Thông báo", description: "Lưu thất bại");
                         }

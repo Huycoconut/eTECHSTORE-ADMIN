@@ -23,8 +23,8 @@ class DiscountModel {
     Map<String, dynamic> json,
   ) {
     return DiscountModel(
-      dsSanPham: json['DSSanPham']??[],
-      id: json['id']??'',
+      dsSanPham: json['DSSanPham'] ?? [],
+      id: json['id'] ?? '',
       ngayBD: json['NgayBD'] as Timestamp,
       ngayKT: json['NgayKT'] as Timestamp,
       phanTramKhuyenMai: json['PhanTramKhuyenMai'] as int,
@@ -36,13 +36,14 @@ class DiscountModel {
   // toJson method
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'NgayBD': ngayBD,
       'DSSanPham': dsSanPham,
       'NgayKT': ngayKT,
-      'DSSanPham':dsSanPham,
+      'DSSanPham': dsSanPham,
       'PhanTramKhuyenMai': phanTramKhuyenMai,
       'Ten': ten,
       'TrangThai': trangThai,
-     };
+    };
   }
 }

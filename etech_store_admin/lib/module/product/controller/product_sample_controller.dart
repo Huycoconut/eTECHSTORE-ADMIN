@@ -14,7 +14,7 @@ class ProductSampleController extends GetxController {
   RxBool addAtribute = false.obs;
   late RxInt maxLen = 0.obs;
 
-  var originalGiaTienMap = <String, int>{}.obs; // Lưu trữ giá trị gốc của giaTien
+  var originalGiaTienMap = <String, int>{}.obs;  
 
   RxList<TextEditingController> mauSacControllers = <TextEditingController>[].obs;
   RxList<TextEditingController> cauHinhControllers = <TextEditingController>[].obs;
@@ -39,26 +39,24 @@ class ProductSampleController extends GetxController {
 
   void setSelectedColorIndex(int index, ProductSampleModel sample) {
     selectedColorIndex.value = index;
-    updatePrice(sample); // Cập nhật giá tiền khi chọn màu sắc
+    updatePrice(sample);  
   }
 
   void setSelectedConfigIndex(int index, ProductSampleModel sample) {
     selectedConfigIndex.value = index;
-    updatePrice(sample); // Cập nhật giá tiền khi chọn cấu hình
+    updatePrice(sample); 
   }
 
   void updatePrice(ProductSampleModel sample) {
     final colorIndex = selectedColorIndex.value;
     final configIndex = selectedConfigIndex.value;
 
-    // Tính chỉ số của giá tiền dựa trên chỉ số màu sắc và cấu hình
-    final index = colorIndex * sample.cauHinh.length + configIndex;
-    print('Color Index: $colorIndex, Config Index: $configIndex, Calculated Index: $index'); // Debugging line
-
+     final index = colorIndex * sample.cauHinh.length + configIndex;
+ 
     if (index >= 0 && index < sample.giaTien.length) {
       displayedPrice.value = sample.giaTien[index].toString();
     } else {
-      displayedPrice.value = 'Không có giá'; // Thêm thông báo nếu không có giá cho sự kết hợp này
+      displayedPrice.value = 'Không có giá'; 
     }
   }
 
@@ -67,21 +65,18 @@ class ProductSampleController extends GetxController {
       final colorIndex = selectedColorIndex.value;
       final configIndex = selectedConfigIndex.value;
 
-      // Tính chỉ số của giá tiền dựa trên chỉ số màu sắc và cấu hình
-      final index = colorIndex * sample.cauHinh.length + configIndex;
+       final index = colorIndex * sample.cauHinh.length + configIndex;
 
-      // Cập nhật giá tiền tại chỉ số tính toán được
-      final priceList = List<int>.from(sample.giaTien); // Sao chép danh sách giá tiền
-      priceList[index] = newPrice; // Cập nhật giá tiền tại chỉ số
+       final priceList = List<int>.from(sample.giaTien); 
+      priceList[index] = newPrice;  
 
       await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-        'GiaTien': priceList, // Cập nhật danh sách giá tiền
+        'GiaTien': priceList,  
       });
 
-      // Cập nhật giá tiền trong ứng dụng
-      sample.giaTien = priceList; // Cập nhật danh sách giá tiền
+       sample.giaTien = priceList;  
 
-      updatePrice(sample); // Cập nhật giá tiền hiển thị dựa trên giá tiền mới
+      updatePrice(sample); 
     } catch (e) {
       print("Lỗi phát sinh: $e");
     }
@@ -127,22 +122,21 @@ class ProductSampleController extends GetxController {
     final colorIndex = selectedColorIndex.value;
     final configIndex = selectedConfigIndex.value;
 
-    // Tính chỉ số của giá tiền dựa trên chỉ số màu sắc và cấu hình
-    final index = colorIndex * sample.cauHinh.length + configIndex;
+     final index = colorIndex * sample.cauHinh.length + configIndex;
 
-    // Đảm bảo danh sách giá tiền đủ dài
+    
     if (index >= sample.giaTien.length) {
       sample.giaTien.addAll(List<int>.filled(index - sample.giaTien.length + 1, 0));
     }
 
-    // Cập nhật giá tiền tại chỉ số tính toán được
+  
     sample.giaTien[index] = newPrice;
 
     await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-      'GiaTien': sample.giaTien, // Cập nhật danh sách giá tiền
+      'GiaTien': sample.giaTien,  
     });
 
-    // Cập nhật giá tiền trong ứng dụng
+    
     update();
     clearControllers();
   }
@@ -200,58 +194,49 @@ class ProductSampleController extends GetxController {
   }
 
   void addColor(ProductSampleModel sample) async {
-    // Lấy danh sách màu sắc hiện tại từ Firestore
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
+     DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
     List<String> existingColors = List<String>.from(snapshot['MauSac']);
 
-    // Thêm màu sắc mới vào danh sách hiện tại
-    List<String> newColors = variantColors.map((variant) => variant['MauSac']!.text).toList();
+     List<String> newColors = variantColors.map((variant) => variant['MauSac']!.text).toList();
     existingColors.addAll(newColors);
 
     await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-      'MauSac': existingColors, // Cập nhật danh sách màu sắc
+      'MauSac': existingColors, 
     });
 
-    // Cập nhật màu sắc trong ứng dụng
-    sample.mauSac = existingColors;
+     sample.mauSac = existingColors;
     update();
     clearControllers();
   }
 
   void addConfig(ProductSampleModel sample) async {
-    // Lấy danh sách màu sắc hiện tại từ Firestore
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
+     DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
     List<String> existingConfigs = List<String>.from(snapshot['CauHinh']);
 
-    // Thêm màu sắc mới vào danh sách hiện tại
-    List<String> newConfigs = variantConfigs.map((variant) => variant['CauHinh']!.text).toList();
+     List<String> newConfigs = variantConfigs.map((variant) => variant['CauHinh']!.text).toList();
     existingConfigs.addAll(newConfigs);
 
     await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-      'CauHinh': existingConfigs, // Cập nhật danh sách màu sắc
+      'CauHinh': existingConfigs, 
     });
 
-    // Cập nhật màu sắc trong ứng dụng
-    sample.cauHinh = existingConfigs;
+     sample.cauHinh = existingConfigs;
     update();
     clearControllers();
   }
 
   void addPrice(ProductSampleModel sample) async {
-    // Lấy danh sách màu sắc hiện tại từ Firestore
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
+     DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
     List<int> existingPrices = List<int>.from(snapshot['GiaTien']);
 
-    // Thêm màu sắc mới vào danh sách hiện tại
-    List<int> newPrices = variantPrices.map(((variant) => variant['GiaTien']!.text)).cast<int>().toList();
+     List<int> newPrices = variantPrices.map(((variant) => int.parse( variant['GiaTien']!.text))).cast<int>().toList();
     existingPrices.addAll(newPrices);
 
     await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-      'GiaTien': existingPrices, // Cập nhật danh sách màu sắc
+      'GiaTien': existingPrices,  
     });
 
-    // Cập nhật màu sắc trong ứng dụng
-    sample.giaTien = existingPrices;
+     sample.giaTien = existingPrices;
     update();
     clearControllers();
   }

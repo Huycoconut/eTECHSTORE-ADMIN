@@ -27,8 +27,7 @@ class ProfileController extends GetxController {
   final LocalStorageService localStorageService = LocalStorageService();
   final AuthServices authServices = Get.put(AuthServices());
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
+ 
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController textController = TextEditingController();
   RxList<String> uploadedImageNames = <String>[].obs;
@@ -258,11 +257,9 @@ class ProfileController extends GetxController {
   //create users
   Future<void> createUser() async {
     try {
-      // Kiểm tra xem email đã tồn tại hay chưa
-      bool isEmailExists = await checkEmailExists(emailController.text);
+       bool isEmailExists = await checkEmailExists(emailController.text);
       if (!isEmailExists) {
-        // Kiểm tra xem tất cả các trường khác đã được điền đầy đủ hay chưa
-        if (areAllFieldsEmpty()) {
+         if (areAllFieldsEmpty()) {
           final storageRef = _storage.ref().child('thumbnails/${thumbnailName.value}');
           UploadTask uploadTask = storageRef.putData(thumbnailBytes.value!);
 
@@ -297,5 +294,4 @@ class ProfileController extends GetxController {
     }
   }
 
-// Fetch Image from Gallery
-}
+ }

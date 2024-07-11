@@ -24,7 +24,7 @@ class DiscountController extends GetxController {
   TextEditingController newEndDisCountController = TextEditingController();
   TextEditingController newPersentDisCountController = TextEditingController();
 
-    RxList<String>  selectedProductId = <String>[].obs;
+  RxList<String> selectedProductId = <String>[].obs;
   List<String> originalProductIds = [];
 
   DateTime? startDate;
@@ -62,7 +62,6 @@ class DiscountController extends GetxController {
 
   void clearValues() {
     selectedProductId.clear();
-
     selectedDate.value = DateTime.now();
     nameDisCount.value = false;
     persenDisCount.value = false;
@@ -70,6 +69,12 @@ class DiscountController extends GetxController {
     newStartDisCountController.clear();
     newEndDisCountController.clear();
     newPersentDisCountController.clear();
+    setTimeNow();
+  }
+
+  void setTimeNow() {
+    startDate = DateTime.now();
+    endDate = DateTime.now();
   }
 
   Stream<List<DiscountModel>> getDiscount() {
@@ -113,31 +118,10 @@ class DiscountController extends GetxController {
     }
   }
 
-  Future<void> saveSelectedProducts(DiscountModel discount) async {
-    List<String> updatedProductIds = originalProductIds;
 
-     for (String id in selectedProductId) {
-      if (!updatedProductIds.contains(id)) {
-        updatedProductIds.add(id);
-      }
-    }
-
-     for (String id in originalProductIds) {
-      if (!selectedProductId.contains(id)) {
-        updatedProductIds.remove(id);
-      }
-    }
-
-    discount.dsSanPham = updatedProductIds;
-    await firestore.collection("KhuyenMai").doc(discount.id).update({'DSSanPham': discount.dsSanPham});
-    update();
-  }
-
-  String generateId() {
-    return firestore.collection('KhuyenMai').doc().id;
-  }
 
   Future<void> saveDiscount() async {
+    String id = firestore.collection('KhuyenMai').doc().id;
     try {
       if (newNameDisCountController.text.isEmpty ||
           newPersentDisCountController.text.isEmpty ||
@@ -149,7 +133,7 @@ class DiscountController extends GetxController {
             () => TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text("")));
       } else {
         DiscountModel discount = DiscountModel(
-          id: generateId(),
+          id: id,
           ngayBD: Timestamp.fromDate(startDate!),
           ngayKT: Timestamp.fromDate(endDate!),
           phanTramKhuyenMai: int.parse(newPersentDisCountController.text),
@@ -158,20 +142,11 @@ class DiscountController extends GetxController {
           trangThai: 1,
         );
 
-        FirebaseFirestore.instance.collection('KhuyenMai').add({
-          'id': generateId(),
-          'NgayBD': discount.ngayBD,
-          'NgayKT': discount.ngayKT,
-          'PhanTramKhuyenMai': discount.phanTramKhuyenMai,
-          'Ten': discount.ten,
-          'DSSanPham': discount.dsSanPham,
-          'TrangThai': discount.trangThai
-        }).then((value) {
-          Future.delayed(const Duration(seconds: 2),
-              () => TLoaders.showSuccessPopup(title: "Thông Báo", description: "Thêm thành công", onDismissed: () => const Text("")));
-          _updateProductsWithDiscount(discount);
-          clearValues();
-        });
+        firestore.collection("KhuyenMai").doc(id).set(discount.toJson());
+        Future.delayed(const Duration(seconds: 2),
+            () => TLoaders.showSuccessPopup(title: "Thông Báo", description: "Thêm thành công", onDismissed: () => const Text("")));
+        _updateProductsWithDiscount(discount);
+        clearValues();
       }
     } catch (e) {
       Future.delayed(const Duration(seconds: 2),
@@ -233,6 +208,13 @@ class DiscountController extends GetxController {
         'TrangThai': 0,
         'PhanTramKhuyenMai': 0,
       });
+      firestore.collection("SanPham").get().then((value) {
+        for (var doc in value.docs) {
+          if (disCount.dsSanPham.contains(doc.data()['id'])) {
+            firestore.collection("SanPham").doc(doc.id).update({"KhuyenMai": 0});
+          }
+        }
+      });
       TLoaders.successPopup(title: "Thông Báo", description: "Lưu Thành Công");
     } catch (e) {
       TLoaders.showErrorPopup(title: "Thông Báo", description: "Lưu Thất Bại");
@@ -241,35 +223,77 @@ class DiscountController extends GetxController {
 
   void initializeProduct(DiscountModel disCount) {
     nameDisCountController = TextEditingController(text: disCount.ten);
-    persentDisCountController = TextEditingController(text: "${disCount.phanTramKhuyenMai.toInt()}%");
+    persentDisCountController = TextEditingController(text: "${disCount.phanTramKhuyenMai.toInt()}");
   }
 
-  Future<void> updateDisCount(String id, DiscountModel discount) async {
-    try {
-      if (startDate!.isAfter(endDate!)) {
-        TLoaders.showErrorPopup(title: "Thông Báo", description: "Ngày bắt đầu không thể sau ngày kết thúc");
-      } else {
-        await firestore.collection('KhuyenMai').doc(id).update({
-          'NgayBD': Timestamp.fromDate(startDate!) ?? discount.ngayBD,
-          'NgayKT': Timestamp.fromDate(endDate!) ?? discount.ngayKT,
-          'PhanTramKhuyenMai': persentDisCountController.text.isNotEmpty ? int.parse(persentDisCountController.text) : discount.phanTramKhuyenMai,
-          'Ten': nameDisCountController.text ?? discount.ten,
-        });
+  Future<void> saveSelectedProducts(DiscountModel discount) async {
+    List<String> updatedProductIds = originalProductIds;
 
-        await FirebaseFirestore.instance.collection('SanPham').where(FieldPath.documentId, whereIn: selectedProductId).get().then((snapshot) {
-          for (var doc in snapshot.docs) {
-            doc.reference.update({
-              'KhuyenMai': persentDisCountController.text.isNotEmpty ? int.parse(persentDisCountController.text) : discount.phanTramKhuyenMai,
-            });
-          }
-        });
+    for (String id in selectedProductId) {
+      if (!updatedProductIds.contains(id)) {
+        updatedProductIds.add(id);
       }
-        Future.delayed(const Duration(seconds: 2), () => TLoaders.showSuccessPopup(title: "Thông Báo", description: "Lưu Thành Công"));
-
-     } catch (e) {
-      Future.delayed(const Duration(seconds: 2), () => TLoaders.showErrorPopup(title: "Thông Báo", description: "Lưu Thất Bại"));
-    } finally {
-      FullScreenLoader.openLoadingDialog("Đang xử lý", ImageKey.loadingAnimation);
     }
+/* 
+    for (String id in originalProductIds) {
+      if (!selectedProductId.contains(id)) {
+        updatedProductIds.remove(id);
+      }
+    }
+ */
+    discount.dsSanPham = updatedProductIds;
+    await firestore.collection("KhuyenMai").doc(discount.id).update({'DSSanPham': discount.dsSanPham});
+    update();
   }
+
+Future<void> updateDisCount(String id, DiscountModel discount) async {
+  try {
+    if (startDate != null && endDate != null && startDate!.isAfter(endDate!)) {
+      Future.delayed(
+        const Duration(seconds: 2),
+        () => TLoaders.showErrorPopup(title: "Thông Báo", description: "Ngày bắt đầu không thể sau ngày kết thúc"),
+      );
+      return;
+    }
+
+     Map<String, dynamic> updateData = {
+      'NgayBD': startDate != null ? Timestamp.fromDate(startDate!) : discount.ngayBD,
+      'NgayKT': endDate != null ? Timestamp.fromDate(endDate!) : discount.ngayKT,
+      'PhanTramKhuyenMai': persentDisCountController.text.isNotEmpty ? int.parse(persentDisCountController.text) : discount.phanTramKhuyenMai,
+      'Ten': nameDisCountController.text.isNotEmpty ? nameDisCountController.text : discount.ten,
+     };
+
+     await firestore.collection('KhuyenMai').doc(id).update(updateData);
+
+     if (selectedProductId.isNotEmpty) {
+      await firestore.collection('SanPham').where(FieldPath.documentId, whereIn: selectedProductId).get().then((snapshot) {
+        for (var doc in snapshot.docs) {
+          doc.reference.update({
+            'KhuyenMai': persentDisCountController.text.isNotEmpty ? int.parse(persentDisCountController.text) : discount.phanTramKhuyenMai,
+          });
+        }
+      });
+    }
+
+     await saveSelectedProducts(discount);
+
+     Future.delayed(
+      const Duration(seconds: 2),
+      () => TLoaders.showSuccessPopup(title: "Thông Báo", description: "Lưu Thành Công"),
+    );
+
+  } catch (e) {
+    print(e);
+
+     Future.delayed(
+      const Duration(seconds: 2),
+      () => TLoaders.showErrorPopup(title: "Thông Báo", description: "Lưu Thất Bại"),
+    );
+  } finally {
+     FullScreenLoader.openLoadingDialog("", ImageKey.loadingAnimation);
+  }
+
+}
+
+
 }

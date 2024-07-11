@@ -120,10 +120,11 @@ class AddDiscountScreen extends StatelessWidget {
                                           DatePicker(
                                             minDate: DateTime(2020),
                                             maxDate: DateTime(2100),
-                                            initialDate: DateTime.now(),
+                                            currentDate: DateTime.now(),
                                             onDateSelected: (date) {
                                               controller.startDate = date;
                                             },
+                                            currentDateTextStyle: const TextStyle(decoration: TextDecoration.none),
                                           ),
                                         ],
                                       ),
@@ -142,10 +143,11 @@ class AddDiscountScreen extends StatelessWidget {
                                           DatePicker(
                                             minDate: DateTime(2020),
                                             maxDate: DateTime(2100),
-                                            initialDate: DateTime.now(),
+                                            currentDate: DateTime.now(),
                                             onDateSelected: (date) {
                                               controller.endDate = date;
                                             },
+                                            currentDateTextStyle: const TextStyle(decoration: TextDecoration.none),
                                           ),
                                         ],
                                       ),
@@ -211,7 +213,7 @@ class AddDiscountScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(
-                                          'Thêm sản phẩm',
+                                          'Thêm khuyến mãi',
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         Icon(Icons.add, size: 20, color: Colors.white),
