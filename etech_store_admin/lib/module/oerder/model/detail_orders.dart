@@ -30,7 +30,7 @@ class DetailOrders {
       DocumentSnapshot<Map<String, dynamic>> document) {
     if (document.data() != null) {
       final data = document.data()!;
-      return DetailOrders(
+      return DetailOrders(giaTien: data['GiaTien'],
           maMauSanPham: data['MaMauSanPham'] ?? '',
           maDonHang: data['MaDonHang'] ?? '',
           soLuong: data['SoLuong'] ?? 0,
@@ -38,7 +38,7 @@ class DetailOrders {
           trangThai: data['TrangThai'] ?? 0);
     } else {
       return DetailOrders(
-          maMauSanPham: {},
+          maMauSanPham: {},giaTien: 0,
           maDonHang: '',
           soLuong: 0,
           khuyenMai: 0,
