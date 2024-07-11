@@ -38,76 +38,78 @@ class WishListScreen extends StatelessWidget {
             children: [
               Obx(
                 () {
-                  return SizedBox(
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Danh sách khách hàng',
-                          style: TextStyle(color: Color(0xFF383CA0), fontSize: 20),
-                        ),
-                        Container(
-                    
-                          child: SingleChildScrollView(
+                  return SingleChildScrollView(
+                    child: SizedBox(
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Danh sách khách hàng',
+                            style: TextStyle(color: Color(0xFF383CA0), fontSize: 20),
+                          ),
+                          Container(
+                      
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: DataTable(
-                                  sortAscending: wishlistController.sortAscending.value,
-                                  sortColumnIndex: 1,
-                                  dataRowMaxHeight: double.infinity,
-                                  columnSpacing: MediaQuery.of(context).size.width / 200,
-                                  dividerThickness: 0,
-                                  dataRowColor: MaterialStateProperty.all(Colors.transparent),
-                                  columns: [
-                                    const DataColumn(label: Text('ID', style: TextStyle(fontWeight: FontWeight.bold))),
-                                    DataColumn(
-                                        label: const Text('Họ tên', style: TextStyle(fontWeight: FontWeight.bold)),
-                                        onSort: wishlistController.onSortColumn),
-                                    const DataColumn(label: Text('Số điện thoại', style: TextStyle(fontWeight: FontWeight.bold))),
-                                    const DataColumn(label: Text('Email', style: TextStyle(fontWeight: FontWeight.bold))),
-                                    const DataColumn(label: Text('Thao tác', style: TextStyle(fontWeight: FontWeight.bold))),
-                                  ],
-                                  rows: List<DataRow>.generate(wishlistController.listWishlist.length, (index) {
-                                    final wish = wishlistController.listWishlist[index];
-                                    return DataRow(
-                                        color: MaterialStateColor.resolveWith((states) => index.isEven ? TColros.grey_wheat : Colors.white),
-                                        cells: [
-                                          DataCell(Wrap(
-                                            children: [
-                                              Text(wish.MaKhachHang),
-                                            ],
-                                          )),
-                                          DataCell(Wrap(
-                                            children: [
-                                              Text(wishlistController.getUserName(wish.MaKhachHang)),
-                                            ],
-                                          )),
-                                          DataCell(
-                                            Align(alignment: Alignment.centerLeft,child: Text('0${wishlistController.getUserPhone(wish.MaKhachHang)}')),
-                                          ),
-                                          DataCell(Wrap(
-                                            children: [
-                                              Text(wishlistController.getUserEmail(wish.MaKhachHang)),
-                                            ],
-                                          )),
-                                          DataCell(
-                                            Center(
-                                                child: ElevatedButton(
-                                              onPressed: () {
-                                                wishlistController.getProductList(wish.MaKhachHang);
-                                              },
-                                              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF383CA0)),
-                                              child: const Text(
-                                                'Chọn',
-                                                style: TextStyle(color: Colors.white),
-                                              ),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                    sortAscending: wishlistController.sortAscending.value,
+                                    sortColumnIndex: 1,
+                                    dataRowMaxHeight: double.infinity,
+                                    columnSpacing: MediaQuery.of(context).size.width / 200,
+                                    dividerThickness: 0,
+                                    dataRowColor: MaterialStateProperty.all(Colors.transparent),
+                                    columns: [
+                                      const DataColumn(label: Text('ID', style: TextStyle(fontWeight: FontWeight.bold))),
+                                      DataColumn(
+                                          label: const Text('Họ tên', style: TextStyle(fontWeight: FontWeight.bold)),
+                                          onSort: wishlistController.onSortColumn),
+                                      const DataColumn(label: Text('Số điện thoại', style: TextStyle(fontWeight: FontWeight.bold))),
+                                      const DataColumn(label: Text('Email', style: TextStyle(fontWeight: FontWeight.bold))),
+                                      const DataColumn(label: Text('Thao tác', style: TextStyle(fontWeight: FontWeight.bold))),
+                                    ],
+                                    rows: List<DataRow>.generate(wishlistController.listWishlist.length, (index) {
+                                      final wish = wishlistController.listWishlist[index];
+                                      return DataRow(
+                                          color: MaterialStateColor.resolveWith((states) => index.isEven ? TColros.grey_wheat : Colors.white),
+                                          cells: [
+                                            DataCell(Wrap(
+                                              children: [
+                                                Text(wish.MaKhachHang),
+                                              ],
                                             )),
-                                          )
-                                        ]);
-                                  })),
+                                            DataCell(Wrap(
+                                              children: [
+                                                Text(wishlistController.getUserName(wish.MaKhachHang)),
+                                              ],
+                                            )),
+                                            DataCell(
+                                              Align(alignment: Alignment.centerLeft,child: Text('0${wishlistController.getUserPhone(wish.MaKhachHang)}')),
+                                            ),
+                                            DataCell(Wrap(
+                                              children: [
+                                                Text(wishlistController.getUserEmail(wish.MaKhachHang)),
+                                              ],
+                                            )),
+                                            DataCell(
+                                              Center(
+                                                  child: ElevatedButton(
+                                                onPressed: () {
+                                                  wishlistController.getProductList(wish.MaKhachHang);
+                                                },
+                                                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF383CA0)),
+                                                child: const Text(
+                                                  'Chọn',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                              )),
+                                            )
+                                          ]);
+                                    })),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -117,8 +119,10 @@ class WishListScreen extends StatelessWidget {
                 child: Obx(
                   () {
                     if (wishlistController.listProductinWish.isEmpty) {
-                      return const Text(
-                          'Vui lòng chọn 1 khách hàng để xem sản phẩm yêu thích của họ,\nHoặc khách hàng này chưa yêu thích sản phẩm nào');
+                      return   Container(width: 250,
+                        child: Text(
+                            '''Vui lòng chọn 1 khách hàng để xem sản phẩm yêu thích của họ,\nHoặc khách hàng này chưa yêu thích sản phẩm nào''',softWrap: true,overflow: TextOverflow.clip,),
+                      );
                     }
                     return Column(
                       children: [

@@ -3,9 +3,10 @@ class DetailOrders {
   String maDonHang;
   int soLuong;
   int khuyenMai;
+  int giaTien;
   int trangThai;
 
-  DetailOrders({
+  DetailOrders({required this.giaTien,
     required this.maMauSanPham,
     required this.maDonHang,
     required this.soLuong,
@@ -14,7 +15,7 @@ class DetailOrders {
   });
 
   factory DetailOrders.fromJson(Map<String, dynamic> json) {
-    return DetailOrders(
+    return DetailOrders(giaTien: json['GiaTien'],
       maMauSanPham: json['MaMauSanPham'],
       maDonHang: json['MaDonHang'] as String,
       soLuong: json['SoLuong'] as int,
@@ -25,6 +26,7 @@ class DetailOrders {
 
   Map<String, dynamic> toJson() {
     return {
+      'GiaTien':giaTien,
       'MaMauSanPham': maMauSanPham,
       'MaDonHang': maDonHang,
       'SoLuong': soLuong,

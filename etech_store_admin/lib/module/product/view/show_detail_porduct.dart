@@ -9,6 +9,7 @@ import 'package:etech_store_admin/module/product/view/widget/add_atribute_sample
 import 'package:etech_store_admin/module/product/view/widget/manage_sample.dart';
 import 'package:etech_store_admin/utlis/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class ShowDialog {
@@ -111,9 +112,7 @@ class ShowDialog {
                                 SizedBox(
                                   height: 40,
                                   child: TextField(
-                                    onChanged: (value) {
-                                      //   controller.priceController.text = value;
-                                    },
+                                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                     controller: controller.priceController,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),

@@ -112,7 +112,6 @@ class ProductController extends GetxController {
 
   Future<void> removeListImage(ProductModel product, int e) async {
     try {
-      print("Xoa hinh anh ");
       int indexToRemove = product.hinhAnh.indexOf(e);
       if (indexToRemove != -1) {
         product.hinhAnh.removeAt(indexToRemove);
@@ -155,7 +154,7 @@ class ProductController extends GetxController {
         categories.add(CategoryModel.fromJson(data));
       }
     } catch (e) {
-      TLoaders.showErrorPopup(title: "Thông Báo", description: "Lỗi Xảy Ra Trong Quá Trình Lấy Dữ Liệu", onDismissed: () => const Text(""));
+      print("phát sinh lỗi: $e");
     }
   }
 
@@ -169,13 +168,12 @@ class ProductController extends GetxController {
         categoriesProduct.add(CategoryModel.fromJson(data));
       }
     } catch (e) {
-      TLoaders.showErrorPopup(title: "Thông Báo", description: "Lỗi Xảy Ra Trong Quá Trình Lấy Dữ Liệu", onDismissed: () => const Text(""));
+      TLoaders.showErrorPopup(title: "Thông Báo", description: "Lỗi Xảy Ra Trong Quá Trình Lấy Dữ Liệu bbbbb", onDismissed: () => const Text(""));
     }
   }
 
   Future<void> updateProduct(String id, ProductModel product) async {
     try {
-      // Truy vấn sản phẩm với id
       QuerySnapshot querySnapshot = await _firestore.collection("SanPham").where('id', isEqualTo: id).get();
 
       // Upload hình ảnh nếu có
@@ -207,7 +205,6 @@ class ProductController extends GetxController {
       for (var doc in querySnapshot.docs) {
         String documentId = doc.id;
 
-        // Kiểm tra các trường và lấy giá trị mới hoặc giữ nguyên giá trị cũ
         Map<String, dynamic> updateData = {
           'DSHinhAnh': uploadedImages.isNotEmpty ? uploadedImages.toList() : product.hinhAnh,
           'GiaTien': priceController.text.isNotEmpty ? int.parse(priceController.text) : product.giaTien,
@@ -229,23 +226,12 @@ class ProductController extends GetxController {
     }
   }
 
-  Future<Uint8List> downloadImage(String url) async {
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      return response.bodyBytes;
-    } else {
-      throw Exception('Failed to load image');
-    }
-  }
-
   Future<void> addProduct(ProductModel product) async {
     try {
       // Upload images
       for (int i = 0; i < uploadedImageBytes.length; i++) {
         final storageRef = _storage.ref().child('products/${uploadedImageNames[i]}');
-        final metadata = firebase_storage.SettableMetadata(
-          contentType: 'image/png',
-        );
+        final metadata = firebase_storage.SettableMetadata(contentType: 'image/png');
         UploadTask uploadTask = storageRef.putData(uploadedImageBytes[i], metadata);
         await uploadTask.whenComplete(() async {
           final downloadUrl = await storageRef.getDownloadURL();
@@ -254,9 +240,7 @@ class ProductController extends GetxController {
       }
       // Upload thumbnail
       final storageRef = _storage.ref().child('thumbnails/${thumbnailName.value}');
-      final metadata = firebase_storage.SettableMetadata(
-        contentType: 'image/png',
-      );
+      final metadata = firebase_storage.SettableMetadata(contentType: 'image/png');
       UploadTask uploadTask = storageRef.putData(thumbnailBytes.value!, metadata);
 
       await uploadTask.whenComplete(() async {
@@ -317,10 +301,6 @@ class ProductController extends GetxController {
       thumbnailBytes.value = fileBytes;
       thumbnailName.value = '${DateTime.now().millisecondsSinceEpoch}_${result.files.first.name}';
     }
-  }
-
-  Future<void> setThumbnail(String url) async {
-    thumbnailName.value = url;
   }
 
   String generateId() {

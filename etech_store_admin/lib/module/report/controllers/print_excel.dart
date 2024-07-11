@@ -1,4 +1,4 @@
-import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen_desktop.dart';
+import 'package:etech_store_admin/module/oerder/view/order_manage_screen_desktop.dart';
 import 'package:etech_store_admin/module/report/controllers/order_controller.dart';
 import 'package:get/get.dart';
 import 'package:excel/excel.dart';

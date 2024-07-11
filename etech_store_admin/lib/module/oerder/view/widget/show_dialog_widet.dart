@@ -1,8 +1,8 @@
-import 'package:etech_store_admin/module/oerder_manage/controller/order_manage_controller.dart';
-import 'package:etech_store_admin/module/oerder_manage/model/detail_orders.dart';
-import 'package:etech_store_admin/module/oerder_manage/model/orders_model.dart';
-import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen_desktop.dart';
-import 'package:etech_store_admin/module/oerder_manage/view/widget/dropDownButoon_change_widget.dart';
+import 'package:etech_store_admin/module/oerder/controller/order_manage_controller.dart';
+import 'package:etech_store_admin/module/oerder/model/detail_orders.dart';
+import 'package:etech_store_admin/module/oerder/model/orders_model.dart';
+import 'package:etech_store_admin/module/oerder/view/order_manage_screen_desktop.dart';
+import 'package:etech_store_admin/module/oerder/view/widget/dropDownButoon_change_widget.dart';
 import 'package:etech_store_admin/module/product/model/product_model.dart';
 import 'package:etech_store_admin/module/profile/model/profile_model.dart';
 import 'package:flutter/material.dart';
@@ -179,11 +179,8 @@ class ShowDiaLogOrderDetail {
                                                               softWrap: true))),
                                                       DataCell(Text(ctDonHang.soLuong.toString(), style: const TextStyle(fontSize: 25))),
                                                       DataCell(Text(priceFormat(product.giaTien), style: const TextStyle(fontSize: 25))),
-                                                      DataCell(Text(priceFormat((product.giaTien - product.giaTien * product.KhuyenMai ~/ 100)),
-                                                          style: const TextStyle(fontSize: 25))),
-                                                      DataCell(Text(
-                                                          priceFormat(
-                                                              (product.giaTien - product.giaTien * product.KhuyenMai ~/ 100) * ctDonHang.soLuong),
+                                                      DataCell(Text(priceFormat((ctDonHang.giaTien)), style: const TextStyle(fontSize: 25))),
+                                                      DataCell(Text(priceFormat((ctDonHang.giaTien) * ctDonHang.soLuong),
                                                           style: const TextStyle(fontSize: 25))),
                                                     ],
                                                   );
@@ -200,7 +197,7 @@ class ShowDiaLogOrderDetail {
                         }),
                     const Divider(),
                     const SizedBox(height: 10),
-                    Text('Tổng thành tiền: ${priceFormat(orderdata.tongTien)}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    Text('Tổng thành tiền: ${priceFormat(orderdata.tongTien)}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
                   ],
                 ),
               ),

@@ -41,7 +41,7 @@ Future main() async {
       ),
       initial: savedThemeMode ?? AdaptiveThemeMode.light,
       builder: (light, dark) {
-        return GetMaterialApp(
+        return GetMaterialApp(debugShowCheckedModeBanner: false,
           theme: light,
           darkTheme: dark,
           initialRoute: '/',

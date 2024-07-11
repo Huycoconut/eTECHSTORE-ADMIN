@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen_desktop.dart';
+import 'package:etech_store_admin/module/oerder/view/order_manage_screen_desktop.dart';
 import 'package:etech_store_admin/module/product/controller/product_controller.dart';
 import 'package:etech_store_admin/module/product/controller/product_sample_controller.dart';
 import 'package:etech_store_admin/module/product/model/categories_model.dart';
@@ -12,8 +12,7 @@ import 'package:etech_store_admin/utlis/helpers/popups/loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
+ 
 import 'package:get/get.dart';
 
 import '../model/product_model.dart';

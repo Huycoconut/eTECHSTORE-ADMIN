@@ -232,7 +232,7 @@ class ShowDialogEditDisCount {
                                               GestureDetector(
                                                 onTap: () {
                                                   controller.updateDisCount(disCount.id, disCount);
-                                                  controller.saveSelectedProducts(disCount);
+                                                //  controller.saveSelectedProducts(disCount);
                                                 },
                                                 child: Container(
                                                   width: MediaQuery.of(context).size.width / 3,

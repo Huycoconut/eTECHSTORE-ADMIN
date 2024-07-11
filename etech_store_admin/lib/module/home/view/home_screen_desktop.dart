@@ -3,7 +3,7 @@ import 'package:etech_store_admin/module/category/views/category_screen.dart';
 import 'package:etech_store_admin/module/discount/views/discount_add_screen.dart';
 import 'package:etech_store_admin/module/discount/views/discount_screen.dart';
 import 'package:etech_store_admin/module/homepage/views/homepage.dart';
-import 'package:etech_store_admin/module/oerder_manage/view/order_manage_screen_desktop.dart';
+import 'package:etech_store_admin/module/oerder/view/order_manage_screen_desktop.dart';
 import 'package:etech_store_admin/module/preview/views/preview_screen.dart';
 import 'package:etech_store_admin/module/product/controller/product_controller.dart';
 import 'package:etech_store_admin/module/product/controller/product_sample_controller.dart';
