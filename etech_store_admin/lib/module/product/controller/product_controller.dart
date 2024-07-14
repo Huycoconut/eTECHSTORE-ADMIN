@@ -140,8 +140,7 @@ class ProductController extends GetxController {
   }
 
   Future<void> fetchCategories() async {
-    print("hihi");
-    try {
+     try {
       QuerySnapshot snapshot = await _firestore.collection('DanhMucSanPham').get();
       categories.add(CategoryModel(
         id: 8,

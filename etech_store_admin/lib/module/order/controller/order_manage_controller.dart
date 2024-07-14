@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etech_store_admin/module/order/model/detail_orders.dart';
 import 'package:etech_store_admin/module/product/model/product_model.dart';
 import 'package:etech_store_admin/module/profile/model/profile_model.dart';
+import 'package:etech_store_admin/services/noti_service.dart';
 import 'package:get/get.dart';
 
 import '../model/orders_model.dart';
@@ -32,6 +33,16 @@ class OrderManageController extends GetxController {
   Future<void> fetchOrder(String orderId) async {
     DocumentSnapshot doc = await FirebaseFirestore.instance.collection('DonHang').doc(orderId).get();
     order.value = OrdersModel.fromFirestore(doc);
+  }
+
+  void updateOrderStatus(String orderId, bool isBeingShipped, bool isShipped, bool isCompleted, String uid) async {
+    if (isBeingShipped && isShipped && isCompleted) {
+      await Contants.sendNotificationToUser(uid, "Đang chờ xác nhận", "Đơn hàng của bạn đang chờ xác nhận.");
+    } else if (!isShipped) {
+      await Contants.sendNotificationToUser(uid, "Đang vận chuyển", "Đơn hàng của bạn đang được vận chuyển.");
+    } else if (!isCompleted) {
+      await Contants.sendNotificationToUser(uid, "Giao thành công", "Đơn hàng của bạn đã giao thành công.");
+    }
   }
 
   Future<void> updateOrder(String orderId, String newStatus) async {

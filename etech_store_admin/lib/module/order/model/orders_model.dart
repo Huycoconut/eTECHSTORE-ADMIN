@@ -24,10 +24,10 @@ class OrdersModel {
   factory OrdersModel.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return OrdersModel(
-      id: doc.id,
-      ngayTaoDon: data['NgayTaoDon'],
-      maKhachHang: data['MaKhachHang'],
-      tongTien: data['TongTien'],
+      id: doc.id ?? '',
+      ngayTaoDon: data['NgayTaoDon'] ?? DateTime.now(),
+      maKhachHang: data['MaKhachHang'] ?? '',
+      tongTien: data['TongTien'] ?? 0,
       isPaid: data['isPaid'] ?? false,
       isBeingShipped: data['isBeingShipped'] ?? false,
       isShipped: data['isShipped'] ?? false,

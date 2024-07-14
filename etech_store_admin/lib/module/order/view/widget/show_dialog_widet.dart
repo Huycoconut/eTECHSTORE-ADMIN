@@ -5,6 +5,7 @@ import 'package:etech_store_admin/module/order/view/order_manage_screen_desktop.
 import 'package:etech_store_admin/module/order/view/widget/dropDownButoon_change_widget.dart';
 import 'package:etech_store_admin/module/product/model/product_model.dart';
 import 'package:etech_store_admin/module/profile/model/profile_model.dart';
+import 'package:etech_store_admin/services/noti_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -89,9 +90,9 @@ class ShowDiaLogOrderDetail {
                                                   : Colors.blue)),
                               const SizedBox(height: 5),
                               Text(DateFormat('dd-MM-yyyy, hh:mm a').format(orderdata.ngayTaoDon.toDate())),
-                              const SizedBox(height: 5),
-                              orderdata.isBeingShipped == false
-                                  ? DropDownButtonChangeWidget(maDonHang: maDonHang)
+                              orderdata.isCompleted == false && orderdata.isBeingShipped == false && orderdata.isShipped == false ||
+                                      orderdata.isShipped == true
+                                  ? DropDownButtonChangeWidget(maDonHang: maDonHang, order: orderdata)
                                   : Container(
                                       alignment: Alignment.centerLeft,
                                       height: 23,

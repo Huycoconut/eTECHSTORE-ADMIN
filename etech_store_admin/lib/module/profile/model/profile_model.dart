@@ -8,8 +8,10 @@ class ProfileModel {
   bool Quyen;
   int TrangThai;
   String DiaChi;
+  String token;
 
   ProfileModel({
+    required this.token,
     required this.uid,
     required this.DiaChi,
     required this.Email,
@@ -22,19 +24,21 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
-        uid: json['uid'],
-        DiaChi: json['DiaChi'],
-        Email: json['email'],
-        HinhDaiDien: json['HinhDaiDien'],
-        HoTen: json['HoTen'],
-        Password: json['password'],
-        Quyen: json['Quyen'],
-        SoDienThoai: json['SoDienThoai'],
-        TrangThai: json['TrangThai'],
+        token: json['token']??'',
+        uid: json['uid']??'',
+        DiaChi: json['DiaChi']??'',
+        Email: json['email']??'',
+        HinhDaiDien: json['HinhDaiDien']??'',
+        HoTen: json['HoTen']??'',
+        Password: json['password']??'',
+        Quyen: json['Quyen']??false,
+        SoDienThoai: json['SoDienThoai']??'',
+        TrangThai: json['TrangThai']??0,
       );
 
   Map<String, dynamic> toJson() {
     final json = {
+      'token': token,
       'uid': uid,
       'DiaChi': DiaChi,
       'email': Email,

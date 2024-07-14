@@ -2,6 +2,7 @@ import 'package:etech_store_admin/module/order/controller/order_manage_controlle
 import 'package:etech_store_admin/module/order/model/orders_model.dart';
 import 'package:etech_store_admin/module/order/view/widget/show_dialog_widet.dart';
 import 'package:etech_store_admin/module/product/view/widget/pagination_product_widget.dart';
+import 'package:etech_store_admin/services/noti_service.dart';
 import 'package:etech_store_admin/utlis/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -111,6 +112,7 @@ class OrderManageDesktopScreen extends StatelessWidget {
                             List<OrdersModel> filteredOrders = orders.where((order) {
                               final customer = profiles.firstWhere((profile) => profile.uid == order.maKhachHang,
                                   orElse: () => ProfileModel(
+                                      token: '',
                                       DiaChi: "",
                                       Email: "",
                                       HinhDaiDien: "",
@@ -141,7 +143,8 @@ class OrderManageDesktopScreen extends StatelessWidget {
 
                             int startIndex = (controller.currentPage.value - 1) * controller.itemsPerPage.value;
                             int endIndex = startIndex + controller.itemsPerPage.value;
-                            List<OrdersModel> paginatedOrders = filteredOrders.sublist(startIndex, endIndex.clamp(0, filteredOrders.length)).toSet().toList();
+                            List<OrdersModel> paginatedOrders =
+                                filteredOrders.sublist(startIndex, endIndex.clamp(0, filteredOrders.length)).toSet().toList();
 
                             return SizedBox(
                               width: double.infinity,
@@ -170,6 +173,7 @@ class OrderManageDesktopScreen extends StatelessWidget {
                                             final order = paginatedOrders[index];
                                             final profile = profiles.firstWhere((profile) => profile.uid == order.maKhachHang,
                                                 orElse: () => ProfileModel(
+                                                    token: '',
                                                     DiaChi: "",
                                                     Email: "",
                                                     HinhDaiDien: "",
@@ -208,6 +212,7 @@ class OrderManageDesktopScreen extends StatelessWidget {
                                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
                                                       backgroundColor: TColros.purple_line),
                                                   onPressed: () {
+ 
                                                     ShowDiaLogOrderDetail.showOrderDetails(context, order, profile, order.id);
                                                   },
                                                   child: const Text(

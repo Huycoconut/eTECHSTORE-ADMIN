@@ -40,7 +40,7 @@ Widget orderView() {
                 List<OrdersModel> filteredOrders = orders.where((order) {
                   final customer = profiles.firstWhere(
                       (profile) => profile.uid == order.maKhachHang,
-                      orElse: () => ProfileModel(
+                      orElse: () => ProfileModel(token: '',
                           DiaChi: "",
                           Email: "",
                           HinhDaiDien: "",
@@ -113,7 +113,7 @@ Widget orderView() {
                                 final profile = profiles.firstWhere(
                                     (profile) =>
                                         profile.uid == order.maKhachHang,
-                                    orElse: () => ProfileModel(
+                                    orElse: () => ProfileModel(token: '',
                                         DiaChi: "",
                                         Email: "",
                                         HinhDaiDien: "",

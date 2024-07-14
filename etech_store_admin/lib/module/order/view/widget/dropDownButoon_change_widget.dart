@@ -1,10 +1,12 @@
 import 'package:etech_store_admin/module/order/controller/order_manage_controller.dart';
-import 'package:flutter/material.dart';
+import 'package:etech_store_admin/module/order/model/orders_model.dart';
+ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DropDownButtonChangeWidget extends StatefulWidget {
-  DropDownButtonChangeWidget({super.key, required this.maDonHang});
+  DropDownButtonChangeWidget({super.key, required this.maDonHang, required this.order});
   String maDonHang;
+  OrdersModel order;
   @override
   State<DropDownButtonChangeWidget> createState() => _DropDownButtonChangeWidgetState();
 }
@@ -37,6 +39,8 @@ class _DropDownButtonChangeWidgetState extends State<DropDownButtonChangeWidget>
                 setState(() {
                   if (newValue != null) {
                     controller.updateOrder(widget.maDonHang, newValue);
+                    controller.updateOrderStatus(
+                        widget.order.id, widget.order.isBeingShipped, widget.order.isShipped, widget.order.isCompleted, widget.order.maKhachHang);
                   }
                 });
               },
