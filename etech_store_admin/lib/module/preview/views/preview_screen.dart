@@ -129,6 +129,9 @@ class PreviewScreen extends StatelessWidget {
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  shape:
+                                                      const RoundedRectangleBorder(),
                                                   title: const Center(
                                                     child: Text(
                                                         'Duyệt đánh giá này'),
@@ -211,8 +214,12 @@ class PreviewScreen extends StatelessWidget {
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                          title: const Text(
-                                              'Xoá đánh giá sản phẩm'),
+                                          backgroundColor: Colors.white,
+                                          shape: const RoundedRectangleBorder(),
+                                          title: const Center(
+                                            child:
+                                                Text('Xoá đánh giá sản phẩm'),
+                                          ),
                                           content: SizedBox(
                                             height: MediaQuery.of(context)
                                                     .size

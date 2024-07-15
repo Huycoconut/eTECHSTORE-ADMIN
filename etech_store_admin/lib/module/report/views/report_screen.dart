@@ -105,7 +105,7 @@ class ReportScreen extends StatelessWidget {
                                     selectedDate.value.month + 1, 0)
                                 .day;
                             List<int> listIncomeByDay = [];
-                            for (int day = 0; day < dayOfMonth; day ++) {
+                            for (int day = 1; day < dayOfMonth; day++) {
                               listIncomeByDay.add(
                                   orderController.fetchOrdersByTime(
                                       day,
@@ -115,9 +115,7 @@ class ReportScreen extends StatelessWidget {
                             return AspectRatio(
                               aspectRatio: 3.5,
                               child: BarChartSalesInMonth(
-                                  day: dayOfMonth,
-                                  width: width,
-                                  listIncome: listIncomeByDay),
+                                  width: width, listIncome: listIncomeByDay),
                             );
                           },
                         )

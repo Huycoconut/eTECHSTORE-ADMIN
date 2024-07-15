@@ -8,15 +8,12 @@ final orderController = Get.put(OrderController());
 
 class BarChartSalesInMonth extends StatelessWidget {
   const BarChartSalesInMonth(
-      {super.key,
-      required this.day,
-      required this.width,
-      required this.listIncome});
-  final int day;
+      {super.key, required this.width, required this.listIncome});
   final double width;
   final List<int> listIncome;
   @override
   Widget build(BuildContext context) {
+    print(listIncome);
     return BarChart(
       BarChartData(
         barTouchData: barTouchData,

@@ -1,17 +1,12 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:etech_store_admin/module/auth/views/home_sign_in.dart';
-import 'package:etech_store_admin/module/discount/views/discount_add_screen.dart';
-import 'package:etech_store_admin/module/discount/views/discount_screen.dart';
 import 'package:etech_store_admin/module/home/view/home_screen_desktop.dart';
-import 'package:etech_store_admin/module/preview/views/preview_screen.dart';
-import 'package:etech_store_admin/module/profile/view/add_user_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'module/product/view/product_management_screen.dart';
 
 Future main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) {

@@ -52,6 +52,8 @@ class CategoryScreen extends StatelessWidget {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(),
                                 title: const Text('Thêm danh mục sản phẩm'),
                                 content: SizedBox(
                                   height:
@@ -225,6 +227,9 @@ class CategoryScreen extends StatelessWidget {
                                             context: context,
                                             builder: (context) {
                                               return AlertDialog(
+                                                backgroundColor: Colors.white,
+                                                shape:
+                                                    const RoundedRectangleBorder(),
                                                 title: const Center(
                                                     child: Text(
                                                         'Sửa danh mục sản phẩm')),
@@ -324,8 +329,16 @@ class CategoryScreen extends StatelessWidget {
                                             context: context,
                                             builder: (context) {
                                               return AlertDialog(
-                                                title: const Text(
-                                                    'Xoá danh mục sản phẩm'),
+                                                backgroundColor: Colors.white,
+                                                shape:
+                                                    const RoundedRectangleBorder(),
+                                                title: const Column(children: [
+                                                  Text('Xoá danh mục sản phẩm'),
+                                                  Icon(
+                                                    Icons.warning_amber,
+                                                    size: 30,
+                                                  )
+                                                ]),
                                                 content: SizedBox(
                                                   height: MediaQuery.of(context)
                                                           .size

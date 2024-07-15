@@ -213,7 +213,8 @@ class HomePage extends StatelessWidget {
                                         0)
                                     .day;
                                 List<int> listIncomeByDay = [];
-                                for (int day = 0; day < dayOfMonth; day++) {
+                                listIncomeByDay.clear();
+                                for (int day = 1; day < dayOfMonth; day++) {
                                   listIncomeByDay.add(
                                       orderController.fetchOrdersByTime(
                                           day,
@@ -223,7 +224,6 @@ class HomePage extends StatelessWidget {
                                 return AspectRatio(
                                   aspectRatio: 4,
                                   child: BarChartSalesInMonth(
-                                      day: dayOfMonth,
                                       width: width,
                                       listIncome: listIncomeByDay),
                                 );
