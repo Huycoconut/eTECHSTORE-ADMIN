@@ -58,6 +58,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/json/
+    - assets/noti.env
   # example:
   # fonts:
   #   - family: Schyler

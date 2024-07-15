@@ -12,7 +12,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Contants {
 static Future<String> getAccessToken() async {
-  await dotenv.load();
+  await dotenv.load(fileName: 'assets/noti.env');
 
   final serviceAccountJson = {
     "type": dotenv.env['TYPE'],

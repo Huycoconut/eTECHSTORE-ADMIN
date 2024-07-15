@@ -9,21 +9,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'module/product/view/product_management_screen.dart';
 
 Future main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return const Material();
+
   };
+await dotenv.load(fileName: "assets/noti.env");
   WidgetsFlutterBinding.ensureInitialized();
   final savedThemeMode = await AdaptiveTheme.getThemeMode();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
         apiKey: "AIzaSyBsPYtDU2poc8ueawn0lyV725C_ZeeCFas",
         authDomain: "etechstore-abe5c.firebaseapp.com",
-        databaseURL:
-            "https://etechstore-abe5c-default-rtdb.asia-southeast1.firebasedatabase.app",
+        databaseURL: "https://etechstore-abe5c-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "etechstore-abe5c",
         storageBucket: "etechstore-abe5c.appspot.com",
         messagingSenderId: "1032898699752",
@@ -42,12 +44,13 @@ Future main() async {
       ),
       initial: savedThemeMode ?? AdaptiveThemeMode.light,
       builder: (light, dark) {
-        return GetMaterialApp(debugShowCheckedModeBanner: false,
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: light,
           darkTheme: dark,
           initialRoute: '/',
           getPages: [
-            GetPage(name: '/', page: () => AuthWrapper()),
+            GetPage(name: '/', page: () => const AuthWrapper()),
           ],
         );
       }));
