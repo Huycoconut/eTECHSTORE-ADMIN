@@ -1,3 +1,4 @@
+import 'package:etech_store_admin/module/product/controller/product_controller.dart';
 import 'package:etech_store_admin/module/product/model/product_sample_model.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,14 +15,22 @@ class ProductSampleController extends GetxController {
   RxBool addAtribute = false.obs;
   late RxInt maxLen = 0.obs;
 
-  var originalGiaTienMap = <String, int>{}.obs;  
+  var originalGiaTienMap = <String, int>{}.obs;
 
   RxList<TextEditingController> mauSacControllers = <TextEditingController>[].obs;
   RxList<TextEditingController> cauHinhControllers = <TextEditingController>[].obs;
   TextEditingController newPriceController = TextEditingController();
 
+  TextEditingController newSoLuongController = TextEditingController();
+  TextEditingController soLuongController = TextEditingController();
+
   void changeAtribute() {
     showActribute.value = !showActribute.value;
+  }
+
+  Future<void> initQuantiry(ProductSampleModel sample)async{
+        soLuongController = TextEditingController(text: '${sample.soLuong}');
+
   }
 
   void addAtributeProduct() {
@@ -39,25 +48,35 @@ class ProductSampleController extends GetxController {
 
   void setSelectedColorIndex(int index, ProductSampleModel sample) {
     selectedColorIndex.value = index;
-    updatePrice(sample);  
+    updatePrice(sample);
   }
 
   void setSelectedConfigIndex(int index, ProductSampleModel sample) {
     selectedConfigIndex.value = index;
-    updatePrice(sample); 
+    updatePrice(sample);
   }
 
   void updatePrice(ProductSampleModel sample) {
     final colorIndex = selectedColorIndex.value;
     final configIndex = selectedConfigIndex.value;
 
-     final index = colorIndex * sample.cauHinh.length + configIndex;
- 
+    final index = colorIndex * sample.cauHinh.length + configIndex;
+
     if (index >= 0 && index < sample.giaTien.length) {
       displayedPrice.value = sample.giaTien[index].toString();
     } else {
-      displayedPrice.value = 'Không có giá'; 
+      displayedPrice.value = 'Không có giá';
     }
+  }
+
+
+  Future<void> updateQuantitySample( String id) async {
+      QuerySnapshot snapshot = await _firestore.collection('MauSanPham').get();
+      for(var doc in snapshot.docs){
+        await _firestore.collection('MauSanPham').doc(id).update({
+          'SoLuong':int.parse(soLuongController.text)
+        });
+      }
   }
 
   Future<void> updatePriceInFirestore(int newPrice, ProductSampleModel sample) async {
@@ -65,18 +84,18 @@ class ProductSampleController extends GetxController {
       final colorIndex = selectedColorIndex.value;
       final configIndex = selectedConfigIndex.value;
 
-       final index = colorIndex * sample.cauHinh.length + configIndex;
+      final index = colorIndex * sample.cauHinh.length + configIndex;
 
-       final priceList = List<int>.from(sample.giaTien); 
-      priceList[index] = newPrice;  
+      final priceList = List<int>.from(sample.giaTien);
+      priceList[index] = newPrice;
 
       await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-        'GiaTien': priceList,  
+        'GiaTien': priceList,
       });
 
-       sample.giaTien = priceList;  
+      sample.giaTien = priceList;
 
-      updatePrice(sample); 
+      updatePrice(sample);
     } catch (e) {
       print("Lỗi phát sinh: $e");
     }
@@ -122,21 +141,18 @@ class ProductSampleController extends GetxController {
     final colorIndex = selectedColorIndex.value;
     final configIndex = selectedConfigIndex.value;
 
-     final index = colorIndex * sample.cauHinh.length + configIndex;
+    final index = colorIndex * sample.cauHinh.length + configIndex;
 
-    
     if (index >= sample.giaTien.length) {
       sample.giaTien.addAll(List<int>.filled(index - sample.giaTien.length + 1, 0));
     }
 
-  
     sample.giaTien[index] = newPrice;
 
     await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-      'GiaTien': sample.giaTien,  
+      'GiaTien': sample.giaTien,
     });
 
-    
     update();
     clearControllers();
   }
@@ -180,7 +196,7 @@ class ProductSampleController extends GetxController {
       ProductSampleModel sample = ProductSampleModel(
         id: id,
         MaSanPham: maSanPham,
-        soLuong: 1,
+        soLuong: int.parse(soLuongController.text),
         mauSac: mauSac,
         cauHinh: cauHinh,
         giaTien: giaTien,
@@ -194,49 +210,49 @@ class ProductSampleController extends GetxController {
   }
 
   void addColor(ProductSampleModel sample) async {
-     DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
     List<String> existingColors = List<String>.from(snapshot['MauSac']);
 
-     List<String> newColors = variantColors.map((variant) => variant['MauSac']!.text).toList();
+    List<String> newColors = variantColors.map((variant) => variant['MauSac']!.text).toList();
     existingColors.addAll(newColors);
 
     await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-      'MauSac': existingColors, 
+      'MauSac': existingColors,
     });
 
-     sample.mauSac = existingColors;
+    sample.mauSac = existingColors;
     update();
     clearControllers();
   }
 
   void addConfig(ProductSampleModel sample) async {
-     DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
     List<String> existingConfigs = List<String>.from(snapshot['CauHinh']);
 
-     List<String> newConfigs = variantConfigs.map((variant) => variant['CauHinh']!.text).toList();
+    List<String> newConfigs = variantConfigs.map((variant) => variant['CauHinh']!.text).toList();
     existingConfigs.addAll(newConfigs);
 
     await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-      'CauHinh': existingConfigs, 
+      'CauHinh': existingConfigs,
     });
 
-     sample.cauHinh = existingConfigs;
+    sample.cauHinh = existingConfigs;
     update();
     clearControllers();
   }
 
   void addPrice(ProductSampleModel sample) async {
-     DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).get();
     List<int> existingPrices = List<int>.from(snapshot['GiaTien']);
 
-     List<int> newPrices = variantPrices.map(((variant) => int.parse( variant['GiaTien']!.text))).cast<int>().toList();
+    List<int> newPrices = variantPrices.map(((variant) => int.parse(variant['GiaTien']!.text))).cast<int>().toList();
     existingPrices.addAll(newPrices);
 
     await FirebaseFirestore.instance.collection('MauSanPham').doc(sample.id).update({
-      'GiaTien': existingPrices,  
+      'GiaTien': existingPrices,
     });
 
-     sample.giaTien = existingPrices;
+    sample.giaTien = existingPrices;
     update();
     clearControllers();
   }

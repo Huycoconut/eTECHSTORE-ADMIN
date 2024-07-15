@@ -8,6 +8,7 @@ import 'package:etech_store_admin/utlis/constants/colors.dart';
 import 'package:etech_store_admin/utlis/constants/image_key.dart';
 import 'package:etech_store_admin/utlis/helpers/popups/full_screen_loader.dart';
 import 'package:etech_store_admin/utlis/helpers/popups/loader.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -81,7 +82,6 @@ class AddProductScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                const SizedBox(height: 5),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,22 +117,58 @@ class AddProductScreen extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 5),
-                            const Text(("Giá"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                            const SizedBox(height: 5),
-                            SizedBox(
-                              height: 40,
-                              child: TextField(
-                                controller: productController.newPriceController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Giá tiền',
-                                  hintText: '',
-                                  border: OutlineInputBorder(),
-                                  contentPadding: EdgeInsets.fromLTRB(15, 5, 5, 5),
-                                  alignLabelWithHint: true,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(("Giá"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                                      const SizedBox(height: 5),
+                                      SizedBox(
+                                        height: 40,
+                                        child: TextField(
+                                          controller: productController.newPriceController,
+                                          decoration: const InputDecoration(
+                                            labelText: 'Giá tiền',
+                                            hintText: '',
+                                            border: OutlineInputBorder(),
+                                            contentPadding: EdgeInsets.fromLTRB(15, 5, 5, 5),
+                                            alignLabelWithHint: true,
+                                          ),
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          keyboardType: TextInputType.number,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                keyboardType: TextInputType.number,
-                              ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(("Số Lượng"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                                      const SizedBox(height: 5),
+                                      SizedBox(
+                                        height: 40,
+                                        child: TextField(
+                                          controller: controllerProductSample.soLuongController,
+                                          decoration: const InputDecoration(
+                                            labelText: 'Số lượng',
+                                            hintText: '',
+                                            border: OutlineInputBorder(),
+                                            contentPadding: EdgeInsets.fromLTRB(15, 5, 5, 5),
+                                            alignLabelWithHint: true,
+                                          ),
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          keyboardType: TextInputType.number,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 10),
                             const Text(("Cấu Hinh Chi Tiết"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),

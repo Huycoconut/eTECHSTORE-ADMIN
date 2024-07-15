@@ -37,6 +37,7 @@ class ProductController extends GetxController {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController mauSacController = TextEditingController();
+
   ProductSampleController sampleController = Get.put(ProductSampleController());
 
   RxList<CategoryModel> newCategories = <CategoryModel>[].obs;
@@ -140,7 +141,7 @@ class ProductController extends GetxController {
   }
 
   Future<void> fetchCategories() async {
-     try {
+    try {
       QuerySnapshot snapshot = await _firestore.collection('DanhMucSanPham').get();
       categories.add(CategoryModel(
         id: 8,
@@ -227,6 +228,7 @@ class ProductController extends GetxController {
     }
   }
 
+
   Future<void> addProduct(ProductModel product) async {
     try {
       // Upload images
@@ -275,7 +277,7 @@ class ProductController extends GetxController {
       Future.delayed(const Duration(seconds: 2),
           () => TLoaders.showErrorPopup(title: "Thông báo", description: "Thêm thất bại", onDismissed: () => const Text("")));
     } finally {
-      FullScreenLoader.openLoadingDialog( "", ImageKey.loadingAnimation);
+      FullScreenLoader.openLoadingDialog("", ImageKey.loadingAnimation);
     }
   }
 

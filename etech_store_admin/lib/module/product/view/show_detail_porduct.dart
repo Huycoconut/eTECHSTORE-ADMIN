@@ -8,8 +8,10 @@ import 'package:etech_store_admin/module/product/view/widget/add_configs.dart';
 import 'package:etech_store_admin/module/product/view/widget/add_atribute_sample.dart';
 import 'package:etech_store_admin/module/product/view/widget/manage_sample.dart';
 import 'package:etech_store_admin/utlis/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ShowDialog {
@@ -20,6 +22,7 @@ class ShowDialog {
         final ProductController controller = Get.put(ProductController());
         final ProductSampleController controllerprductSample = Get.put(ProductSampleController());
         controller.initializeProduct(product);
+        controllerprductSample.initQuantiry(sample);
         controller.selectedCategory.value = category.id;
         return Dialog(
           child: Container(
@@ -107,20 +110,51 @@ class ShowDialog {
                                   ],
                                 ),
                                 const SizedBox(height: 5),
-                                const Text(("Giá"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                                const SizedBox(height: 5),
-                                SizedBox(
-                                  height: 40,
-                                  child: TextField(
-                                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                    controller: controller.priceController,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      contentPadding: EdgeInsets.fromLTRB(15, 5, 5, 5),
-                                      alignLabelWithHint: true,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(("Giá"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                                          SizedBox(
+                                            height: 40,
+                                            child: TextField(
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                              controller: controller.priceController,
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                contentPadding: EdgeInsets.fromLTRB(15, 5, 5, 5),
+                                                alignLabelWithHint: true,
+                                              ),
+                                              keyboardType: TextInputType.number,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    keyboardType: TextInputType.number,
-                                  ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(("Số Lượng"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                                          SizedBox(
+                                            height: 40,
+                                            child: TextField(
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                              controller: controllerprductSample.soLuongController,
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                contentPadding: EdgeInsets.fromLTRB(15, 5, 5, 5),
+                                                alignLabelWithHint: true,
+                                              ),
+                                              keyboardType: TextInputType.number,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
                                 const SizedBox(height: 10),
                                 const Text("Ảnh Bìa", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
@@ -389,6 +423,7 @@ class ShowDialog {
                                 GestureDetector(
                                   onTap: () {
                                     controller.updateProduct(product.id, product);
+                                    controllerprductSample.updateQuantitySample(sample.id);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(right: double.minPositive),
