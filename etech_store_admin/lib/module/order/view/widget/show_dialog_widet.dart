@@ -3,6 +3,7 @@ import 'package:etech_store_admin/module/order/model/detail_orders.dart';
 import 'package:etech_store_admin/module/order/model/orders_model.dart';
 import 'package:etech_store_admin/module/order/view/order_manage_screen_desktop.dart';
 import 'package:etech_store_admin/module/order/view/widget/dropDownButoon_change_widget.dart';
+import 'package:etech_store_admin/module/order/view/widget/status_order.dart';
 import 'package:etech_store_admin/module/product/model/product_model.dart';
 import 'package:etech_store_admin/module/profile/model/profile_model.dart';
 import 'package:etech_store_admin/services/noti_service.dart';
@@ -51,8 +52,6 @@ class ShowDiaLogOrderDetail {
                               SizedBox(height: 5),
                               Text("Địa Chỉ: ", style: TextStyle(fontWeight: FontWeight.w500)),
                               SizedBox(height: 5),
-                              Text("Trạng thái đơn: ", style: TextStyle(fontWeight: FontWeight.w500)),
-                              SizedBox(height: 5),
                               Text("Thời gian tạo: ", style: TextStyle(fontWeight: FontWeight.w500)),
                               SizedBox(height: 7),
                               Text('Thay đổi trạng thái đơn hàng', style: TextStyle(fontWeight: FontWeight.w500)),
@@ -72,24 +71,8 @@ class ShowDiaLogOrderDetail {
                                   width: MediaQuery.of(context).size.width * 0.31,
                                   child: Text(profile.DiaChi, overflow: TextOverflow.ellipsis, maxLines: 2, softWrap: true)),
                               const SizedBox(height: 5),
-                              Text(
-                                  orderdata.isBeingShipped == true
-                                      ? "Đã Hủy"
-                                      : orderdata.isShipped == true
-                                          ? "Đang vận chuyển"
-                                          : orderdata.isCompleted == true
-                                              ? "Hoàn thành"
-                                              : "Chờ xác nhận",
-                                  style: TextStyle(
-                                      color: orderdata.isBeingShipped == true
-                                          ? Colors.red
-                                          : orderdata.isShipped == true
-                                              ? Colors.orange
-                                              : orderdata.isCompleted == true
-                                                  ? Colors.green
-                                                  : Colors.blue)),
-                              const SizedBox(height: 5),
                               Text(DateFormat('dd-MM-yyyy, hh:mm a').format(orderdata.ngayTaoDon.toDate())),
+                              const SizedBox(height: 10),
                               orderdata.isCompleted == false && orderdata.isBeingShipped == false && orderdata.isShipped == false ||
                                       orderdata.isShipped == true
                                   ? DropDownButtonChangeWidget(maDonHang: maDonHang, order: orderdata)

@@ -1,6 +1,6 @@
 import 'package:etech_store_admin/module/order/controller/order_manage_controller.dart';
 import 'package:etech_store_admin/module/order/model/orders_model.dart';
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DropDownButtonChangeWidget extends StatefulWidget {
@@ -40,7 +40,11 @@ class _DropDownButtonChangeWidgetState extends State<DropDownButtonChangeWidget>
                   if (newValue != null) {
                     controller.updateOrder(widget.maDonHang, newValue);
                     controller.updateOrderStatus(
-                        widget.order.id, widget.order.isBeingShipped, widget.order.isShipped, widget.order.isCompleted, widget.order.maKhachHang);
+                        isBeingShipped: widget.order.isBeingShipped,
+                        isCompleted: widget.order.isCompleted,
+                        isShipped: widget.order.isShipped,
+                        orderId: widget.order.id,
+                        uid: widget.order.maKhachHang);
                   }
                 });
               },

@@ -35,7 +35,8 @@ class OrderManageController extends GetxController {
     order.value = OrdersModel.fromFirestore(doc);
   }
 
-  void updateOrderStatus(String orderId, bool isBeingShipped, bool isShipped, bool isCompleted, String uid) async {
+  void updateOrderStatus(
+      {required String orderId, required bool isBeingShipped, required bool isShipped, required bool isCompleted, required String uid}) async {
     if (isBeingShipped && isShipped && isCompleted) {
       await Contants.sendNotificationToUser(uid, "Đang chờ xác nhận", "Đơn hàng của bạn đang chờ xác nhận.");
     } else if (!isShipped) {
